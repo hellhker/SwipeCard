@@ -1,0 +1,719 @@
+Write the code,Change the world.
+人所谓对外物上瘾，实际大部分源于对自己的不信任。其实根本没有烟，没有无法拒绝的美食，没有不能抛弃的情感，只有抱有执念的自己。或许，在努力填补一个生活漏洞之前我们应当先问自己——这个漏洞真的存在吗？《意志力》里对此也有类似论述。总之这个问题很大有很多展开面，似乎不适合在这里详述。还是说回书：重复，啰嗦，但很坦诚。正在试图戒烟的人读起来更适合，这种慢步调或许会让人感觉被关怀吧。
+
+你經常發脾氣，就是不清楚你自己要的是什麽
+一切捷徑都是彎路
+---------------------------- 
+A）所掌握的知识，
+B）问题的解决能力、判断能力和分析能力，
+C）对待困难的心态，
+D）团队合作能力，
+E）表达能力和语言组织能力，
+F）创造和创新能力，
+G）沟通能力，
+H）自己的性格内向还是外向，
+I）是否有坚韧不拔的专研精神，
+J）自己的弱点和性格上的缺陷，
+K）学习能力，获得知识的能力，
+L）领导组织能力，
+M）目前自己能够进入的企业，
+N）目前自己在社会中的地位，
+O）目前自己的竞争实力。 
+
+
+
+---------------------------------
+
+入门：
+《深入浅出JavaScript》
+《JavaScript DOM编程艺术》 已经提供，请在楼上查找
+《JavaScript DOM高级程序设计》
+
+进阶：
+《ppk谈JavaScript》
+《精通JavaScript》
+《JavaScript高级程序设计》 已经提供，请在楼上查找
+
+高级：
+《JavaScript语言精粹》 已经提供，请在楼上查找
+《JavaScript设计模式》
+《Secrets of the JavaScript Ninja》 已经提供，请在楼上查找
+《高性能JavaScript》 已经提供，请在楼上查找
+canvas.com
+--------------------------------
+我懒得再打了,把自己的复制过来,下面的全部是自己以前写的,稍微修改下
+　　大部分是自己吃过,小部分是看国外的专业评价.老外对这个相当专业啊各种打分...
+
+　　顶级: 意大利 Amedei (no.9是超金奖,porcelana和chuao全球垄断,金奖 只建议吃一次,性价比低)
+　　意大利 domori (同上,性价比低,如果要尝,买小片)
+　　美国 amano(同上,如果要尝,马达加斯加70%,伦敦金奖)
+　　法国 valrhona(以前的老大)
+
+　　高级: 法国 bonnat (性价比,百年品牌,可可层次丰富)
+　　法国 pralus (性价比,**推荐100%马达加斯加Criollos可可种**)
+　　德国 coppeneur(性价比,德国的第一品牌,知道的人很少,推荐100%厄瓜多尔种,65%牙买加种+牙买加蓝山咖啡)
+　　瑞士 Beschle
+　　比利时 godiva(手工,如果你是送人,这个国内知名度高,如果是自己吃,请不要买,这个品牌的价值在于品牌本身而不是产品)
+　　意大利 slitti(只推荐厄瓜多尔种90%)
+　　意大利 venchi(鱼子酱黑巧,有钱就去吃吃看吧)
+　　法国 Michel Cluizel (性价比)
+　　法国 Henri Le Roux (推荐)
+　　奥地利 zotter(推荐双块装玻利维亚种100%+90%)
+　　比利时 leonidas(手工,保质期极短)
+　　法国 Au Chat Bleu (手工,有兴趣就去挑战他们家的100%,很给力)(哇哈哈哈,你要苦的?去买这家的100%吧啊哈哈哈这个和其他人的100%可是不能比的哦阿哈哈哈哈哈哈............是不是很邪恶 - - )
+
+　　中档(性价比): 瑞士 lindt 瑞士莲
+　　比利时 Cote dOr 金象
+　　法国 1848 Poulain
+　　比利时 café-tasse 咖啡特使(推荐77%)
+　　黑骑士 hachez (88%的个人认为清水寡淡,毫无可可独特的风味,牛奶巧克力倒是挺不错)
+　　本人黑巧极度发烧友,所以上面的很多浓度很高,请根据自己口味选择,但最好不要低于65,黑巧更健康 chuao和porcelana是极少数品牌做的,价格很高,你可以去尝下,amedei以3倍价格垄断了这两种可可最好的产地
+　　除了中档,上面绝大部分品牌你是在中国看不到的,淘宝上都有,找一些销量大的且价格便宜的买.
+　　淘宝就看两家店,一家法国的,petitebao   一家德国的,hanbeckham88
+　　反正我看来看去就这两家全,东西也好,要是有其他的来告诉我声?~~
+--------------------------------
+lo十一罗汉系列、少年中国说、艹猫、自控力、习惯的力量、 投名狀、殺人回憶、囚徒健身
+我所有的自负皆来自我的自卑，所有的英雄气概都来自于我的软弱。嘴里振振有词是因为心里满是怀疑，深情是因为痛恨自己无情。这世界没有一件事情是虚空而生的，站在光里，背后就会有阴影，这深夜里一片寂静，是因为你还没有听见声音。
+levelE
+裸拳使柚希
+彼岸岛
+为美好的世界献上祝福
+http://www.iqiyi.com/v_19rrodw7hg.html
+http://www.bilibili.com/video/av2597063/?from=search&seid=15371159488271643671
+崩潰大陸
+神禅
+星愿浏览器
+ We Saw Your Boobs
+詹妮弗-劳伦斯
+八恶人
+BGM:storm  Fury
+Josephine van Delden
+TRIGGER
+MMR-AA065
+跳水失败 脸摔两半
+SOE502
+瑞克与莫蒂
+死亡裁决
+Rick and Morty
+超脱
+杀手没有假期
+wrong hole
+http://kanobu.ru/pub/437142/
+ygopro2
+游戏王 决斗者遗产
+企鹅男孩
+ 恋爱的味道
+永無止境
+超市夜未眠 cashback
+监狱帝国
+https://tieba.baidu.com/p/4732615239?see_lz=1#96105679212l
+等等呢過
+arrival
+衰女翻身
+善良的喵善良
+别惹佐汉
+墊底辣妹
+王牌特工
+希特勒回来了
+大神集中营
+开心麻花《驴得水》
+脆莓公园？
+踏上巔峰
+883293707707832096
+朝5晚9 明日边缘
+换成html5格式的播放器，http://www.bilibili.com/html/help.html#p这里改
+小王子、
+獵殺全球
+绝对不许笑24小时耐力躲鬼
+24小时躲鬼、不准笑系列前的作品，15年前的。想看的话B站上就有字幕版的。
+王陽明：傳習錄、袁了凡：了凡四訓
+麵館表情、黃月英無慘、孙尚香、甄姬、王异
+以前哥穷困的时候，为了走上人生巅峰，做过倒器官的生意，有一天来了个买家，张口就问哥收不收器官，哥说收，然后那人就问哥要不要脸，哥说不要
+你是怎么活到这么大，还没被人打死的
+貓貓蟲-咖波，webtoon
+萌萌暮雨醬 weibo
+http://www.ttmeiju.com/seed/64588.html
+地狱公寓
+皮囊之下
+真的，人只有好了之后才知道原来有多差。 比如你瘦了之后才知道原来胖成那个熊样，但你胖的时候就觉得自己是健康微胖真可爱。 你打扮了以后才知道以前那么丑，但你丑的时候就觉得自己比最丑的好看，那就是中等偏上了还不错。人一定要进步，你不往上走，根本不知道自己现在烂成这样。
+
+文娱缔造者
+JetBrains 
+大国重器》和《一带一路
+釜山行
+沖
+Java面试训练
+半田君传说 
+ublock origin
+http://boards.4chan.org/b/thread/706747589
+http://boards.4chan.org/b/thread/706738519
+怪奇物语
+假如爱有天意
+教师节，回忆下我政治学导师对我影响最大的三句话：
+1、通过区区三年上课你们学不到什么，我只能激发你们的兴趣，学习是你们自己将来长期要做的事情。
+2、要感谢反对意见，包括骂声，个人的想法是有限的，他们可以帮助你审视和完善观点。
+3、要阻止浪漫主义的好人当权，他们会凭个人意志去改造世界，那将成为灾难。
+这三句话对我的影响是：我直到今天仍会不断买书学习、不跟人对骂而是反省自己的片面、做为他人着想的事情前会先征求对方的意见。
+永无止境
+歷史啊，從來都是在迷霧中的
+为天地立心,为生民立命,为往圣继绝学,为万世开太平
+疯狂动物城
+来生还要做女人
+怪你過分美麗
+
+真正的累，来自于内心的无知与迷茫。
+。痛苦来源于自己的辛勤工作没有回报，痛苦来源于自己的努力不能改变现实，痛苦来源于虚无缥缈的未来。
+
+恋爱的味道
+
+王来承认 王来允许.王来背负整个世界
+http://jiaren.org/2013/05/08/xulu-3/
+徐璐 忽然长大
+鳳凰水滴、趣味中國字
+地狱为何恶劣
+星际穿越
+赶尽杀绝
+龍蝦
+资讯-凌世平：38803
+12/4号前完成基本功能
+
+R4的生產流程  /R4_Bind_Parts  /R4_Open&Short  /R4_Check_KeyPart  /R4_FT_TEST  /R4_COSMETIC01  /R4_PACK_CARTON   /R4_PACK_PALLET   /R4_Shipping
+8485 6670
+--------------------------------
+刷卡系統備忘：
+oci_new_connect(
+'SCBG_BI',
+'SCBG_BIPWD',
+'fldpdb01-vip.foxlink.com.tw:1589/CUFOX',
+'AL32UTF8');
+--------------------------------
+ARYA/SANSA 專案
+IP:192.168.246.34
+SID:emesnet
+port:1521
+user:qr
+pwd:qr
+最江南(常平店)
+HERMES/MERCURRY 專案
+IP:192.168.246.54
+SID:hmmes
+port:1521
+user:qr
+pwd:qrgt
+--------------------------------
+\\192.168.9.36\文件
+帳號：ie   密碼：foxlink
+
+在最关键的剧情选择一下，才能有美好的隐藏结局，否则，多数都不温不火。
+可以人生并不是游戏，选择之后承担的结果往往太重。
+而且都是在几年之后才体现出来的。
+在你忘了你做过这个选择之后。
+--------------------------------
+
+--------------------------------
+
+--------------------------------
+
+--------------------------------
+
+--------------------------------
+
+--------------------------------
+
+--------------------------------
+
+--------------------------------
+ ATE Server(SQL Server 200)  IP:10.64.82.113    連接方式:SQL Server Enterprise Manager 2000或更高版本       用戶名：sa    密碼: fox110110      數據庫:R4       表名：R4_Open_Short_Test
+
+SFC DB (Oracle 10g)         IP:10.64.80.123    連接方式:Oracle SQL Developer  或其他ORACLE客戶端工具       用戶名: r4    密碼：33173          實例名：abgr4    監聽：1521
+彭海濤 666793
+
+11808
+Tel(FQ): 86-0769-8388-2225 ext 33781
+svn://192.168.60.4/Plano01/trunk/IGBU
+song:《3345》
+pxiv 60600156
+http://tieba.baidu.com/p/2164625883
+文勇：187-0259-3997
+華毅：135-9552-6513-
+莎莎：32910
+192.168.64.67
+user_cabg
+cabg2017
+33625 喻立新 666059
+pebble time steel 400-820-6523
+33544 嘉佩
+33339郭曉峰
+33631 工程師 宋慶磊 
+2016.3.17-9.20
+ 33462
+yanxiaocui@foxlink.com.cn
+廠商：
+666793
+10.64.248.3
+數據庫：SQL Server
+database:stxt001041228
+username:uread
+password:read2016
+table:view_emp
+ygbh,xm,bmbh,bmmc,iccardid
+員工編號，姓名，部門編號，部門名稱，ic卡id
+ where num between 10 and 100rownum = 100
+Notes:
+張宏達--主管
+余午一
+魯合
+杜榮：
+662495''
+--------------------------------
+
+不需要固定值，讓表格寬度自動適應文字長度
+
+1、修改登陸過慢問題
+2、修改打開多個頁面，登出一個，其它出錯的問題
+3、添加機台
+4、添加不良類型
+http://192.168.65.230:8888/rawcable/login.php
+SCBGⅡ-SBU4即時報表系統 
+CABU - FATP即時報表系統
+R4——朝阳：33992
+R4—-蔣家榮:  33170
+佳芯：11375
+骑士&魔法
+小惠姐：11485
+目前SFC 人員  工程師 宋慶磊   短號 615301(Andy song)
+
+ 軟體&SFC   Leader    -----何益定(heone he)  --33395
+http://10.64.80.98:8888/phpmyadmin/
+LineNo_ root foxilnk 
+
+ftp://192.168.64.233/ user user
+http://www.acfun.cn/v/ac3316505
+http://192.168.65.230:8888/rawcable/login.php
+update testswipecardtime set `PROD_LINE_CODE` = 1 where swipecardtime > curdate()
+
+--------------------------------
+ k生活規劃
+1、日常支出不超過4成（水電氣）
+2、吃穿用不超過3成
+3、備用金1成（鐵打不動）
+4、餘下2成自花
+一個月大約3500工資
+
+ZIZG-013 【実写版】虜囚市場～罠に嵌められたエルフの女将校～ 蓮実クレア みづなれい
+PPPD-298
+死亡竞赛》、《空手道熊斗士》以及《终生空手道
+大時代 紙飛機b 
+F1F92E2A07CB6AA848262DD1E7F2629BAAB24297
+EMP-001，S2M-046，GAR-280，PSD-408
+ 
+n0893,n0917
+F9C04E358825850DB70304E53E83D4995FDA91C9
+FootsieBabes – Katy Kiss Naughty Redhead Bunny
+SOD区 SDMT路 863
+桃乃木かな
+Midnightザップ
+DGL-064 
+IPZ-127
+SW-320
+htms-061
+magnet:?xt=urn:btih:f79bb3ca2b73c6cec9b9854c3315d0f9d1bb1162
+www.baeblemusic.com/music-video/katy-perry/making-of-the-katy-perrys-bon-appetit.html
+https://e-hentai.org/g/1031258/ee966e691d/
+旺角卡门
+Lily Rader
+(漫画汉化)[ぶぶづけ] 校内援肛 (COMIC 高 Vol
+Sara Salazar (shemale)
+长泽茉里奈
+SAMA-542
+https://pornslice.com/videos/metal-gear-solid-5-anal-porn-parody-with-casey-calvert
+dick in the box
+MIAE-056
+NGZK-46 
+做我的奴隶
+Killer Girl K 소녀 K 
+神村江美里
+SEQUEL blight
+俄罗斯版洛丽塔
+Anna Koshmal
+MIAD-767
+modifuckers
+Beth Lily
+MIAD-767
+请翻开古兰经，在LLR章里面第008页第一段里告诉了我们5EEEFA94BF68FAE058CC8794F42569BC5C2D75F2
+还有个别忘记有一章节全是灰色的，看来你是忘了，让我来提醒你
+早乙女由依
+在可兰经的HODV章的第21134语句里面+
+ Milo Moire
+Madonna JUX 565
+F86529CD9B5F631B983ACD4B9154FEC23DA8A397
+missalice
+sod663
+BBI-168 逆セクハラ 誘惑特命痴女係長 OL秘书 桜木凛(中文)
+IPTD-799
+soe 586
+滨崎真绪
+Kendra Sunderland
+《fast time at ridgemont high》里的80年代女神Phoebe Cates的82年成名作《Paradise》，其中里面有7、8个场景吧，有2个ooxx是替身，其他都是真身。
+[リハビリテーション （があらんど）] ドラゴンボールH （まぐわい） （ドラゴンボールZ） [黑条汉化]
+Amber Hayes
+MDS-807
+Losing Kayden
+逃出夺命镇
+RDT166
+Kendra Sunderland
+A02B22DB651A49EBC8F9DF5B0EE98108737F086C
+MIDE-194
+https://announce.javbus8.com/website.php
+Masou_Gakuen_HxH
+https://btso.pw/magnet/detail/hash/F962494E5D0A24A95E7BC61C97E262AA5DAD9D11
+sorority
+E2E2D3D3EB9973EF005419D14C08D5FCD840083A
+PTHC=Preteen Hardcore=Child
+h删ttp://www.s删ensualgirls.org/ga删lleries/marta-ins删tant-arousal/ 
+GirlsDoPoo E254
+神様のゲーム －監禁された6人の男女
+http://tieba.baidu.com/p/2442398827
+www.pornhub.com/pornstar/gigi-rivera
+魔界戰記
+femalemuscleexposed.com
+
+RCT-850 椎名空COS轻音部
+ABP-341
+3725EA925C3CE23702190D4C665C2D75A91831BF
+nonsummerjack
+疯狂店员2
+天木純
+http://xw.qq.com/games/20161009029988/GAM2016100902998800
+The Tunnel 隧道
+是，大臣 yes.minister 
+Brunette Spinner Fucks on Halloween
+合唱：http://rarbg.com/torrents.php***search=Brunette+Spinner
+ht去tp://pa掉n.bai中du.co文m/s/1kVBePHt
+密码: 19iq
+1CBE65821CBA35FDD14DDCA6823A6263C49C7FE6
+http://www.centerfoldlist.com/amanda-cerny-playboy-playmate-october-2011/Playwatch
+amandacerny
+GUILD-085
+mxgs 733
+Kendra Roll 
+celebritymoviearchive
+NHDTA-792
+https://www.meipai.com/media/648436952
+小女ラムネ
+Pornstar GO XXX Parody
+秘密の連結車両（オトコのコHEAVEN Vol.30）
+tek-067,072,073
+SNIS-800、 SNIS-786
+千恋万花
+真探 S01E02 16分开始有激情戏，17分左右开始脱
+红楼春上春
+馬賽克日本
+西遊記第二十一集，二十五分三十秒
+Virginie Ledoyen - En Plein Coeu
+youtube. c o m/w at c h *** v = E_1OEAOxJOU
+(C89) [RUBBISH選別隊 (無望菜志)] RE23 (Fate/Grand Order)
+蓝衣地铁啦、粉衣电梯啦、地铁京香
+GASO-0007
+Abigaile Johnson
+neutron city 沢良宜
+南宁护士门
+https://www.youtube.com/watch问号v=q9iW6Yyl0NQ
+三姑六婆lite
+西边的风
+twitter.com/_AmberHayes/status/790117940632879104
+Amber Hayes
+3f9ffbd9b3104618caeb9053378563bffeedd0a9
+MakeAV.com.JAV.Kt-joker.aqd010.HD.wmv
+小島みなみ SNIS-674
+西协美智子
+GUILD-056 写真
+我的老婆是学生会长
+十六张麻将-星座女郎篇中文版
+zhangjunbao1981
+wanz-188
+Molly Jane - Cock Pursuit
+http://www.pornhub.com/view_video.php***viewkey=ph583e9611579dc
+http://www.randomnude.com/2013/10/04/copier-porn-2/
+http://www.neixiong8.com/xiaoshuo/25/25989/6089884.html
+三浦愛莉Tokyo hot n1048
+stupid girl
+YUE13650445124
+Jasmine James - Home Invasion
+CCB-445 杉原杏璃
+neihant#com #换.
+www.heavy.这是cz/2013/05/jenom-v-japonsku-muzou-mit-假车takove-hry/
+8-bit porn
+IPTD-972
+Naked Attraction
+MID-109，坐稳了！
+AVOP-260
+abigaile_sss_big-720
+sw 167
+***www.yimuhe.com/file-1239224.html 解压密码3536？要不就是3635
+[Kajio Shinji, Tsuruta Kenji] Sasurai Emanon Vol.1 [Gantz Waiting Room] [English]
+ipz-566
+高桥圣子，写真明星后来下海了，车牌号mide360
+http://javtorrent.xyz/censored/121913/
+铃原爱蜜丽
+老外有个系列叫fakeagent,似乎就是这种模式
+剧情似乎是（谁特么在乎剧情啊）做一个假的面试，然后请女演员去面试，结果当然是被啪啪啪啦。
+还有一个类似的，叫***casting***,这里用***表示前面或者后面有字符
+大家可以去rarbg搜索agent或者casting试试看
+Wicked Weasel
+jiggle 
+坂口杏里
+去ero-v掉ideo.net/中movie/英文问号mcd文=YkqIy字BxBDqNAu8aq
+突然マンコを見せてくれた有り難い美女達
+
+4D3AD1D713CB2F7C8D314CB7BAF3EBE539076B72
+日本下春药系列
+66c27c74d3b4b7e9f9c8e34dcb3c7064ceac1b3d
+ MBYD-237 
+http://www.xvideos.com/video15285701/_mbyd-237_on_http_jporn.se
+http://down90.com/link/16a5bbede9b710b12b0c
+http://www.bilibili.com/video/av6431682/
+https冒号杆杆gaben.sexy
+菜々緒？
+honeyjam.kr
+AV魔镜收集号
+atom-150
+ABP-486
+http://v.17173.com/v_102_603/MTMyNTMzNw.html
+BabyGotBoobs.13.01.16.Maya.Hills.A.Night.At.The.Pleasure.Place
+wanimal1983.tumblr
+http://wanimal1983.org/post/101941367756/tattoo-80
+MIAD-767
+
+b256-34
+weibo.com/konela
+http://sexix.net/video84918-ftvgirls-blaire-beauty-exposed-1080p-new-august-27-2016/
+爱姉妹iv
+4560fb9d39b741321d5b1522838957d1ad1f3992
+Hegre-Art 2015 XXX MEGAPACK的82G合集
+boin
+[Karma Tatsuro] Shiawase no Shoujo，滴滴滴
+
+The Star Money，https://en.wikipedia.org/wiki/The_Star_Money
+http://www.doujin-moe.us/mfxfcbuv-1
+s/1bpFohen repb
+Tera Patrick
+http://i m a ge3.suning.cn/b2c/catentries/000000000120707733_1_400x400.jpg
+https://yunpan.cn/ckgsvIBmXxTCS 访问密码 084e
+Anna Speckhart
+https://www.zhihu.com/question/28560777/answer/50292672
+
+明日花绮罗
+Kayden Kross 16/08/22
+机甲女神之究极神兵
+彩虹之门
+Babes–Megan Salinas Under My Skin
+102715-008
+BD2E621A93213368E1A8092103F5E069493A1155
+https://i t e m.t a o b a o.com/i t e m.h t m *** s p m = a230r.1.14.1.obbVYU&id=522594307092&ns=1&abbucket=20
+54F41EF597AD7CC277403D80217BB04F610B5410
+522594307092
+abp 486
+比村奇石
+ma啊gnet:啊******啊bt啊ih:啊2D4C啊39033D41D58啊4EEDCEE0B6E啊B55BD95F1D1680&dn=Pornstar%20GO%20XXX%20Parody.mp4
+爱宠大机密
+圣诞之吻
+Jenna Jameson
+https://player.vimeo.com/video/6763558
+Remy LaCroix
+PPPD-308
+F023819BCB0134E7D3B3213CD417731D2B0C6DE5
+livesexbate vika9
+国服第一喝水
+下北glory days
+www.qqq258.com
+RCT-502 ある日突然ぬいぐるみが美少女たちを襲い出す世界 ぬいぐるみ姦
+演员：松下ひかり 早瀬ありす
+阿飛正傳
+gg108
+Kimberlin Milisa vljevich
+9257
+http://ww4.sinaimg.cn/large/a9ce2503jw1f5dd83u2zwj20qo0zkgqq.jpg
+http://ww3.sinaimg.cn/large/a9ce2503jw1f5dd856ko2j20qo0zkwic.jpg
+HNTV-005+                                                                                  
+有村架纯《追忆潸然》
+kyokyo1220.blog.so-net.ne.jp
+16208698
+ねこぱんつ 猫胖次
+
+Sasha Grey。。。
+s-cute 356_hikaru_02 優美に乱れる
+
+www.patron.com/collateralds
+ぶるーすきんの森？
+
+amanda love
+Download破解版+Tsearch
+蘿莉云
+3d定制女僕mod守望先鋒
+dvdes444
+关键词1：Monroe 
+关键词2：18onlygirls
+BrazzersExxtra.16.06.10 ZZ Erection 2016
+Pervert babe Anessa drops out her tits at fast food spot
+NHDTA807
+magnet:?xt=urn:btih:4832EF13BE8C93941BA99923F638277A2FB450C7 p/2815234315 密码：【黙示】 警告：【黙】示不是【默】示
+御姐很忧伤
+D25D5A4C9115D416208EF7D4BB0D2710DAE8EA0B
+日曆女孩
+松岡千菜
+
+31889fab84b5209691fc6ebe431a5c916dd4923e&dn=sexinsexA%40%E7%AC%AC%E4%B8%80%E4%BC%9A%E6%89%80%40%E5%AE%88%E6%9C%9B%E5%85%88%E9%94%8B3D%E5%90%8C%E4%BA%BA%E5%90%88%E9%9B%86
+parody 萬磁王
+http://ftvgirlsflashingus.tumblr.com/post/125951063109/badbitchgifs-rilee-caught-see-more-at-ftv
+rille marks
+http://nuttit.com/nsfw/c/adorableporn/view/Hi_34607060
+Katerina Hartlova AKA Katarina Dubrova, Kathy Kozy. Subscribe. Woman, Actress, 30 years old from Czech Republic.
+Katerina Hartlova
+emily bloom
+監獄戦艦Vol.04
+Liquid『魔将の贄3 ～白濁の海に沈む淫辱の隷姫～』オフィシャルサイト
+http://boards.4chan.org/h/thread/4274384
+http://www.dlsite.com/maniax/work/=/product_id/RJ139061
+- [ ] Kangoku Senkan (Brainwash space Pirate)
+- [ ] Taimani Asagi (Ninja girls)
+- [ ] Kuroinu Kedakaki Seijo Wa Hakudaku Ni Somaru (Dark elf girls)
+- [ ] Pandra the Animation 
+- [ ] Evil Woman Executive 
+- [ ] Space Pirate Sara 
+- [ ] Inyutsu No Yakata (Blue Haired Sisters) 
+- [ ] Kyonyuu Fantasy (Succubus) 
+- [ ] 3Ping Lovers Ippu Nisai no Sekai e Youkoso The Animation (VR Harrem)
+- [ ] Rance 01: Hikari o Motomete The Animation
+- [ ] Demonion: Gaiden
+- [ ] KAGAKU NA YATSURA (2 types of Science)
+personal favorites
+namaiki kissuisou e youkoso
+Ran-sem?
+
+
+artgerm DA主頁
+IPZ-127
+happiness experience2
+rbd704
+heyzo 0926
+sw318/sw378
+http://user.qzone.qq.com/25345644问号ptlang=2052
+zh [点] wikipedia [点] org[杠]zh-tw[杠]互联网档案馆
+2727408582
+337845818
+Zannenn na Heroine Tachi Ch. 1-5 [Chinese]
+WowGirls - Naughty Starlet.Nancey
+Playing With A Cumming Strapon
+(aliba-7451 YQSL-941
+)
+
+忧郁是因为自己无能，烦恼是由于欲望得不到满足，暴躁是一种虚怯的表现。——大仲马《 三个火枪手》
+
+0verflow
+https://www.t66y.com/htm_mob/20/1604/1919398.html
+大屁股王猎空
+Tinbinbland️
+nrs 041
+672755F7858801DFF3B4921CDD72750FD2FF65CE&dn=RKI-412-HD
+
+08119D5E8F62F2643C03BB5633D8B0F2FB57A8F7&dn=RKI-408_CAVI
+sama-542
+LALS-10
+amy ilovebrucewillis
+Kigurumi Play
+http://www.analisamassage.com/masseuse
+英雄战姬
+anon-ib.ru/tblr/res/3045.html
+Danbooru上搜yanagi_(tsukiakari)
+BEB-086
+SAMA-542
+https://www.reddit.com/over18?dest=https%3A%2F%2Fwww.reddit.com%2Fr%2FMachineLearning%2Fcomments%2F33n77s%2Fandroid_app_nipple_detection_using_convolutional%2F
+https://www.reddit.com/r/NSFW_GIF
+女子だけ半裸学園
+(C89) [清炭ハリケーン ] ONE-HURRICANE (ワンパンマン)
+RBD-446
+EBOD 141
+(C88) [High-Spirit (Aogiri Penta)]
+纱仓真奈
+ abigaile johnson
+MIAD-767
+ Abigaile Johnson
+Orgy is the New Black
+snis-153。。C5CDD8E0FBB4CA57028FAB9AEBA2FD491F187343
+SNIS-488
+http://urashima-taro.deviantart.com/gallery/
+pipper perri
+Pipe her!! And by her, we mean pipeperr!
+飞跃巅峰
+:F00160B1164D033C576C3AF4FD998257CCDDDE75
+クリスマス企画第１０弾 未来の想い出～Last Christmas
+http://tieba.baidu.com/p/4112335988
+Carib-111315-021-FHD
+
+其实这是个卖房子的广告。我实地看过，采光不错。但就是离市区太远。可以坐公车。
+公车站在门口左侧，车牌是：www ，然后在dmm.co.jp/digital/vr/detail/vr00002_01_html/=/ch_navi=none/站下车就可以了。要买菜的话，可以去dmm.co.jp/digital/vr/detail/vr00003_01_html/=/ch_navi=none/站买。
+vr0001.dmm.co.jp/stream/assets/vr00002_01/vr00002_01vmb.mp4
+https://www.twitch.tv/dizzykitten
+45FDF90DC2E37B9247C2BC5136242A93CC500026
+--------------------------------
+SERVER IP: 192.168.65.230   你可用遠端連線登
+NAS: 10.64.100.200   帳號: denil  密碼:foxlink
+Paul_Qin@foxlink.com.tw
+
+http://sizimi.tumblr.com/archive
+
+http://jandan.net/pic/page-8948#comment-3123941	
+https://cdn.streamable.com/video/mp4-mobile/oob1.mp4
+http://pan.baidu.com/s/1c24CjVq 密码2m8b
+vga分屏器
+FreeMind
+192.168.64.233
+David 11819
+10.64.83.14 9627
+劉嘉佩 33544 610628
+杜榮 33543 tel:662495  
+鄢小翠 33542 679260
+33756 屈艷  
+
+-----
+一車間
+楊東菊 37047
+舒平果 682006
+陽令
+富東資訊 33196
+李丹   36670
+本機 32910
+33339郭曉峰                            36555趙林          
+33337王金星
+33338謝沛根
+36666曾勇                                36600 值班分機
+33331楊燕傑                            31006彭文輝
+11510420365069
+--------------------------------
+
+我并不仅仅在寻求“结果”...如果只为了寻求“结果”的话，人是容易走捷径的...在走捷径时，也许就会迷失真实，甚至连满腔的热忱也会逐渐丧失。我认为重要的是“寻求真实的意志”！只要有了这种向真实前进的意志，即使这次失败了，我也终于会达到目标的，因为我仍在继续前进...这是不会错的。
+--------------------------------
+策略-資源管理-生產力資源課	
+depid:7933
+策略-資源管理-數據-系統整合課	
+deped:2264
+
+	N
+W  +     E
+	S
+	北
+西 		東
+	南
+
+東坑泰滋味泰式雞爪店
+
+广隆蛋挞王(东坑店）蒜味
+
+至少像那雪一樣
+--------------------------------
+
+
+
+
+

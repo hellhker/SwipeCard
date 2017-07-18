@@ -1,0 +1,34 @@
+[{
+	"id":10478,
+	"text":"PW-AUTOLINE01",
+	"desc":"Write once, run anywhere"
+},{
+	"id":10502,
+	"text":"PW-AUTOLINE02",
+	"desc":"One of the programming languages designed for the Common Language Infrastructure"
+},{
+	"id":10522,
+	"text":"PW-AUTOLINE03",
+	"selected":true,
+	"desc":"A dynamic, reflective, general-purpose object-oriented programming language"
+},{
+	"id":10523,
+	"text":"PW-AUTOLINE04",
+	"selected":true,
+	"desc":"A high-level, general-purpose, interpreted, dynamic programming language"
+},{
+	"id":10524,
+	"text":"PW-AUTOLINE05",
+	"selected":true,
+	"desc":"A family of general-purpose, high-level programming languages"
+},{
+	"id":10525,
+	"text":"PW-AUTOLINE06",
+	"selected":true,
+	"desc":"A family of general-purpose, high-level programming languages"
+},{
+	"id":10526,
+	"text":"PW-AUTOLINE07",
+	"selected":true,
+	"desc":"A family of general-purpose, high-level programming languages"
+}]

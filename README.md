@@ -1,3 +1,0 @@
-# SwipeCard
-# SwipeCard
-# SwipeCard

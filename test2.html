@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>js获取当前日期前七天的  解决方案</title>
+</head>
+
+<body>
+计算从今天开始算 7天前的年月日<br/>
+<input type="text"  id="time" value="7" />
+<br/>
+<label id="showTime"></label>
+<br/>
+
+<input type="button"  id="btn" value="计算"/>
+<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+<script>
+	$(function(){
+		$("#btn").click(function(){
+			var timeLength=parseInt($("#time").val());
+			$("#showTime").html(time.getPreDate(timeLength));
+			console.log(time.getPreDate(timeLength,,mydate));
+		})
+		
+		function getLastDay() {
+			var time={
+				getPreDate:function(pre,mydate){
+					var self=this;
+					// var c = new Date();
+					var c = mydate;
+					// var c = "2017-06-15 08:00:00";
+					// c = Date(c);
+					console.log(c);
+					c.setDate(c.getDate() - pre);
+					return self.formatDate(c);
+				},
+				formatDate:function(d){
+					var self=this;
+					return d.getFullYear() + "-" + self.getMonth1(d.getMonth()) + "-" + d.getDate();
+				},
+				getMonth1:function(m){
+					var self=this;
+					m++;
+					if(m<10)
+						return "0" + m.toString();
+					return m.toString();
+				}
+			}
+		}
+		
+	})
+	
+</script>
+</body>
+</html>
