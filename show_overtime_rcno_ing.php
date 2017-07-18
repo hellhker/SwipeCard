@@ -12,15 +12,15 @@
 </head>
 <body>
 <?php 
-	$MYSQL_LOGIN = "root";
-	$MYSQL_PASSWORD = "foxlink";
-	$MYSQL_HOST = "192.168.65.230";
+	// $MYSQL_LOGIN = "root";
+	// $MYSQL_PASSWORD = "foxlink";
+	// $MYSQL_HOST = "192.168.65.230";
 
-	$mysqli = new mysqli($MYSQL_HOST,$MYSQL_LOGIN,$MYSQL_PASSWORD,"swipecard");
-	$mysqli->query("SET NAMES 'utf8'");	 
-	$mysqli->query('SET CHARACTER_SET_CLIENT=utf8');
-	$mysqli->query('SET CHARACTER_SET_RESULTS=utf8'); 
-
+	// $mysqli = new mysqli($MYSQL_HOST,$MYSQL_LOGIN,$MYSQL_PASSWORD,"swipecard");
+	// $mysqli->query("SET NAMES 'utf8'");	 
+	// $mysqli->query('SET CHARACTER_SET_CLIENT=utf8');
+	// $mysqli->query('SET CHARACTER_SET_RESULTS=utf8'); 
+	include("mysql_config.php");
 
 	// $line_sql = "select lineno from lineno";
 	// $line_rows = $mysqli->query($line_sql);
@@ -42,7 +42,7 @@
 					FROM testswipecardtime
 					WHERE  	Date_format(swipecardtime, '%Y-%m-%d') >= '".$SDate."'
 							AND Date_format(swipecardtime, '%Y-%m-%d') <= '".$EDate."'
-							AND Date_format(swipecardtime2, '%H:%i:%s') > '18:00:00'
+							AND Date_format(swipecardtime2, '%H:%i:%s') >= '17:45:00'
 							AND Date_format(swipecardtime2, '%H:%i:%s') < '23:59:00'
 							AND (checkState=0 or checkState=9)
 							AND prod_line_code like '".$lineno."'
@@ -56,7 +56,7 @@
 					FROM testswipecardtime
 					WHERE  	Date_format(swipecardtime, '%Y-%m-%d') >= '".$SDate."'
 							AND Date_format(swipecardtime, '%Y-%m-%d') <= '".$EDate."'
-							AND Date_format(swipecardtime2, '%H:%i:%s') > '05:00:00'
+							AND Date_format(swipecardtime2, '%H:%i:%s') >= '05:15:00'
 							AND Date_format(swipecardtime2, '%H:%i:%s') < '08:00:00'
 							AND (checkState=0 or checkState=9)
 							AND Shift = 'N'
