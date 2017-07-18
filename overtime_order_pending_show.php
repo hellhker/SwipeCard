@@ -111,12 +111,14 @@
 		var sub;
 		var tempInterval = [];
 		var tempHour1,tempHour2;//17:30 19:30
-		// var tempTime1;
+		var tempTime;
+		var tempTime1;
 		var tempTime2;//17 30
 		// var tempTime1 = new Date();
 		// var tempTime2 = new Date();//17 30
 		var $tempEnd,$tempStart;
 		for ( var i = 0; i < checkbox1.length; i++) {
+		// for ( var i = 0; i < 1; i++) {
 			//minus-根據選擇的加班時間類型得出不同時段
 			if (cal == "1") {
 				if(shift=="D"){
@@ -136,7 +138,6 @@
 				//根據選擇的加班時間類型得出不同時段
 				//console.log(getHour(sdate1[i]));
 			} else if (cal == "2") {
-				
 				// minus = (edate1[i] - sdate1[i]) / 3600000 - 2;
 				if(shift=="D"){
 					for(var j = 0;j<t_s.length;j++){
@@ -187,17 +188,72 @@
 						minus += $tempEnd - $tempStart;
 					}
 				}else{
-					minus = (edate1[i] - sdate1[i]) ;
+					// minus = (edate1[i] - sdate1[i]);
+					for(var j = 0;j<t_s.length;j++){
+					// for(var j = 0;j<1;j++){
+						var x = $("#1").find("[name='yd']").val();
+						tempTime = getDate1(x);
+						// console.log(typeof(x));
+						tempInterval = t_s[j].split("-");
+						tempHour1 = tempInterval[0].split(":");
+						tempHour2 = tempInterval[1].split(":");
+						// console.log(edate1[i]);
+						// console.log(tempHour2[0]);
+						
+						var	tempTime1 = new Date(tempTime);
+						if(tempHour1[0]>0&&tempHour1[0]<12){
+							 tempTime1 = new Date(tempTime.getTime() + 24 * 60 * 60 * 1000);
+							 tempTime1 = tempTime1.setHours(tempHour1[0],tempHour1[1],0);
+						}else{
+							tempTime1 = tempTime.setHours(tempHour1[0],tempHour1[1],0);
+						}
+						
+						// console.log("T1 :" + tempTime1);
+						var	tempTime2 = new Date(tempTime);
+						// console.log("T2 :" + tempTime2);
+						// console.log(tempTime);
+						if(tempHour2[0] >= 0 && tempHour2[0]<12){
+							tempTime2 = new Date(tempTime.getTime() + 24 * 60 * 60 * 1000);
+							tempTime2 = tempTime2.setHours(tempHour2[0],tempHour2[1],0);
+						}else{
+							tempTime2 = tempTime.setHours(tempHour2[0],tempHour2[1],0);
+							console.log("321");
+						}
+						
+						tempTime1 = new Date(tempTime1);
+						console.log("T1 :" + edate1[i]);
+						tempTime2 = new Date(tempTime2);
+						console.log("T2 :" + tempTime2);
+						
+						$calStart = sdate1[i]-tempTime1;
+						$calEnd   = edate1[i]-tempTime2;
+						// console.log($calEnd);
+						if($calEnd>0){
+							$tempEnd = tempTime2;//09:30
+							if($calStart>0){
+								$tempStart = sdate1[i];//08:30
+							}else{
+								$tempStart = tempTime1;//07:40
+							}
+						}else{
+							// $tempEnd = edate1[i];//10:30
+							$tempStart = tempTime1;//09:40
+							$tempEnd = edate1[i];//10:30
+							minus += $tempEnd - $tempStart;
+							// console.log("123");
+							// var tempStart = new Date($tempStart);
+							// var tempEnd = new Date($tempEnd);
+							// console.log("$tempStart:"+ tempStart);
+							// console.log("$tempEnd:"+ tempEnd);
+							break;
+						}
+						minus += $tempEnd - $tempStart;
+					}
 				}
 				
 				//根據選擇的加班時間類型得出不同時段
 			}
-			if(cal == "2"&&shift=='N'){
-				minus = minus/ 3600000 - 1;
-			}else{
-				minus = minus / 3600000;
-			}
-			
+			minus = minus / 3600000;
 			minus = getNum(minus);
 			sub = getHour(sdate1[i]) + "-" + getHour1(edate1[i]);
 			//console.log("時段sub: "+sub);
@@ -219,6 +275,7 @@
 			//$('#sp[i]').numberbox('setValue', sub);
 			var x = $("#"+sp[i]).find("[switchbuttonName='stButton']");
 			x.switchbutton('setValue',minus);
+			minus = 0;
 			
 		}
 	}
@@ -295,7 +352,7 @@
 	}
 	
 	//function changeStatus(){
-		$(function(){ 
+		$(function(){
 			//var thisSwitchbuttonObj = $(".state").find("[switchbuttonName='unitState']");
 			//var swiButton = $("#cal_14364").find("[switchbuttonName='stButton']");
 			//status= $("#cal_14364").switchbutton("options").checked;
@@ -686,14 +743,16 @@
 		$Item_No = $_POST['item_no'];
 		$Shift = $_POST['Shift'];
 		
-		$MYSQL_LOGIN = "root";
-		$MYSQL_PASSWORD = "foxlink";
-		$MYSQL_HOST = "192.168.65.230";
+		// $MYSQL_LOGIN = "root";
+		// $MYSQL_PASSWORD = "foxlink";
+		// $MYSQL_HOST = "192.168.65.230";
 
-		$mysqli = new mysqli($MYSQL_HOST,$MYSQL_LOGIN,$MYSQL_PASSWORD,"swipecard");
-		$mysqli->query("SET NAMES 'utf8'");	 
-		$mysqli->query('SET CHARACTER_SET_CLIENT=utf8');
-		$mysqli->query('SET CHARACTER_SET_RESULTS=utf8'); 
+		// $mysqli = new mysqli($MYSQL_HOST,$MYSQL_LOGIN,$MYSQL_PASSWORD,"swipecard");
+		// $mysqli->query("SET NAMES 'utf8'");	 
+		// $mysqli->query('SET CHARACTER_SET_CLIENT=utf8');
+		// $mysqli->query('SET CHARACTER_SET_RESULTS=utf8'); 
+		
+		include("mysql_config.php");
 		if($Shift=="D"){
 			$employee_overtime_sql = 
 				"SELECT a.id, 
@@ -747,10 +806,10 @@
 		}
 		
 		// echo $employee_overtime_sql;
-		$interval_sql = "select * from interval_setting where workshopno='第四車間' and weekend = '1'";//TODO
+		$interval_sql = "select * from interval_setting where workshopno='第四車間' and weekend = '0' and Shift = '$Shift'";//TODO
 		$timeset_row = $mysqli->query($interval_sql);
 		$temp = array();
-		// echo $interval_sql.'<br>';
+		echo $interval_sql.'<br>';
 		while($row1 = $timeset_row->fetch_assoc()){
 			$temp[] = $row1['d_interval1'];
 			$temp[] = $row1['d_interval2'];
