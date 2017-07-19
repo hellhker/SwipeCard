@@ -41,7 +41,6 @@
 				//alert("box[i]: "+checkbox[i].checked);
 				record[i] = checkbox[i].value;
 				console.log(record[i]);
-				//alert(msg); //TODO
 			}
 		}
 		return record;
@@ -54,7 +53,6 @@
 			//alert("box[i]: "+checkbox[i].checked);
 			record[i] = checkbox1[i].value;
 			console.log(record[i]);
-			//alert(msg); //TODO
 		}
 		return record;
 	}
@@ -65,7 +63,7 @@
 		var checkbox2 = document.getElementsByName("etime");
 		var checkbox3 = document.getElementsByName("checkbox");
 		var shift = $("#Shift").val();
-		var t_set = $("#Interval_Setting").val();//TODO
+		var t_set = $("#Interval_Setting").val();
 		var sdate = [];
 		var sdate1 = [];
 		var edate = [];
@@ -737,7 +735,19 @@
 </head>
 <body class="pace-done">
 	<?php 
+	
 		$SDate = $_POST['SDate'];
+		$w=date('w',strtotime($SDate));
+		// echo $w;
+		if($w==6){
+			$weekend = 1;
+		}else{
+			$weekend = 0;//TODO
+		}
+		// if(date("w"))
+		$workshopNo = $_POST['WorkshopNo'];
+		// $weekend = $_POST['weekend'];
+		
 		$lineno = $_POST['LineNo'];
 		$RC_NO = $_POST['rc_no'];
 		$Item_No = $_POST['item_no'];
@@ -774,8 +784,9 @@
 						and DATE_FORMAT(b.swipecardtime, '%Y-%m-%d') = '".$SDate."'
 					   AND DATE_FORMAT(b.swipecardtime2, '%H:%i:%s') >= '17:30:00'
 					   AND DATE_FORMAT(b.swipecardtime2, '%H:%i:%s') < '23:59:00'
+					   AND workshopNo = '".$workshopNo."'
+					    AND prod_line_code = '".$lineno."'
 					   
-					   AND prod_line_code = '".$lineno."'
 						AND RC_NO = '".$RC_NO."'
 					   and checkstate in('0','9') ";
 		}else if($Shift=="N"){
@@ -799,17 +810,18 @@
 						and DATE_FORMAT(b.swipecardtime, '%Y-%m-%d') = '".$SDate."'
 						AND Date_format(swipecardtime2, '%H:%i:%s') > '05:00:00'
 						AND Date_format(swipecardtime2, '%H:%i:%s') < '08:00:00'
-						
+						 AND workshopNo = '".$workshopNo."'
 					   AND prod_line_code = '".$lineno."'
 						AND RC_NO = '".$RC_NO."'
 					   and checkstate in('0','9') ";
 		}
 		
 		// echo $employee_overtime_sql;
-		$interval_sql = "select * from interval_setting where workshopno='第四車間' and weekend = '0' and Shift = '$Shift'";//TODO
+		
+		$interval_sql = "select * from interval_setting where workshopno='$workshopNo' and weekend = '$weekend' and Shift = '$Shift'";
 		$timeset_row = $mysqli->query($interval_sql);
 		$temp = array();
-		echo $interval_sql.'<br>';
+		// echo $interval_sql.'<br>';
 		while($row1 = $timeset_row->fetch_assoc()){
 			$temp[] = $row1['d_interval1'];
 			$temp[] = $row1['d_interval2'];
@@ -918,12 +930,12 @@
 		<input type="hidden" id="RC_NO" value="<?php echo $RC_NO?>" />
 		<input type="hidden" id="Item_No" value="<?php echo $Item_No?>" />
 		<input type="hidden" id="Shift" value="<?php echo $Shift?>" />
-		<input type="hidden" id="Interval_Setting" value="<?php echo $cch_t_set //TODO_List ?>" />
+		<input type="hidden" id="WorkshopNo" value="<?php echo $WorkshopNo?>" />
+		<input type="hidden" id="Interval_Setting" value="<?php echo $cch_t_set  ?>" />
 	</div>
 	<!-- 
 	<input name="" type="button" onclick="location.href = 'index_test.jsp'"		value="返回" />
 	 -->
 </body>
 </html>
-
 
