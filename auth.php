@@ -15,17 +15,20 @@ $password = $_POST["password"];
 
 
 
-$user_sql = "select swipe_system_chief,DepartmentCode from user_data where userid = '".$userName."' and password = '".$password."'";
+$user_sql = "select swipe_system_chief,DepartmentCode,costid from user_data where userid = '".$userName."' and password = '".$password."'";
 $user_rows = $mysqli->query($user_sql);
 $user_num = $user_rows->num_rows;
-
+// echo $user_sql;
+// exit;
 while($rows = $user_rows->fetch_row()){
 	$level  = $rows[0];
 	$depid = $rows[1];
+	$costid = $rows[2];
 }
-	if($user_num > 0&&$level!=1){
+	if($user_num > 0 && $level==2){
 		$_SESSION['userName']=$userName;
 		$_SESSION['password']=$password;
+		$_SESSION['costid'] = $costid;
 		$url="index.php"; 
 		echo "<SCRIPT LANGUAGE=javascript>"; 
 		echo "location.href='$url'"; 
