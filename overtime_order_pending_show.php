@@ -822,7 +822,7 @@
 		
 		$timeset_row = $mysqli->query($interval_sql);
 		$temp = array();
-		echo $interval_sql.'<br>';
+		//echo $interval_sql.'<br>';
 		while($row1 = $timeset_row->fetch_assoc()){
 			$temp[] = $row1['d_interval1'];
 			$temp[] = $row1['d_interval2'];
