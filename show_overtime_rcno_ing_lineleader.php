@@ -12,21 +12,25 @@
 </head>
 <body>
 <?php 
-	$MYSQL_LOGIN = "root";
-	$MYSQL_PASSWORD = "foxlink";
-	$MYSQL_HOST = "192.168.65.230";
+	// $MYSQL_LOGIN = "root";
+	// $MYSQL_PASSWORD = "foxlink";
+	// $MYSQL_HOST = "192.168.65.230";
 
-	$mysqli = new mysqli($MYSQL_HOST,$MYSQL_LOGIN,$MYSQL_PASSWORD,"swipecard");
-	$mysqli->query("SET NAMES 'utf8'");	 
-	$mysqli->query('SET CHARACTER_SET_CLIENT=utf8');
-	$mysqli->query('SET CHARACTER_SET_RESULTS=utf8'); 
+	// $mysqli = new mysqli($MYSQL_HOST,$MYSQL_LOGIN,$MYSQL_PASSWORD,"swipecard");
+	// $mysqli->query("SET NAMES 'utf8'");	 
+	// $mysqli->query('SET CHARACTER_SET_CLIENT=utf8');
+	// $mysqli->query('SET CHARACTER_SET_RESULTS=utf8'); 
 
+	
+	
 
 	// $line_sql = "select lineno from lineno";
 	// $line_rows = $mysqli->query($line_sql);
 	// while($row = $line_rows->fetch_row()){
 		// $lineno[] = $row[0];
 	// }
+	
+	include("mysql_config.php");
 	
 	$lineno = $_POST['lineno'];
 	$SDate = $_POST['SDate'];
@@ -55,7 +59,7 @@
 							a.checkstate,
 							Date_format(a.swipecardtime, '%Y-%m-%d') sdate,
 							a.shift,
-							b.depid
+							a.WorkshopNo
 					FROM testswipecardtime a,testemployee b
 					WHERE  	Date_format(swipecardtime, '%Y-%m-%d') >= '".$SDate."'
 							AND Date_format(swipecardtime, '%Y-%m-%d') <= '".$EDate."'
@@ -74,7 +78,7 @@
 							a.checkstate,
 							Date_format(a.swipecardtime, '%Y-%m-%d') sdate,
 							a.shift,
-							b.depid
+							a.WorkshopNo
 					FROM testswipecardtime a,testemployee b
 					WHERE  	Date_format(swipecardtime, '%Y-%m-%d') >= '".$SDate."'
 							AND Date_format(swipecardtime, '%Y-%m-%d') <= '".$EDate."'
@@ -117,9 +121,9 @@
 	while($row1 = $rcno_rows->fetch_row()){
 		if((empty($row1[0]))&&($row1[4]=='D'||$row1[4]=='N')){
 			if($row1[2]==0||$row1[2]==9){
-				$norcno_not[$row1[1]][$row1[3]][$row1[4]] +=1;
+				$norcno_not[$row1[5]][$row1[1]][$row1[3]][$row1[4]] +=1;
 			}else if($row1[2]==1){
-				$norcno_is[$row1[1]][$row1[3]][$row1[4]] +=1;
+				$norcno_is[$row1[5]][$row1[1]][$row1[3]][$row1[4]] +=1;
 			}
 		}else{
 			if($row1[2]==0||$row1[2]==9){
@@ -132,6 +136,7 @@
 		$rcno_all[$row1[0]][$row1[3]] += 1;
 		$arr_date[$row1[0]] = $row1[3];
 		$arr_lineno[$row1[0]] = $row1[1];
+		$arr_workshopno[$row1[0]] = $row1[5];
 	}
 			
 	// var_dump($rcno_true);
@@ -148,9 +153,9 @@
 	while($row_n = $rcno_rows_nshift->fetch_row()){
 		if(empty($row_n[0])&&($row_n[4]=='D'||$row_n[4]=='N')){
 			if($row_n[2]==0||$row_n[2]==9){
-				$norcno_not[$row_n[1]][$row_n[3]][$row_n[4]] +=1;
+				$norcno_not[$row_n[5]][$row_n[1]][$row_n[3]][$row_n[4]] +=1;
 			}else if($row_n[2]==1){
-				$norcno_is[$row_n[1]][$row_n[3]][$row_n[4]] +=1;
+				$norcno_is[$row_n[5]][$row_n[1]][$row_n[3]][$row_n[4]] +=1;
 			}
 		}else{
 			if($row_n[2]==0||$row_n[2]==9){
@@ -164,6 +169,7 @@
 		$rcno_all_n[$row_n[0]][$row_n[3]] += 1;
 		$arr_date_n[$row_n[0]] = $row_n[3];
 		$arr_lineno_n[$row_n[0]] = $row_n[1];
+		$arr_workshopno_n[$row_n[0]] = $row_n[5];
 	}
 	// $countDay = mysqli_num_rows($rcno_rows_nshift);
 	
@@ -233,10 +239,11 @@
 	$count_RC_D = count($rc_no);
 	$count_RC_N = count($rc_no_n);
 	$count_noRC = count($norcno_not);
-	if($count_RC_D>0||$count_RC_N>0){
+if($count_RC_D>0||$count_RC_N>0){
 		echo"<div class=\"panel-body\" style=\"border: 1px solid #e1e3e6;\">"
 		  . "	<table class=\"table table-striped\">"
 		  . "		<tr>"
+		  . "			<th>車間</th>"
 		  . "			<th>線號</th>"
 		  . "			<th>日期</th>"
 		  . "			<th>班別</th>"
@@ -251,6 +258,7 @@
 		 if($count_RC_D>0){
 			 foreach($rc_no as $key => $value){
 				$cch .= "<tr>";
+				$cch .= "<td>".$arr_workshopno[$value]."</td>";
 				$cch .= "<td>".$arr_lineno[$value]."</td>";
 				$cch .= "<td>".$arr_date[$value]."</td>";
 				$cch .= "<td>日班</td>";
@@ -263,6 +271,7 @@
 							target=\"gameWindow\" onsubmit=\"return openTableWindow();\">
 							<input type=\"hidden\" name=\"SDate\" value=\"".$arr_date[$value]."\">
 							<input type=\"hidden\" name=\"LineNo\" value=\"".$arr_lineno[$value]."\">
+							<input type=\"hidden\" name=\"WorkshopNo\" value=\"".$arr_workshopno[$value]."\">
 							<input type=\"hidden\" name=\"rc_no\" value=\"".$value."\">
 							<input type=\"hidden\" name=\"item_no\" value=\"".$item_no[$value]."\">
 							<input type=\"hidden\" name=\"Shift\" value=\"D\">
@@ -279,6 +288,7 @@
 		if($count_RC_N>0){
 			foreach($rc_no_n as $key => $value){
 				$cch .= "<tr>";
+				$cch .= "<td>".$arr_workshopno_n[$value]."</td>";
 				$cch .= "<td>".$arr_lineno_n[$value]."</td>";
 				$cch .= "<td>".$arr_date_n[$value]."</td>";
 				$cch .= "<td>夜班</td>";
@@ -291,6 +301,7 @@
 							target=\"gameWindow\" onsubmit=\"return openTableWindow();\">
 							<input type=\"hidden\" name=\"SDate\" value=\"".$arr_date_n[$value]."\">
 							<input type=\"hidden\" name=\"LineNo\" value=\"".$arr_lineno_n[$value]."\">
+							<input type=\"hidden\" name=\"WorkshopNo\" value=\"".$arr_workshopno_n[$value]."\">
 							<input type=\"hidden\" name=\"rc_no\" value=\"".$value."\">
 							<input type=\"hidden\" name=\"item_no\" value=\"".$item_no_n[$value]."\">
 							<input type=\"hidden\" name=\"Shift\" value=\"N\">
@@ -305,13 +316,14 @@
 			  . "</div>"
 			 ."";
 	}else{
-		echo "當前查詢條件下（有指示單）無刷卡資料"."<br>";
+		echo "當前查詢條件下無刷卡資料"."<br>";
 	}
 	
 	if($count_noRC>0){
 		echo"<div class=\"panel-body\" style=\"border: 1px solid #e1e3e6;\">"
 		  . "	<table class=\"table table-striped\">"
 		  . "		<tr>"
+		  . "			<th>車間</th>"
 		  . "			<th>線號</th>"
 		  . "			<th>日期</th>"
 		  . "			<th>班別</th>"
@@ -320,28 +332,35 @@
 		  . "		</tr>"
 		  ."";
 		  
-		foreach($norcno_not as $key => $value){//線別 //TODO 這裡$key 應該放在最裏面
+		foreach($norcno_not as $key => $value){//車間 //TODO 這裡$key 應該放在最裏面
 			// $cch_no .= "<tr>";
 			// $cch_no .="<td>".$key."</td>";
 			// var_dump($value);
-			foreach($value as $key1 => $value1){//日期
+			foreach($value as $key1 => $value1){//線別 
 				// $cch_no .= "<td>".$key1."</td>";
 				// var_dump($value1);
-				foreach($value1 as $key2 => $value2){//班別
-					$cch_no .= "<tr>";
-					$cch_no .="<td>".$key."</td>";
-					$cch_no .= "<td>".$key1."</td>";
-					$cch_no .= "<td>".$key2."</td>";
-					$cch_no .= "<td>".$value2."/".$value2."</td>";
-					$cch_no .= "<td>";
-					$cch_no .= "<form method=\"post\" action=\"".$url."\"
-								target=\"gameWindow\" onsubmit=\"return openTableWindow();\">
-								<input type=\"hidden\" name=\"SDate\" value=\"".$key1."\">
-								<input type=\"hidden\" name=\"LineNo\" value=\"".$key."\">
-								<input type=\"hidden\" name=\"Shift\"value=\"".$key2."\">
-								<input class=\"btn btn-primary\" type=\"submit\" value=\"詳情\" > 
-							</form>";
-					$cch_no .="</td>";
+				foreach($value1 as $key2 => $value2){//日期
+				
+					foreach($value2 as $key3 => $value3){//班別
+						$cch_no .= "<tr>";
+						$cch_no .="<td>".$key."</td>";
+						$cch_no .= "<td>".$key1."</td>";
+						$cch_no .= "<td>".$key2."</td>";
+						$cch_no .= "<td>".$key3."</td>";
+						$cch_no .= "<td>".$value3."/".$value3."</td>";
+						$cch_no .= "<td>";
+						$cch_no .= "<form method=\"post\" action=\"".$url."\"
+									target=\"gameWindow\" onsubmit=\"return openTableWindow();\">
+									<input type=\"hidden\" name=\"WorkshopNo\"value=\"".$key."\">
+									<input type=\"hidden\" name=\"LineNo\" value=\"".$key1."\">
+									<input type=\"hidden\" name=\"SDate\" value=\"".$key2."\">
+									<input type=\"hidden\" name=\"Shift\"value=\"".$key3."\">
+									
+									<input class=\"btn btn-primary\" type=\"submit\" value=\"詳情\" > 
+								</form>";
+						$cch_no .="</td>";
+					}
+					
 				}
 			}
 			$cch_no .= "</tr>";
@@ -352,9 +371,8 @@
 				  . "</div>"
 				 ."";
 	}else{
-		echo "當前查詢條件下（無指示單）無刷卡資料"."<br>";
+		echo "當前查詢條件下無刷卡資料"."<br>";
 	}
 ?>
-	
 </body>
 </html>

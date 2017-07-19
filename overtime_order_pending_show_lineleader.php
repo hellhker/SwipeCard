@@ -188,19 +188,72 @@
 						minus += $tempEnd - $tempStart;
 					}
 				}else{
-					minus = (edate1[i] - sdate1[i]) ;
-					
-					
+					// minus = (edate1[i] - sdate1[i]);
+					for(var j = 0;j<t_s.length;j++){
+					// for(var j = 0;j<1;j++){
+						var x = $("#1").find("[name='yd']").val();
+						tempTime = getDate1(x);
+						// console.log(typeof(x));
+						tempInterval = t_s[j].split("-");
+						tempHour1 = tempInterval[0].split(":");
+						tempHour2 = tempInterval[1].split(":");
+						// console.log(edate1[i]);
+						// console.log(tempHour2[0]);
+						
+						var	tempTime1 = new Date(tempTime);
+						if(tempHour1[0]>0&&tempHour1[0]<12){
+							 tempTime1 = new Date(tempTime.getTime() + 24 * 60 * 60 * 1000);
+							 tempTime1 = tempTime1.setHours(tempHour1[0],tempHour1[1],0);
+						}else{
+							tempTime1 = tempTime.setHours(tempHour1[0],tempHour1[1],0);
+						}
+						
+						// console.log("T1 :" + tempTime1);
+						var	tempTime2 = new Date(tempTime);
+						// console.log("T2 :" + tempTime2);
+						// console.log(tempTime);
+						if(tempHour2[0] >= 0 && tempHour2[0]<12){
+							tempTime2 = new Date(tempTime.getTime() + 24 * 60 * 60 * 1000);
+							tempTime2 = tempTime2.setHours(tempHour2[0],tempHour2[1],0);
+						}else{
+							tempTime2 = tempTime.setHours(tempHour2[0],tempHour2[1],0);
+							console.log("321");
+						}
+						
+						tempTime1 = new Date(tempTime1);
+						console.log("T1 :" + edate1[i]);
+						tempTime2 = new Date(tempTime2);
+						console.log("T2 :" + tempTime2);
+						
+						$calStart = sdate1[i]-tempTime1;
+						$calEnd   = edate1[i]-tempTime2;
+						// console.log($calEnd);
+						if($calEnd>0){
+							$tempEnd = tempTime2;//09:30
+							if($calStart>0){
+								$tempStart = sdate1[i];//08:30
+							}else{
+								$tempStart = tempTime1;//07:40
+							}
+						}else{
+							// $tempEnd = edate1[i];//10:30
+							$tempStart = tempTime1;//09:40
+							$tempEnd = edate1[i];//10:30
+							minus += $tempEnd - $tempStart;
+							// console.log("123");
+							// var tempStart = new Date($tempStart);
+							// var tempEnd = new Date($tempEnd);
+							// console.log("$tempStart:"+ tempStart);
+							// console.log("$tempEnd:"+ tempEnd);
+							break;
+						}
+						minus += $tempEnd - $tempStart;
+					}
 				}
 				
 				//根據選擇的加班時間類型得出不同時段
 			}
-			if(cal == "2"&&shift=='N'){
-				minus = minus/ 3600000 - 1;
-			}else{
-				minus = minus / 3600000;
-			}
-			
+			minus = minus / 3600000;			
 			minus = getNum(minus);
 			sub = getHour(sdate1[i]) + "-" + getHour1(edate1[i]);
 			//console.log("時段sub: "+sub);
@@ -222,7 +275,7 @@
 			//$('#sp[i]').numberbox('setValue', sub);
 			var x = $("#"+sp[i]).find("[switchbuttonName='stButton']");
 			x.switchbutton('setValue',minus);
-			
+			minus = 0;
 		}
 	}
 
@@ -686,20 +739,29 @@
 </head>
 <body class="pace-done">
 	<?php 
+		// $MYSQL_LOGIN = "root";
+		// $MYSQL_PASSWORD = "foxlink";
+		// $MYSQL_HOST = "192.168.65.230";
+
+		// $mysqli = new mysqli($MYSQL_HOST,$MYSQL_LOGIN,$MYSQL_PASSWORD,"swipecard");
+		// $mysqli->query("SET NAMES 'utf8'");	 
+		// $mysqli->query('SET CHARACTER_SET_CLIENT=utf8');
+		// $mysqli->query('SET CHARACTER_SET_RESULTS=utf8'); 
+		include("mysql_config.php");
+	
 		$SDate = $_POST['SDate'];
+		$WorkshopNo = $_POST['WorkshopNo'];
 		$lineno = $_POST['LineNo'];
 		$RC_NO = $_POST['rc_no'];
 		$Item_No = $_POST['item_no'];
 		$Shift = $_POST['Shift'];
+		$w=date('w',strtotime($SDate));
+		if($w==6){
+			$weekend = 1;
+		}else{
+			$weekend = 0;//TODO
+		}
 		
-		$MYSQL_LOGIN = "root";
-		$MYSQL_PASSWORD = "foxlink";
-		$MYSQL_HOST = "192.168.65.230";
-
-		$mysqli = new mysqli($MYSQL_HOST,$MYSQL_LOGIN,$MYSQL_PASSWORD,"swipecard");
-		$mysqli->query("SET NAMES 'utf8'");	 
-		$mysqli->query('SET CHARACTER_SET_CLIENT=utf8');
-		$mysqli->query('SET CHARACTER_SET_RESULTS=utf8'); 
 		if($Shift=="D"){
 			$employee_overtime_sql = 
 				"SELECT a.id, 
@@ -752,7 +814,12 @@
 					   and checkstate in('0','9') ";
 		}
 		// echo $employee_overtime_sql;
-		$interval_sql = "select * from interval_setting where workshopno='第四車間' and weekend = '1'";//TODO
+		if($Shift=="D"){
+			$interval_sql = "select * from interval_setting where WorkshopNo='$WorkshopNo' and weekend = '$weekend' and Shift = '$Shift'";
+		}else{
+			$interval_sql = "select * from interval_setting where WorkshopNo='$WorkshopNo'  and Shift = '$Shift'";
+		}
+		
 		$timeset_row = $mysqli->query($interval_sql);
 		$temp = array();
 		// echo $interval_sql.'<br>';
@@ -865,6 +932,7 @@
 		<input type="hidden" id="RC_NO" value="<?php echo $RC_NO?>" />
 		<input type="hidden" id="Item_No" value="<?php echo $Item_No?>" />
 		<input type="hidden" id="Shift" value="<?php echo $Shift?>" />
+		<input type="hidden" id="WorkshopNo" value="<?php echo $WorkshopNo?>" />
 		<input type="hidden" id="Interval_Setting" value="<?php echo $cch_t_set //TODO_List ?>" />
 	</div>
 	<!-- 

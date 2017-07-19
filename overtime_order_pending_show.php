@@ -737,21 +737,18 @@
 	<?php 
 	
 		$SDate = $_POST['SDate'];
+		$WorkshopNo = $_POST['WorkshopNo'];
+		$lineno = $_POST['LineNo'];
+		$RC_NO = $_POST['rc_no'];
+		$Item_No = $_POST['item_no'];
+		$Shift = $_POST['Shift'];
+		
 		$w=date('w',strtotime($SDate));
-		// echo $w;
 		if($w==6){
 			$weekend = 1;
 		}else{
 			$weekend = 0;//TODO
 		}
-		// if(date("w"))
-		$workshopNo = $_POST['WorkshopNo'];
-		// $weekend = $_POST['weekend'];
-		
-		$lineno = $_POST['LineNo'];
-		$RC_NO = $_POST['rc_no'];
-		$Item_No = $_POST['item_no'];
-		$Shift = $_POST['Shift'];
 		
 		// $MYSQL_LOGIN = "root";
 		// $MYSQL_PASSWORD = "foxlink";
@@ -784,7 +781,7 @@
 						and DATE_FORMAT(b.swipecardtime, '%Y-%m-%d') = '".$SDate."'
 					   AND DATE_FORMAT(b.swipecardtime2, '%H:%i:%s') >= '17:30:00'
 					   AND DATE_FORMAT(b.swipecardtime2, '%H:%i:%s') < '23:59:00'
-					   AND workshopNo = '".$workshopNo."'
+					   AND WorkshopNo = '".$WorkshopNo."'
 					    AND prod_line_code = '".$lineno."'
 					   
 						AND RC_NO = '".$RC_NO."'
@@ -810,18 +807,22 @@
 						and DATE_FORMAT(b.swipecardtime, '%Y-%m-%d') = '".$SDate."'
 						AND Date_format(swipecardtime2, '%H:%i:%s') > '05:00:00'
 						AND Date_format(swipecardtime2, '%H:%i:%s') < '08:00:00'
-						 AND workshopNo = '".$workshopNo."'
+						 AND WorkshopNo = '".$WorkshopNo."'
 					   AND prod_line_code = '".$lineno."'
 						AND RC_NO = '".$RC_NO."'
 					   and checkstate in('0','9') ";
 		}
 		
 		// echo $employee_overtime_sql;
+		if($Shift=="D"){
+			$interval_sql = "select * from interval_setting where WorkshopNo='$WorkshopNo' and weekend = '$weekend' and Shift = '$Shift'";
+		}else{
+			$interval_sql = "select * from interval_setting where WorkshopNo='$WorkshopNo'  and Shift = '$Shift'";
+		}
 		
-		$interval_sql = "select * from interval_setting where workshopno='$workshopNo' and weekend = '$weekend' and Shift = '$Shift'";
 		$timeset_row = $mysqli->query($interval_sql);
 		$temp = array();
-		// echo $interval_sql.'<br>';
+		echo $interval_sql.'<br>';
 		while($row1 = $timeset_row->fetch_assoc()){
 			$temp[] = $row1['d_interval1'];
 			$temp[] = $row1['d_interval2'];

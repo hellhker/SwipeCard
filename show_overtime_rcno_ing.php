@@ -162,9 +162,9 @@
 	while($row_n = $rcno_rows_nshift->fetch_row()){
 		if(empty($row_n[0])&&($row_n[4]=='D'||$row_n[4]=='N')){
 			if($row_n[2]==0||$row_n[2]==9){
-				$norcno_not[$row_n[1]][$row_n[3]][$row_n[4]] +=1;
+				$norcno_not[$row_n[5]][$row_n[1]][$row_n[3]][$row_n[4]] +=1;
 			}else if($row_n[2]==1){
-				$norcno_is[$row_n[1]][$row_n[3]][$row_n[4]] +=1;
+				$norcno_is[$row_n[5]][$row_n[1]][$row_n[3]][$row_n[4]] +=1;
 			}
 		}else{
 			if($row_n[2]==0||$row_n[2]==9){
