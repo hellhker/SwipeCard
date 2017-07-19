@@ -16,15 +16,15 @@
 <body>
 	<?php 
 	
-		$MYSQL_LOGIN = "root";
-		$MYSQL_PASSWORD = "foxlink";
-		$MYSQL_HOST = "192.168.65.230";
+		// $MYSQL_LOGIN = "root";
+		// $MYSQL_PASSWORD = "foxlink";
+		// $MYSQL_HOST = "192.168.65.230";
 
-		$mysqli = new mysqli($MYSQL_HOST,$MYSQL_LOGIN,$MYSQL_PASSWORD,"swipecard");
-		$mysqli->query("SET NAMES 'utf8'");	 
-		$mysqli->query('SET CHARACTER_SET_CLIENT=utf8');
-		$mysqli->query('SET CHARACTER_SET_RESULTS=utf8'); 
-		
+		// $mysqli = new mysqli($MYSQL_HOST,$MYSQL_LOGIN,$MYSQL_PASSWORD,"swipecard");
+		// $mysqli->query("SET NAMES 'utf8'");	 
+		// $mysqli->query('SET CHARACTER_SET_CLIENT=utf8');
+		// $mysqli->query('SET CHARACTER_SET_RESULTS=utf8'); 
+		include("mysql_config.php");
 		$timeCal = $_POST['timeCal'];
 		$timeType = $_POST['timeType'];
 		$lineNo = $_POST['lineNo'];
@@ -34,7 +34,7 @@
 		if($_POST['workcontent']){
 			$WorkContent = $_POST['workcontent'];
 		}else{
-			$WorkContent = $rC_NO."_".$item_No;
+			$WorkContent = $item_No."_".$rC_NO;
 		}
 		// echo "workContent: ".$WorkContent;
 		$checkValue = $_POST['dropId'];
