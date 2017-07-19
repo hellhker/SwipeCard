@@ -20,51 +20,88 @@
 	// $mysqli->query("SET NAMES 'utf8'");	 
 	// $mysqli->query('SET CHARACTER_SET_CLIENT=utf8');
 	// $mysqli->query('SET CHARACTER_SET_RESULTS=utf8'); 
-	include("mysql_config.php");
+
 
 	// $line_sql = "select lineno from lineno";
 	// $line_rows = $mysqli->query($line_sql);
 	// while($row = $line_rows->fetch_row()){
 		// $lineno[] = $row[0];
 	// }
-	
+	include("mysql_config.php");
 	$lineno = $_POST['lineno'];
 	$SDate = $_POST['SDate'];
 	$EDate = $_POST['EDate'];
 	$url = $_POST['urlA'];
+	$costid = $_SESSION['costid'];
 	$checkState = $_POST['checkState'];
-	// echo $lineno;
-	$rcno_sql   .= "SELECT 	rc_no,
-							 prod_line_code,
-							 checkstate,
-							 Date_format(swipecardtime, '%Y-%m-%d') sdate,
-							 shift
-					FROM testswipecardtime
-					WHERE  	Date_format(swipecardtime, '%Y-%m-%d') >= '".$SDate."'
-							AND Date_format(swipecardtime, '%Y-%m-%d') <= '".$EDate."'
-							AND Date_format(swipecardtime2, '%H:%i:%s') >= '17:45:00'
-							AND Date_format(swipecardtime2, '%H:%i:%s') < '23:59:00'
-							AND (checkState=0 or checkState=9)
-							AND prod_line_code like '".$lineno."'
-							";
+	// echo $costid;
+	$temp_cost = explode("*",$costid);
+	$cch = "";
+	foreach($temp_cost as $key => $val){
+		if(end($temp_cost)==$val){
+			$cch .= "'$val'";
+		}else{
+			$cch .= "'$val'".",";
+		}
+		// echo $cch."<br>";
+	}
+	// echo $cch;
 	
-	$rcno_sql_n = "SELECT 	rc_no,
-							 prod_line_code,
-							 checkstate,
-							 date_format(date_sub(swipecardtime2,interval 12 hour),'%Y-%m-%d') sdate,
-							 shift
-					FROM testswipecardtime
+	$rcno_sql   = "SELECT 	a.rc_no,
+							a.prod_line_code,
+							a.checkstate,
+							Date_format(a.swipecardtime, '%Y-%m-%d') sdate,
+							a.shift,
+							a.WorkshopNo
+					FROM testswipecardtime a,testemployee b
 					WHERE  	Date_format(swipecardtime, '%Y-%m-%d') >= '".$SDate."'
 							AND Date_format(swipecardtime, '%Y-%m-%d') <= '".$EDate."'
-							AND Date_format(swipecardtime2, '%H:%i:%s') >= '05:15:00'
+							AND Date_format(swipecardtime2, '%H:%i:%s') > '18:00:00'
+							AND Date_format(swipecardtime2, '%H:%i:%s') < '23:59:00'
+							AND Shift = 'D'
+							AND (checkState=0 or checkState=9)
+							AND a.cardid = b.cardid
+							AND prod_line_code like '".$lineno."'
+							AND b.costid in ($cch)
+							";
+	// $cch = "AND b.depid in (".$costid.")";
+	
+	// if()
+	
+	// $rcno_sql_n = "SELECT 	rc_no,
+							 // prod_line_code,
+							 // checkstate,
+							 // date_format(date_sub(swipecardtime2,interval 12 hour),'%Y-%m-%d') sdate,
+							 // shift
+					// FROM testswipecardtime
+					// WHERE  	Date_format(swipecardtime, '%Y-%m-%d') >= '".$SDate."'
+							// AND Date_format(swipecardtime, '%Y-%m-%d') <= '".$EDate."'
+							// AND Date_format(swipecardtime2, '%H:%i:%s') > '05:00:00'
+							// AND Date_format(swipecardtime2, '%H:%i:%s') < '08:00:00'
+							// AND (checkState=0 or checkState=9)
+							// AND Shift = 'N'
+							// AND prod_line_code like '".$lineno."'
+							// ";
+	$rcno_sql_n = "SELECT 	a.rc_no,
+							a.prod_line_code,
+							a.checkstate,
+							Date_format(a.swipecardtime, '%Y-%m-%d') sdate,
+							a.shift,
+							a.WorkshopNo
+							
+					FROM testswipecardtime a,testemployee b
+					WHERE  	Date_format(swipecardtime, '%Y-%m-%d') >= '".$SDate."'
+							AND Date_format(swipecardtime, '%Y-%m-%d') <= '".$EDate."'
+							AND Date_format(swipecardtime2, '%H:%i:%s') > '05:00:00'
 							AND Date_format(swipecardtime2, '%H:%i:%s') < '08:00:00'
 							AND (checkState=0 or checkState=9)
 							AND Shift = 'N'
+							AND a.cardid = b.cardid
 							AND prod_line_code like '".$lineno."'
-							";
-							
+							AND b.costid in ($cch)
+							";						
 	
-	
+	$cch = "";
 	// echo $rcno_sql_n;
 	// $line_rows = $mysqli->query($line_sql);
 	// while($row = $line_rows->fetch_row()){
@@ -89,13 +126,13 @@
 		// $arr_lineno[$row[0]] = $row[1];
 	// }
 	
-	// var_dump($rcno_all);
+	// var_dump($result_news);
 	while($row1 = $rcno_rows->fetch_row()){
 		if((empty($row1[0]))&&($row1[4]=='D'||$row1[4]=='N')){
 			if($row1[2]==0||$row1[2]==9){
-				$norcno_not[$row1[1]][$row1[3]][$row1[4]] +=1;
+				$norcno_not[$row1[5]][$row1[1]][$row1[3]][$row1[4]] +=1;
 			}else if($row1[2]==1){
-				$norcno_is[$row1[1]][$row1[3]][$row1[4]] +=1;
+				$norcno_is[$row1[5]][$row1[1]][$row1[3]][$row1[4]] +=1;
 			}
 		}else{
 			if($row1[2]==0||$row1[2]==9){
@@ -108,6 +145,7 @@
 		$rcno_all[$row1[0]][$row1[3]] += 1;
 		$arr_date[$row1[0]] = $row1[3];
 		$arr_lineno[$row1[0]] = $row1[1];
+		$arr_workshopno[$row1[0]] = $row1[5];
 	}
 			
 	// var_dump($rcno_true);
@@ -140,6 +178,7 @@
 		$rcno_all_n[$row_n[0]][$row_n[3]] += 1;
 		$arr_date_n[$row_n[0]] = $row_n[3];
 		$arr_lineno_n[$row_n[0]] = $row_n[1];
+		$arr_workshopno_n[$row_n[0]] = $row_n[5];
 	}
 	// $countDay = mysqli_num_rows($rcno_rows_nshift);
 	
@@ -213,6 +252,7 @@
 		echo"<div class=\"panel-body\" style=\"border: 1px solid #e1e3e6;\">"
 		  . "	<table class=\"table table-striped\">"
 		  . "		<tr>"
+		  . "			<th>車間</th>"
 		  . "			<th>線號</th>"
 		  . "			<th>日期</th>"
 		  . "			<th>班別</th>"
@@ -227,6 +267,7 @@
 		 if($count_RC_D>0){
 			 foreach($rc_no as $key => $value){
 				$cch .= "<tr>";
+				$cch .= "<td>".$arr_workshopno[$value]."</td>";
 				$cch .= "<td>".$arr_lineno[$value]."</td>";
 				$cch .= "<td>".$arr_date[$value]."</td>";
 				$cch .= "<td>日班</td>";
@@ -239,6 +280,7 @@
 							target=\"gameWindow\" onsubmit=\"return openTableWindow();\">
 							<input type=\"hidden\" name=\"SDate\" value=\"".$arr_date[$value]."\">
 							<input type=\"hidden\" name=\"LineNo\" value=\"".$arr_lineno[$value]."\">
+							<input type=\"hidden\" name=\"WorkshopNo\" value=\"".$arr_workshopno[$value]."\">
 							<input type=\"hidden\" name=\"rc_no\" value=\"".$value."\">
 							<input type=\"hidden\" name=\"item_no\" value=\"".$item_no[$value]."\">
 							<input type=\"hidden\" name=\"Shift\" value=\"D\">
@@ -255,6 +297,7 @@
 		if($count_RC_N>0){
 			foreach($rc_no_n as $key => $value){
 				$cch .= "<tr>";
+				$cch .= "<td>".$arr_workshopno_n[$value]."</td>";
 				$cch .= "<td>".$arr_lineno_n[$value]."</td>";
 				$cch .= "<td>".$arr_date_n[$value]."</td>";
 				$cch .= "<td>夜班</td>";
@@ -267,6 +310,7 @@
 							target=\"gameWindow\" onsubmit=\"return openTableWindow();\">
 							<input type=\"hidden\" name=\"SDate\" value=\"".$arr_date_n[$value]."\">
 							<input type=\"hidden\" name=\"LineNo\" value=\"".$arr_lineno_n[$value]."\">
+							<input type=\"hidden\" name=\"WorkshopNo\" value=\"".$arr_workshopno_n[$value]."\">
 							<input type=\"hidden\" name=\"rc_no\" value=\"".$value."\">
 							<input type=\"hidden\" name=\"item_no\" value=\"".$item_no_n[$value]."\">
 							<input type=\"hidden\" name=\"Shift\" value=\"N\">
@@ -288,6 +332,7 @@
 		echo"<div class=\"panel-body\" style=\"border: 1px solid #e1e3e6;\">"
 		  . "	<table class=\"table table-striped\">"
 		  . "		<tr>"
+		  . "			<th>車間</th>"
 		  . "			<th>線號</th>"
 		  . "			<th>日期</th>"
 		  . "			<th>班別</th>"
@@ -296,28 +341,35 @@
 		  . "		</tr>"
 		  ."";
 		  
-		foreach($norcno_not as $key => $value){//線別 //TODO 這裡$key 應該放在最裏面
+		foreach($norcno_not as $key => $value){//車間 //TODO 這裡$key 應該放在最裏面
 			// $cch_no .= "<tr>";
 			// $cch_no .="<td>".$key."</td>";
 			// var_dump($value);
-			foreach($value as $key1 => $value1){//日期
+			foreach($value as $key1 => $value1){//線別 
 				// $cch_no .= "<td>".$key1."</td>";
 				// var_dump($value1);
-				foreach($value1 as $key2 => $value2){//班別
-					$cch_no .= "<tr>";
-					$cch_no .="<td>".$key."</td>";
-					$cch_no .= "<td>".$key1."</td>";
-					$cch_no .= "<td>".$key2."</td>";
-					$cch_no .= "<td>".$value2."/".$value2."</td>";
-					$cch_no .= "<td>";
-					$cch_no .= "<form method=\"post\" action=\"".$url."\"
-								target=\"gameWindow\" onsubmit=\"return openTableWindow();\">
-								<input type=\"hidden\" name=\"SDate\" value=\"".$key1."\">
-								<input type=\"hidden\" name=\"LineNo\" value=\"".$key."\">
-								<input type=\"hidden\" name=\"Shift\"value=\"".$key2."\">
-								<input class=\"btn btn-primary\" type=\"submit\" value=\"詳情\" > 
-							</form>";
-					$cch_no .="</td>";
+				foreach($value1 as $key2 => $value2){//日期
+				
+					foreach($value2 as $key3 => $value3){//班別
+						$cch_no .= "<tr>";
+						$cch_no .="<td>".$key."</td>";
+						$cch_no .= "<td>".$key1."</td>";
+						$cch_no .= "<td>".$key2."</td>";
+						$cch_no .= "<td>".$key3."</td>";
+						$cch_no .= "<td>".$value3."/".$value3."</td>";
+						$cch_no .= "<td>";
+						$cch_no .= "<form method=\"post\" action=\"".$url."\"
+									target=\"gameWindow\" onsubmit=\"return openTableWindow();\">
+									<input type=\"hidden\" name=\"WorkshopNo\"value=\"".$key."\">
+									<input type=\"hidden\" name=\"LineNo\" value=\"".$key1."\">
+									<input type=\"hidden\" name=\"SDate\" value=\"".$key2."\">
+									<input type=\"hidden\" name=\"Shift\"value=\"".$key3."\">
+									
+									<input class=\"btn btn-primary\" type=\"submit\" value=\"詳情\" > 
+								</form>";
+						$cch_no .="</td>";
+					}
+					
 				}
 			}
 			$cch_no .= "</tr>";
