@@ -179,7 +179,7 @@
 		<i class="im-windows8 text-logo-element animated bounceIn"></i><span
 			class="text-logo">FOX</span><span class="text-slogan">LINK</span> <span
 			style="float: right; padding-right: 20px;" class="head">欢迎 <?php echo $userName;?>
-			<a href="#" id="loginOut">安全退出</a>
+			<a href="/SwipeCard/loginout.php" id="loginOut">安全退出</a>
 		</span>
 	</div>
 	<div region="south" split="true"
