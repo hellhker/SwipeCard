@@ -1,23 +1,21 @@
 <?php 
 session_start();
 
-// $MYSQL_LOGIN = "root";
-// $MYSQL_PASSWORD = "foxlink";
-// $MYSQL_HOST = "192.168.65.230";
+$MYSQL_LOGIN = "root";
+$MYSQL_PASSWORD = "foxlink";
+$MYSQL_HOST = "192.168.65.230";
 
-// $mysqli = new mysqli($MYSQL_HOST,$MYSQL_LOGIN,$MYSQL_PASSWORD,"swipecard");
-// $mysqli->query("SET NAMES 'utf8'");	 
-// $mysqli->query('SET CHARACTER_SET_CLIENT=utf8');
-// $mysqli->query('SET CHARACTER_SET_RESULTS=utf8'); 
-
-include("mysql_config.php");
+$mysqli = new mysqli($MYSQL_HOST,$MYSQL_LOGIN,$MYSQL_PASSWORD,"swipecard");
+$mysqli->query("SET NAMES 'utf8'");	 
+$mysqli->query('SET CHARACTER_SET_CLIENT=utf8');
+$mysqli->query('SET CHARACTER_SET_RESULTS=utf8'); 
 
 $userName = $_POST["username"];
 $password = $_POST["password"];
 
 
 
-$user_sql = "select swipe_system_chief,DepartmentCode,costid from user_data where userid = '".$userName."' and password = '".$password."'";
+$user_sql = "select swipe_system_chief,DepartmentCode,costid,assistant_id from user_data where userid = '".$userName."' and password = '".$password."'";
 $user_rows = $mysqli->query($user_sql);
 $user_num = $user_rows->num_rows;
 // echo $user_sql;
@@ -26,11 +24,13 @@ while($rows = $user_rows->fetch_row()){
 	$level  = $rows[0];
 	$depid = $rows[1];
 	$costid = $rows[2];
+	$assistant_id = $rows[3];
 }
 	if($user_num > 0 && $level==2){
 		$_SESSION['userName']=$userName;
 		$_SESSION['password']=$password;
 		$_SESSION['costid'] = $costid;
+		$_SESSION['assistant_id'] = $assistant_id;
 		$url="index.php"; 
 		echo "<SCRIPT LANGUAGE=javascript>"; 
 		echo "location.href='$url'"; 
@@ -42,6 +42,7 @@ while($rows = $user_rows->fetch_row()){
 		$_SESSION['userName']=$userName;
 		$_SESSION['password']=$password;
 		$_SESSION['depid'] = $depid;
+		$_SESSION['assistant_id'] = $assistant_id;
 		$url="index_lineleader.php"; 
 		echo "<SCRIPT LANGUAGE=javascript>"; 
 		echo "location.href='$url'"; 
