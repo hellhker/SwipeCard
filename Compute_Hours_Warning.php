@@ -7,19 +7,200 @@
 <body>
 
 <?php 
-	$sql = "select a.prod_line_code,b.id,b.name,b.depname,a.swipecardtime,a.swipecardtime2 from testswipecardtime a,testemployee b WHERE a.cardid=b.cardid and swipecardtime > date_sub(curdate(),interval 60 day) ORDER BY id, `swipecardtime` DESC";
 	
-	$MYSQL_LOGIN = "root";
-	$MYSQL_PASSWORD = "foxlink";
-	$MYSQL_HOST = "192.168.65.230";
+	// $MYSQL_LOGIN = "root";
+	// $MYSQL_PASSWORD = "foxlink";
+	// $MYSQL_HOST = "192.168.65.230";
 
-	$mysqli = new mysqli($MYSQL_HOST,$MYSQL_LOGIN,$MYSQL_PASSWORD,"swipecard");
-	$mysqli->query("SET NAMES 'utf8'");	 
-	$mysqli->query('SET CHARACTER_SET_CLIENT=utf8');
-	$mysqli->query('SET CHARACTER_SET_RESULTS=utf8'); 
+	// $mysqli = new mysqli($MYSQL_HOST,$MYSQL_LOGIN,$MYSQL_PASSWORD,"swipecard");
+	// $mysqli->query("SET NAMES 'utf8'");	 
+	// $mysqli->query('SET CHARACTER_SET_CLIENT=utf8');
+	// $mysqli->query('SET CHARACTER_SET_RESULTS=utf8'); 
+	include("mysql_config.php");
+	include("config.php");
+	// $sql = "select a.prod_line_code,b.id,b.name,b.depname,a.swipecardtime,a.swipecardtime2 from testswipecardtime a,testemployee b WHERE a.cardid=b.cardid and swipecardtime > date_sub(curdate(),interval 30 day) ";
 	
-	$base_rows = $mysqli->query($sql); 
-	$i=0;
+	// $employee_sql = "select b.cardid,b.id,b.depname,b.depid from (select cardid from testswipecardtime group by cardid) a,testemployee b where a.cardid = b.cardid and b.cardid = '0087670656'";
+	
+	$employee_sql = "select b.cardid,b.id,b.depname,b.depid from (select cardid from testswipecardtime group by cardid) a,testemployee b where a.cardid = b.cardid and depid='XR-54' order by b.cardid";
+	
+	$time_sql = "select prod_line_code,cardid,name,swipecardtime,swipecardtime2,shift from testswipecardtime where swipecardtime > date_sub(curdate(),interval 30 day) and swipecardtime2 is not null and cardid = '0087670656' order by cardid,swipecardtime desc";
+	
+	// $time_sql = "select prod_line_code,cardid,name,swipecardtime,swipecardtime2,shift from testswipecardtime where swipecardtime > date_sub(curdate(),interval 30 day) and swipecardtime2 is not null  order by cardid,swipecardtime desc";
+	
+	$time_inteval_setting = "select * from interval_setting where WorkshopNo='第四車間' and weekend = 0 and Shift = 'D'";
+	// $interval_sql = "select * from interval_setting where WorkshopNo='$WorkshopNo' and weekend = '$weekend' and Shift = '$Shift'";
+	
+	// exit;
+	// $base_rows = $mysqli->query($sql); 
+	// $i=0;
+	
+	$base_rows = $mysqli->query($employee_sql);
+	while($row= $base_rows->fetch_assoc()){
+		$temp[0][] = $row['cardid'];
+		$temp[1][] = $row['id'];
+		$temp[2][] = $row['depid'];
+		$temp[3][] = $row['depname'];
+		
+	}
+	
+	
+	$time_rows = $mysqli->query($time_sql);
+	while($row= $time_rows->fetch_assoc()){
+		$temp1[0][] = $row['cardid'];
+		$temp1[1][] = $row['name'];
+		$temp1[2][] = $row['swipecardtime'];
+		$temp1[3][] = $row['swipecardtime2'];
+		$temp1[4][] = $row['shift'];
+	}
+	
+	
+	$setting_rows = $mysqli->query($time_inteval_setting);
+	while($row1= $setting_rows->fetch_assoc()){
+		$setting[] = $row1['d_interval1'];
+		$setting[] = $row1['d_interval2'];
+		$setting[] = $row1['d_interval3'];
+		$setting[] = $row1['d_interval4'];
+		$setting[] = $row1['d_interval5'];
+		
+	}
+	// $tempInterval = split("-",$setting[0]);
+	// var_dump($tempInterval);
+	// exit;
+	
+	var_dump($setting);
+		// exit;
+	// foreach($temp1 as )\
+	$con = count($temp1[0]);
+	$conb = count($temp[0]);
+	$temp2 =array();
+	// echo $con;
+	$k = 0;
+	for($i = 0;$i<$con; $i++){
+		for($j=0;$j<$conb;$j++){
+			$k++;
+			if($temp1[0][$i]==$temp[0][$j]){
+				// $temp2[0][$i] = $temp[2][$j];
+				// $temp2[1][$i] = $temp[3][$j];
+				// $temp2[2][$i] = $temp[1][$j];
+				// $temp2[3][$i] = $temp1[1][$i];
+				
+				// $temp2[4][$i] = $temp1[2][$i];
+				// $temp2[5][$i] = $temp1[3][$i];
+				// $temp2[6][$i] = $temp1[4][$i];
+				
+				$temp2[$temp[1][$j]][0][] = $temp[2][$j];
+				$temp2[$temp[1][$j]][1][] = $temp[3][$j];
+				$temp2[$temp[1][$j]][2][] = $temp[1][$j];
+				
+				$temp2[$temp[1][$j]][3][] = $temp1[1][$i];
+				$temp2[$temp[1][$j]][4][] = $temp1[2][$i];
+				$temp2[$temp[1][$j]][5][] = $temp1[3][$i];
+				$temp2[$temp[1][$j]][6][] = $temp1[4][$i];
+				$temp2[$temp[1][$j]][7][] = date('Y/m/d',strtotime($temp1[2][$i]));
+				// $temp2[$temp[1][$j]][8][] = date('Y-m-d',strtotime($temp1[3][$i]));
+				// echo $i."<br>";
+				// echo "k: ".$k."<br>";
+				break 1;
+			}
+		}
+		// echo "i: ".$i."<bR>";
+	}
+	// echo $k;
+	// date('Y-m-d',strtotime($temp[4][$j]));
+	
+	// var_dump($temp2);
+	
+	// $i = count($temp2[]);
+	// for($j=0;$j<$i;$j++){//TODO
+		// $temp2[7][$j] = date('Y-m-d',strtotime($temp2[4][$j]));
+		// $temp2[8][$j] = date('Y-m-d',strtotime($temp2[5][$j]));
+	// }
+	// $date = date_create(date('Y-m-d'));
+	$date = date_create(date('2017/07/22'));
+	
+	date_sub($date,date_interval_create_from_date_string("1 days"));
+	$date = date_format($date,"Y/m/d");
+	echo $date."<br>";
+	// $temp2[7][$j] = date('Y-m-d',strtotime($temp2[4][$j]));
+	// var_dump($temp2);
+	// exit;
+	foreach($temp2 as $key => $value){
+		// echo $key."<br>";
+		$i=0;
+		$flag=0;
+		$temp4[$key]['con_time']=0;
+		foreach($value as $key1 => $value1){
+			$sub = (strtotime($value[7][$i])-strtotime($value[7][$i+1]))/86400;
+			// echo $value[7][0];
+			if($value[7][0]==$date){
+				if($flag==0){
+					$temp4[$key]['cont_date']++;
+					echo $value[4][$i]."<br>";
+					echo $value[5][$i]."<br>";
+					echo $value[7][$i]."<br>";
+					$tempCal = getTime($value[4][$i],$value[5][$i],$value[7][$i]);
+					// echo "tempCal: ".$tempCal;
+					$temp4[$key]['con_time'] += getTime($value[4][$i],$value[5][$i],$value[7][$i]);
+					
+					$flag=1;
+					// echo "123";
+				}
+			}else{
+				$temp4[$key]['cont_date']=0;
+				$temp4[$key]['con_time']= 0;
+				// echo "123";
+				break 1;
+			}
+			
+			if($sub==1){
+				$temp4[$key]['cont_date']++;
+				$temp4[$key]['con_time'] += getTime($value[4][$i],$value[5][$i],$value[7][$i]);
+			}else{
+				break 1;
+			}
+			$i++;
+			
+			// var_dump($value[4][$i]);
+		}
+		$temp3[$key]['depid'] = $value[0][0];
+		$temp3[$key]['depname'] = $value[1][0];
+		$temp3[$key]['id'] = $value[2][0];
+		$temp3[$key]['name'] = $value[3][0];
+		$temp3[$key]['cont_date'] = $temp4[$key]['cont_date'];
+		$temp3[$key]['cont_time'] = $temp4[$key]['con_time'];
+		$temp3[$key]['date_interval'] = $value[7][$i]." - ".$value[7][0];
+		// $value[7][0]
+		// echo $value[7][$i];
+		// $temp3[$key][0][] = $temp[2][$j];
+		// $temp3[$key][1][] = $temp[3][$j];
+		// $temp3[$key][2][] = $temp[1][$j];
+		
+		// $temp3[$key][3][] = $temp1[1][$i];
+		// $temp3[$key][4][] = $temp1[2][$i];
+		// $temp3[$key][5][] = $temp1[3][$i];
+		// $temp3[$key][6][] = $temp1[4][$i];
+		// $temp3[$key][7][] = date('Y-m-d',strtotime($temp1[2][$i]));
+		
+		// $i=0;
+		// $tempa =  count($value[0]);
+		// for($i=0;$i<$tempa;$i++){
+			// $temp2[$key][]
+		// }
+		
+	}
+	// var_dump($temp3);
+	exit;
+	
+	
+	// $temp2[4][$i]
+	
+	
+	
+	
+	
+	
+	// exit;
 	while($row = $base_rows->fetch_row()){
 		$temp[0][$i] = $row[0];
 		$temp[1][$i] = $row[1];
@@ -135,6 +316,7 @@
 		
 		
 	}
+	var_dump($temp);
 	
 	
 	
