@@ -19,7 +19,7 @@
 		$length =count($setting);
 		// $stime = date_format($stime,"Y-m-d H:i:s");
 		// $edtime = date_format($edtime,"Y-m-d H:i:s");
-		echo $date."<br>";
+		// echo $date."<br>";
 		$date = date_create($date);
 		// echo $stime."<br>";
 		// echo $edtime."<br>";
