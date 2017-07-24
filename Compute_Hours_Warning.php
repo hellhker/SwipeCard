@@ -40,12 +40,14 @@
 	
 	// $time_sql = "select prod_line_code,cardid,name,swipecardtime,swipecardtime2,shift from testswipecardtime where swipecardtime > date_sub(curdate(),interval 30 day) and swipecardtime2 is not null  order by cardid,swipecardtime desc";
 	
-	// $time_inteval_setting = "select * from interval_setting where WorkshopNo='第四車間' and weekend = 0 and Shift = 'D'";
+	// $time_inteval_setting = "select * from interval_setting where WorkshopNo='第八車間' and weekend = 0 and Shift = 'D'";
 	// $interval_sql = "select * from interval_setting where WorkshopNo='$WorkshopNo' and weekend = '$weekend' and Shift = '$Shift'";
 	$time_inteval_setting = "select * from interval_setting";
+	// echo $time_inteval_setting;
 	// exit;
 	// $base_rows = $mysqli->query($sql); 
 	// $i=0;
+	
 	
 	$base_rows = $mysqli->query($employee_sql);
 	while($row= $base_rows->fetch_assoc()){
@@ -70,13 +72,19 @@
 	
 	$setting_rows = $mysqli->query($time_inteval_setting);
 	while($row1= $setting_rows->fetch_assoc()){
-		$setting[$row1['WorkshopNo']][$row1['weekend']][$row1['Shift']][] = $row1['d_interval1'];
-		$setting[$row1['WorkshopNo']][$row1['weekend']][$row1['Shift']][] = $row1['d_interval2'];
-		$setting[$row1['WorkshopNo']][$row1['weekend']][$row1['Shift']][] = $row1['d_interval3'];
-		$setting[$row1['WorkshopNo']][$row1['weekend']][$row1['Shift']][] = $row1['d_interval4'];
-		$setting[$row1['WorkshopNo']][$row1['weekend']][$row1['Shift']][] = $row1['d_interval5'];
+		$setting[$row1['WorkShopNo']][$row1['weekend']][$row1['Shift']][] = $row1['d_interval1'];
+		$setting[$row1['WorkShopNo']][$row1['weekend']][$row1['Shift']][] = $row1['d_interval2'];
+		$setting[$row1['WorkShopNo']][$row1['weekend']][$row1['Shift']][] = $row1['d_interval3'];
+		$setting[$row1['WorkShopNo']][$row1['weekend']][$row1['Shift']][] = $row1['d_interval4'];
+		$setting[$row1['WorkShopNo']][$row1['weekend']][$row1['Shift']][] = $row1['d_interval5'];
 		
 	}
+	// var_dump($setting);
+	// var_dump($setting['第八車間']['0']['D']);
+	// exit;
+	// 第八車間
+
+
 	// $tempInterval = split("-",$setting[0]);
 	// var_dump($setting);
 	// exit;
@@ -123,8 +131,8 @@
 	// echo $k;
 	// date('Y-m-d',strtotime($temp[4][$j]));
 	
-	var_dump($temp2);
-	exit;
+	// var_dump($temp2);
+	// exit;
 	// $i = count($temp2[]);
 	// for($j=0;$j<$i;$j++){//TODO
 		// $temp2[7][$j] = date('Y-m-d',strtotime($temp2[4][$j]));
@@ -146,7 +154,7 @@
 		$i=0;
 		$flag=0;
 		$temp4[$key]['cont_date']=0;
-		// $temp4[$key]['con_time']=0;
+		$temp4[$key]['con_time']=0;
 		// echo "key".$key."<Br>";
 		foreach($value as $key1 => $value1){
 			$sub = (strtotime($value[7][$i])-strtotime($value[7][$i+1]))/86400;
@@ -158,6 +166,7 @@
 					// echo $value[5][$i]."<br>";
 					// echo $value[6][$i]."<br>";
 					// echo $value[7][$i]."<br>";
+					
 					// $temp2[$temp[1][$j]][6][]
 					// $tempCal = getTime($value[4][$i],$value[5][$i],$value[7][$i]);
 					// echo "tempCal: ".$tempCal;
@@ -166,22 +175,31 @@
 					$weekend = getWeekend($value[7][$i]);
 					$interval_setting = $setting[$value[8][$i]][$weekend][$value[6][$i]];
 					$tempCal = getTime($value[4][$i],$value[5][$i],$value[7][$i],$interval_setting,$value[6][$i],$value[3][$i]);
-					$temp4[$key]['con_time'] += $tempCal;
-					
+					$temp4[$key]['cont_time'] += $tempCal;
 					$flag=1;
+					// echo $value[8][$i]."<br>";
+					// echo $weekend."<br>";
+					// echo $value[6][$i]."<br>";
 					// echo "123";
 				}
 			}else{
 				$temp4[$key]['cont_date']=0;
-				$temp4[$key]['con_time']= 0;
+				$temp4[$key]['cont_time']= 0;
 				// echo "123";
 				break 1;
 			}
 			
 			if($sub==1){
 				$temp4[$key]['cont_date']++;
+				
+				$weekend = getWeekend($value[7][$i]);
+				$interval_setting = $setting[$value[8][$i]][$weekend][$value[6][$i]];
+				// var_dump($interval_setting);
+				
+				// $value[8][$i]
+				
 				$tempCal = getTime($value[4][$i],$value[5][$i],$value[7][$i],$interval_setting,$value[6][$i],$value[3][$i]);
-				$temp4[$key]['con_time'] += $tempCal;
+				$temp4[$key]['cont_time'] += $tempCal;
 			}else{
 				break 1;
 			}
@@ -196,7 +214,7 @@
 		$temp3[$key]['id'] = $value[2][0];
 		$temp3[$key]['name'] = $value[3][0];
 		$temp3[$key]['cont_date'] = $temp4[$key]['cont_date'];
-		$temp3[$key]['cont_time'] = $temp4[$key]['con_time'];
+		$temp3[$key]['cont_time'] = $temp4[$key]['cont_time']/3600;
 		$temp3[$key]['date_interval'] = $value[7][$i]." - ".$value[7][0];
 		// $value[7][0]
 		// echo $value[7][$i];
@@ -217,141 +235,40 @@
 		// }
 		
 	}	
-	 var_dump($temp3);
-	exit;
-	
-	
-	
+	 // var_dump($temp3);
 	// exit;
-	while($row = $base_rows->fetch_row()){
-		$temp[0][$i] = $row[0];
-		$temp[1][$i] = $row[1];
-		$temp[2][$i] = $row[2];
-		$temp[3][$i] = $row[3];
-		$temp[4][$i] = $row[4];
-		$temp[5][$i] = $row[5];
-		$i++;
-	}
-	for($j=0;$j<$i;$j++){
-		if(strlen($temp[5][$j])==0){
-			$temp[5][$j]="NULL";
-			$temp[6][$j]=0;
-		} else{
-			$Hi = strtotime(date("H:i",strtotime($temp[5][$j])));
-			$tempHi = strtotime("17:30");
-			$calHi = $Hi-$tempHi;//假如刷卡
+	?>
+	<div class="panel-body" style="border: 1px solid #e1e3e6;">
+		<table class="table table-striped">
+			<tr>
+				<th>部門</th>
+				<th>部門代碼</th>
+				<th>工號</th>
+				<th>名字</th>
+				<th>连续天数</th>
+				<th>连续工時</th>
+				<th>工作日期</th>
+			</tr>
+			<?php 
+				foreach($temp3 as $key=>$value){
+					?>
+					<tr>
+						<td><? echo $value['depid'] ?></td>
+						<td><? echo $value['depname'] ?></td>
+						<td><? echo $value['id'] ?></td>
+						<td><? echo $value['name'] ?></td>
+						<td><? echo $value['cont_date'] ?></td>
+						<td><? echo $value['cont_time'] ?></td>
+						<td><? echo $value['date_interval'] ?></td>
+					</tr>
+					<?
+				}
 			
-			if($calHi>0){
-				$temp[6][$j] = strtotime($temp[5][$j]) - strtotime($temp[4][$j])-7200;
-			}else{
-				$temp[6][$j] = strtotime($temp[5][$j]) - strtotime($temp[4][$j]);
-			}
-		}
-		
-		// echo $j." ".$temp[4][$j]." ".$temp[5][$j]." ".$temp[6][$j]." <br>";
-		// echo $j." ".$temp[6][$j]." <br>";
-	}
-	// echo date("H:i",strtotime($temp[5][20]))."<br>";
-	// echo strtotime($temp[5][20]) - strtotime($temp[4][20]);
-	for($j=0;$j<$i;$j++){//TODO
-		$temp[7][$j] = date('Y-m-d',strtotime($temp[4][$j]));
-		$temp[8][$j] = date('Y-m-d',strtotime($temp[5][$j]));
-	}
-	// echo strtotime(0)."<br>";
-	for($j=0;$j<$i;$j++){
-		if(strlen($temp[5][$j])>0){
-			// $temp[6][$j]
-		}
-		// echo strtotime(0)."<br>";
-		// echo $j." ".$temp[4][$j]." ".$temp[5][$j]." <br>";
-		// echo $j." ".$temp[7][$j]." ".$temp[8][$j]."<br>";
-	}
-	$contiDay = 0;
-	$sumHour = 0;
-	$flag = 0;
-	// $Date={1,2,3,4};
-	// for($j=0;$j<4;$j++){
-			// if(($j+1)==$i){
-				// $arr[$flag][0] = $temp[1][$j];
-				// $arr[$flag][1] = $temp[2][$j];
-				// $arr[$flag][2] = $temp[3][$j];
-				// $arr[$flag][3] = $contiDay;	
-				// $Hour = $sumHour + $temp[6][$j];	
-				// $front = floor($Hour/3600);
-				// $surplus = $Hour/3600 - $front;
-				// if ($surplus < 0.25) {
-					// $surplus = 0;
-				// } else if ($surplus > 0.25 && $surplus < 0.5) {
-					// $surplus = 0.25;
-				// } else if ($surplus>=0.5 && $surplus < 0.75) {
-					// $surplus = 0.5;
-				// }else if($surplus >=0.75 && $surplus < 1 ){
-					// $surplus = 0.75;
-				// }
-				// $arr[$flag][4] = $front+ $surplus;
-				// return;
-			// }else if($temp[1][$j]==$temp[1][$j+1]){//假如第一行與第二行相等
-				// if($temp[6][$j]!=0){
-					// $contiDay++;
-					// $sumHour = $sumHour + $temp[6][$j];
-				// }else{
-					// $contiDay =0;
-					// $sumHour = 0;
-				// }
-				// echo $sumHour."<br>";
-			// }else if($temp[1][$j]!=$temp[1][$j+1]){
-				// $arr[$flag][0] = $temp[1][$j];
-				// $arr[$flag][1] = $temp[2][$j];
-				// $arr[$flag][2] = $temp[3][$j];
-				// $arr[$flag][3] = $contiDay;	
-				// $front = floor($sumHour/3600);
-				// $surplus = $sumHour/3600 - $front;
-				// if ($surplus < 0.25) {
-					// $surplus = 0;
-				// } else if ($surplus > 0.25 && $surplus < 0.5) {
-					// $surplus = 0.25;
-				// } else if ($surplus>=0.5 && $surplus < 0.75) {
-					// $surplus = 0.5;
-				// }else if($surplus >=0.75 && $surplus < 1 ){
-					// $surplus = 0.75;
-				// }
-				// $arr[$flag][4] = $front+ $surplus;
-				// $sumHour = 0;
-				// $contiDay = 0;
-				// $flag++;
-			// }
-	// }
-	
-	
-	for($j=0;$j<4;$j++){
-		if($temp[6][$j]!=0){
+			?>
 			
-			if($temp[1][$j]==$temp[1][$j+1]){
-				
-			}else if($temp[1][$j]!=$temp[1][$j+1]){
-				
-			}
-		}else{
-			$contiDay =0;
-			$sumHour = 0;
-		}
-		
-		
-	}
-	var_dump($temp);
+		</table>
+	</div>
 	
-	
-	
-	// for($k=0;$k<$x;$k++){
-		// for($j=0;$j<5;$j++){
-			// if($j==4)
-				// echo $arr[$j][$k]."<br>";
-			// else
-				// echo $arr[$j][$k]."\t";
-		// }
-	// }
-	
-?>
 	
 </body>
 </html>
