@@ -72,11 +72,11 @@
 	
 	$setting_rows = $mysqli->query($time_inteval_setting);
 	while($row1= $setting_rows->fetch_assoc()){
-		$setting[$row1['WorkShopNo']][$row1['weekend']][$row1['Shift']][] = $row1['d_interval1'];
-		$setting[$row1['WorkShopNo']][$row1['weekend']][$row1['Shift']][] = $row1['d_interval2'];
-		$setting[$row1['WorkShopNo']][$row1['weekend']][$row1['Shift']][] = $row1['d_interval3'];
-		$setting[$row1['WorkShopNo']][$row1['weekend']][$row1['Shift']][] = $row1['d_interval4'];
-		$setting[$row1['WorkShopNo']][$row1['weekend']][$row1['Shift']][] = $row1['d_interval5'];
+		$setting[$row1['WorkshopNo']][$row1['weekend']][$row1['Shift']][] = $row1['d_interval1'];
+		$setting[$row1['WorkshopNo']][$row1['weekend']][$row1['Shift']][] = $row1['d_interval2'];
+		$setting[$row1['WorkshopNo']][$row1['weekend']][$row1['Shift']][] = $row1['d_interval3'];
+		$setting[$row1['WorkshopNo']][$row1['weekend']][$row1['Shift']][] = $row1['d_interval4'];
+		$setting[$row1['WorkshopNo']][$row1['weekend']][$row1['Shift']][] = $row1['d_interval5'];
 		
 	}
 	// var_dump($setting);
@@ -175,6 +175,7 @@
 					$weekend = getWeekend($value[7][$i]);
 					$interval_setting = $setting[$value[8][$i]][$weekend][$value[6][$i]];
 					$tempCal = getTime($value[4][$i],$value[5][$i],$value[7][$i],$interval_setting,$value[6][$i],$value[3][$i]);
+					$tempCal = getNum($tempCal/3600);
 					$temp4[$key]['cont_time'] += $tempCal;
 					$flag=1;
 					// echo $value[8][$i]."<br>";
@@ -199,6 +200,7 @@
 				// $value[8][$i]
 				
 				$tempCal = getTime($value[4][$i],$value[5][$i],$value[7][$i],$interval_setting,$value[6][$i],$value[3][$i]);
+				$tempCal = getNum($tempCal/3600);
 				$temp4[$key]['cont_time'] += $tempCal;
 			}else{
 				break 1;
@@ -214,7 +216,7 @@
 		$temp3[$key]['id'] = $value[2][0];
 		$temp3[$key]['name'] = $value[3][0];
 		$temp3[$key]['cont_date'] = $temp4[$key]['cont_date'];
-		$temp3[$key]['cont_time'] = $temp4[$key]['cont_time']/3600;
+		$temp3[$key]['cont_time'] = $temp4[$key]['cont_time'];
 		$temp3[$key]['date_interval'] = $value[7][$i]." - ".$value[7][0];
 		// $value[7][0]
 		// echo $value[7][$i];
@@ -241,8 +243,8 @@
 	<div class="panel-body" style="border: 1px solid #e1e3e6;">
 		<table class="table table-striped">
 			<tr>
-				<th>部門</th>
 				<th>部門代碼</th>
+				<th>部門</th>
 				<th>工號</th>
 				<th>名字</th>
 				<th>连续天数</th>
@@ -251,7 +253,8 @@
 			</tr>
 			<?php 
 				foreach($temp3 as $key=>$value){
-					?>
+					if($value['cont_time']>=45||$value['cont_date']>=5){
+			?>
 					<tr>
 						<td><? echo $value['depid'] ?></td>
 						<td><? echo $value['depname'] ?></td>
@@ -261,7 +264,8 @@
 						<td><? echo $value['cont_time'] ?></td>
 						<td><? echo $value['date_interval'] ?></td>
 					</tr>
-					<?
+			<?
+					}
 				}
 			
 			?>
