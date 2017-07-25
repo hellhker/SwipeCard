@@ -34,7 +34,9 @@
 	$url = $_POST['urlA'];
 	$costid = $_SESSION['costid'];
 	$checkState = $_POST['checkState'];
-	// echo $costid;
+	$type = $_POST['typeE'];
+	// echo $type;
+	// exit;
 	$temp_cost = explode("*",$costid);
 	$cch = "";
 	foreach($temp_cost as $key => $val){
@@ -46,8 +48,8 @@
 		// echo $cch."<br>";
 	}
 	// echo $cch;
-	
-	$rcno_sql   = "SELECT 	a.rc_no,
+	if($type=="D*I"){
+		$rcno_sql   = "SELECT 	a.rc_no,
 							a.prod_line_code,
 							a.checkstate,
 							Date_format(a.swipecardtime, '%Y-%m-%d') sdate,
@@ -56,32 +58,14 @@
 					FROM testswipecardtime a,testemployee b
 					WHERE  	Date_format(swipecardtime, '%Y-%m-%d') >= '".$SDate."'
 							AND Date_format(swipecardtime, '%Y-%m-%d') <= '".$EDate."'
-							AND Date_format(swipecardtime2, '%H:%i:%s') > '18:00:00'
-							AND Date_format(swipecardtime2, '%H:%i:%s') < '23:59:00'
+							AND swipecardtime2 is not null
 							AND Shift = 'D'
 							AND (checkState=0 or checkState=9)
 							AND a.cardid = b.cardid
 							AND prod_line_code like '".$lineno."'
 							AND b.costid in ($cch)
 							";
-	// $cch = "AND b.depid in (".$costid.")";
-	
-	// if()
-	
-	// $rcno_sql_n = "SELECT 	rc_no,
-							 // prod_line_code,
-							 // checkstate,
-							 // date_format(date_sub(swipecardtime2,interval 12 hour),'%Y-%m-%d') sdate,
-							 // shift
-					// FROM testswipecardtime
-					// WHERE  	Date_format(swipecardtime, '%Y-%m-%d') >= '".$SDate."'
-							// AND Date_format(swipecardtime, '%Y-%m-%d') <= '".$EDate."'
-							// AND Date_format(swipecardtime2, '%H:%i:%s') > '05:00:00'
-							// AND Date_format(swipecardtime2, '%H:%i:%s') < '08:00:00'
-							// AND (checkState=0 or checkState=9)
-							// AND Shift = 'N'
-							// AND prod_line_code like '".$lineno."'
-							// ";
+							
 	$rcno_sql_n = "SELECT 	a.rc_no,
 							a.prod_line_code,
 							a.checkstate,
@@ -92,14 +76,52 @@
 					FROM testswipecardtime a,testemployee b
 					WHERE  	Date_format(swipecardtime, '%Y-%m-%d') >= '".$SDate."'
 							AND Date_format(swipecardtime, '%Y-%m-%d') <= '".$EDate."'
-							AND Date_format(swipecardtime2, '%H:%i:%s') > '05:00:00'
-							AND Date_format(swipecardtime2, '%H:%i:%s') < '08:00:00'
 							AND (checkState=0 or checkState=9)
 							AND Shift = 'N'
 							AND a.cardid = b.cardid
+							and swipecardtime2 is not null
 							AND prod_line_code like '".$lineno."'
 							AND b.costid in ($cch)
-							";						
+							";	
+	}else if($type=="I"){
+		$rcno_sql   = "SELECT 	a.rc_no,
+							a.prod_line_code,
+							a.checkstate,
+							Date_format(a.swipecardtime, '%Y-%m-%d') sdate,
+							a.shift,
+							a.WorkshopNo
+					FROM testswipecardtime a,testemployee b
+					WHERE  	Date_format(swipecardtime, '%Y-%m-%d') >= '".$SDate."'
+							AND Date_format(swipecardtime, '%Y-%m-%d') <= '".$EDate."'
+							AND swipecardtime2 is not null
+							AND Shift = 'D'
+							AND (checkState=0 or checkState=9)
+							AND b.Direct = 'I'
+							AND a.cardid = b.cardid
+							AND prod_line_code like '".$lineno."'
+							AND b.costid in ($cch)
+							";
+							
+		$rcno_sql_n = "SELECT 	a.rc_no,
+							a.prod_line_code,
+							a.checkstate,
+							Date_format(a.swipecardtime, '%Y-%m-%d') sdate,
+							a.shift,
+							a.WorkshopNo
+							
+					FROM testswipecardtime a,testemployee b
+					WHERE  	Date_format(swipecardtime, '%Y-%m-%d') >= '".$SDate."'
+							AND Date_format(swipecardtime, '%Y-%m-%d') <= '".$EDate."'
+							AND (checkState=0 or checkState=9)
+							AND Shift = 'N'
+							AND b.Direct = 'I'
+							AND a.cardid = b.cardid
+							and swipecardtime2 is not null
+							AND prod_line_code like '".$lineno."'
+							AND b.costid in ($cch)
+							";	
+	}
+						
 	
 	$cch = "";
 	// echo $rcno_sql_n;
@@ -107,6 +129,7 @@
 	// while($row = $line_rows->fetch_row()){
 		// $lineno[] = $row[0];
 	// }
+	// exit;
 	// echo $rcno_sql;
 	$rcno_true = array();
 	$rcno_all = array();
@@ -136,10 +159,10 @@
 			}
 		}else{
 			if($row1[2]==0||$row1[2]==9){
-				$rcno_true[$row1[0]] +=1;
+				$rcno_true[$row1[0]] += 1;
 			}
 			if($row1[2]==1){
-				$rcno_false[$row1[0]] +=1;
+				$rcno_false[$row1[0]] += 1;
 			}
 		}
 		$rcno_all[$row1[0]][$row1[3]] += 1;

@@ -170,6 +170,7 @@
 							$tempEnd = tempTime2;//09:30
 							if($calStart>0){
 								$tempStart = sdate1[i];//08:30
+								$tempStart.setSeconds(0);
 							}else{
 								$tempStart = tempTime1;//07:40
 							}
@@ -232,6 +233,7 @@
 							$tempEnd = tempTime2;//09:30
 							if($calStart>0){
 								$tempStart = sdate1[i];//08:30
+								$tempStart.setSeconds(0);
 							}else{
 								$tempStart = tempTime1;//07:40
 							}
@@ -266,6 +268,9 @@
 			document.getElementById(spT[i]).innerHTML = sub;
 			// console.log(sub);
 			//tr= $("tr" + jtest );
+			if(minus<0){
+				minus = 0;
+			}
 			$("#"+sp[i]).find(".textBoxtest").attr("value",minus);
 			//$('#cal_15296').find(".textbox-value").attr("value","12");
 			//$('#cal_15296').numberbox('setValue', 206.12);
@@ -463,8 +468,8 @@
 			hours='08';
 			mins='00';
 		}
-		if(mins=='0'){
-			mins="00";
+		if(mins<10){
+			mins="0"+mins;
 		}
 		var Hour = hours + ":" + mins;
 		return Hour;
@@ -482,8 +487,8 @@
 			// hours='08';
 			// mins='00';
 		// }
-		if(mins=='0'){
-			mins="00";
+		if(mins<10){
+			mins="0"+mins;
 		}
 		var Hour = hours + ":" + mins;
 		return Hour;
@@ -588,6 +593,10 @@
 				//console.log(typeof(yds[i]));
 				calInterval[i] = document.getElementById("tbl").rows[jtest].cells[8].innerText;
 				calHour[i] = $(tr).find(".textBoxtest").val();
+				if(calHours[i]<=0){
+					alert("工時小於等於0，有誤，請重新選擇加班人員！");
+					return false;
+				}
 				reason[i]=$("#reason_"+str[0]).textbox('getText');
 				//reason[i]=$("#reason_"+str[0]).find(".textbox-value").val();
 				//console.log("jtest:"+jtest);
@@ -781,8 +790,6 @@
 					   testswipecardtime AS b 
 				WHERE  a.cardid = b.cardid 
 						and DATE_FORMAT(b.swipecardtime, '%Y-%m-%d') = '".$SDate."'
-					   AND DATE_FORMAT(b.swipecardtime2, '%H:%i:%s') >= '17:30:00'
-					   AND DATE_FORMAT(b.swipecardtime2, '%H:%i:%s') < '23:59:00'
 					   AND prod_line_code = '".$lineno."'
 					   AND a.depid = '".$depid."'
 						AND RC_NO = '".$RC_NO."'
@@ -806,8 +813,7 @@
 					   testswipecardtime AS b 
 				WHERE  a.cardid = b.cardid 
 						and DATE_FORMAT(b.swipecardtime, '%Y-%m-%d') = '".$SDate."'
-						AND Date_format(swipecardtime2, '%H:%i:%s') > '05:00:00'
-						AND Date_format(swipecardtime2, '%H:%i:%s') < '08:00:00'
+						and swipecardtime2 is not null
 					   AND prod_line_code = '".$lineno."'
 					   AND a.depid = '".$depid."'
 						AND RC_NO = '".$RC_NO."'

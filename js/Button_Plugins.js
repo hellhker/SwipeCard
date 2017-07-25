@@ -1,4 +1,4 @@
-function showTableByIdentified() {
+﻿function showTableByIdentified() {
 	var lineno = $("#test").val();
 	var SDate = $("#dpick1").val();
 	var EDate = $("#dpick2").val();
@@ -70,8 +70,7 @@ function showRCInforByDate() {
 	var checkState = $("#checkState").val();
 	var SDate = $("#dpick1").val();
 	var EDate = $("#dpick2").val();
-	
-	
+	var typeE = "D*I";
 	var urlA = "";
 	var urla1 = "overtime_order_pending_Show.php";
 	var urla2 = "overtime_order_identified_Show.php";
@@ -101,7 +100,53 @@ function showRCInforByDate() {
 			'checkState' : checkState,
 			'SDate' : SDate,
 			'EDate' : EDate,
-			'urlA' : urlA
+			'urlA' : urlA,
+			'typeE' : typeE
+		},
+		success : function(msg) {
+			// alert(msg);
+			$("#showRcNoTable").html(msg);
+		}
+	});
+}
+
+function showRCInforByDate1() {
+	var lineno = $("#lineno").val();
+	var checkState = $("#checkState").val();
+	var SDate = $("#dpick1").val();
+	var EDate = $("#dpick2").val();
+	var typeE = "I";
+	var urlA = "";
+	var urla1 = "overtime_order_pending_Show.php";
+	var urla2 = "overtime_order_identified_Show.php";
+	var urla3 = "overtime_order_check_Show.php";
+	var urlB = "";
+	var urlb1 = "show_overtime_rcno_ing.php";//TODO
+	var urlb2 = "show_overtime_rcno_ed.php";
+	var urlb3 = "show_overtime_rcno_all.php";
+	console.log(typeE);
+	if (checkState.indexOf("0") >= 0 || checkState.indexOf("9") >= 0) {
+		urlA = urla1;
+		urlB = urlb1;
+	} else if (checkState == 1) {
+
+		urlA = urla2;
+		urlB = urlb2;
+	} else {
+		urlA = urla3;
+		urlB = urlb3;
+	}
+	// alert("urlA: "+ urlA);
+	$.ajax({
+		type : 'post',
+		url : urlB,
+		data : {
+			'lineno' : lineno,
+			'checkState' : checkState,
+			'SDate' : SDate,
+			'EDate' : EDate,
+			'urlA' : urlA,
+			'typeE' : typeE
 		},
 		success : function(msg) {
 			// alert(msg);

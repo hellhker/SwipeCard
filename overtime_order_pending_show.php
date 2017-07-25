@@ -143,14 +143,14 @@
 						if(j<t_s.length-1){
 							tempInterval = t_s[j].split("-");
 							tempHour1 = tempInterval[0].split(":");
-							// console.log(tempHour1);
+							// console.log(edate1[i]);
 							tempHour2 = tempInterval[1].split(":");
 						}else{
 							tempHour1 = t_s[j].split(":");
 							tempHour2 = edate1[i];
 						}
 						
-						// console.log(tempHour1);
+						console.log(edate1[i]);
 						
 						// console.log(tempHour2);
 						// tempTime1 = sdate1[i];
@@ -168,6 +168,7 @@
 							$tempEnd = tempTime2;//09:30
 							if($calStart>0){
 								$tempStart = sdate1[i];//08:30
+								$tempStart.setSeconds(0);
 							}else{
 								$tempStart = tempTime1;//07:40
 							}
@@ -183,6 +184,7 @@
 							// console.log("$tempEnd:"+ tempEnd);
 							break;
 						}
+						
 						minus += $tempEnd - $tempStart;
 					}
 				}else{
@@ -230,6 +232,7 @@
 							$tempEnd = tempTime2;//09:30
 							if($calStart>0){
 								$tempStart = sdate1[i];//08:30
+								$tempStart.setSeconds(0);
 							}else{
 								$tempStart = tempTime1;//07:40
 							}
@@ -264,6 +267,9 @@
 			document.getElementById(spT[i]).innerHTML = sub;
 			// console.log(sub);
 			//tr= $("tr" + jtest );
+			if(minus<0){
+				minus = 0;
+			}
 			$("#"+sp[i]).find(".textBoxtest").attr("value",minus);
 			//$('#cal_15296').find(".textbox-value").attr("value","12");
 			//$('#cal_15296').numberbox('setValue', 206.12);
@@ -458,12 +464,12 @@
 		if(hours<10){
 			hours="0"+hours;
 		}
-		if(hours!='08'&&hours=='07'){
-			hours='08';
-			mins='00';
-		}
-		if(mins=='0'){
-			mins="00";
+		// if(hours!='08'&&hours=='07'){
+			// hours='08';
+			// mins='00';
+		// }
+		if(mins<10){
+			mins="0"+mins;
 		}
 		var Hour = hours + ":" + mins;
 		return Hour;
@@ -481,8 +487,8 @@
 			// hours='08';
 			// mins='00';
 		// }
-		if(mins=='0'){
-			mins="00";
+		if(mins<10){
+			mins="0"+mins;
 		}
 		var Hour = hours + ":" + mins;
 		return Hour;
@@ -587,6 +593,10 @@
 				//console.log(typeof(yds[i]));
 				calInterval[i] = document.getElementById("tbl").rows[jtest].cells[8].innerText;
 				calHour[i] = $(tr).find(".textBoxtest").val();
+				if(calHour[i]<=0){
+					alert("工時小於等於0，有誤，請重新選擇加班人員！");
+					return false;
+				}
 				reason[i]=$("#reason_"+str[0]).textbox('getText');
 				//reason[i]=$("#reason_"+str[0]).find(".textbox-value").val();
 				//console.log("jtest:"+jtest);
@@ -626,7 +636,7 @@
 					alert("提交成功,窗口即將關閉！");
 					//$("#ttt").html(msg);
 					// console.log(msg);
-					
+					// $temp = msg;
 					window.close();
 				}
 			});
@@ -742,7 +752,7 @@
 		$RC_NO = $_POST['rc_no'];
 		$Item_No = $_POST['item_no'];
 		$Shift = $_POST['Shift'];
-		
+		$assistant_id = $_SESSION['assistant_id'];
 		$w=date('w',strtotime($SDate));
 		if($w==6){
 			$weekend = 1;
@@ -779,11 +789,10 @@
 					   testswipecardtime AS b 
 				WHERE  a.cardid = b.cardid 
 						and DATE_FORMAT(b.swipecardtime, '%Y-%m-%d') = '".$SDate."'
-					   AND DATE_FORMAT(b.swipecardtime2, '%H:%i:%s') >= '17:30:00'
-					   AND DATE_FORMAT(b.swipecardtime2, '%H:%i:%s') < '23:59:00'
+					   and shift = 'D'
 					   AND WorkshopNo = '".$WorkshopNo."'
 					    AND prod_line_code = '".$lineno."'
-					   
+					   and swipecardtime2 is not null
 						AND RC_NO = '".$RC_NO."'
 					   and checkstate in('0','9') ";
 		}else if($Shift=="N"){
@@ -805,12 +814,12 @@
 					   testswipecardtime AS b 
 				WHERE  a.cardid = b.cardid 
 						and DATE_FORMAT(b.swipecardtime, '%Y-%m-%d') = '".$SDate."'
-						AND Date_format(swipecardtime2, '%H:%i:%s') > '05:00:00'
-						AND Date_format(swipecardtime2, '%H:%i:%s') < '08:00:00'
-						 AND WorkshopNo = '".$WorkshopNo."'
+						and b.shift = 'N'
+						and b.swipecardtime2 is not null
+						 AND b.WorkshopNo = '".$WorkshopNo."'
 					   AND prod_line_code = '".$lineno."'
 						AND RC_NO = '".$RC_NO."'
-					   and checkstate in('0','9') ";
+					   and b.checkstate in('0','9') ";
 		}
 		
 		// echo $employee_overtime_sql;
@@ -822,7 +831,7 @@
 		
 		$timeset_row = $mysqli->query($interval_sql);
 		$temp = array();
-		//echo $interval_sql.'<br>';
+		// echo $interval_sql.'<br>';
 		while($row1 = $timeset_row->fetch_assoc()){
 			$temp[] = $row1['d_interval1'];
 			$temp[] = $row1['d_interval2'];
@@ -923,8 +932,13 @@
 				// echo $cch;
 			?>
 		</table>
-		<input class="btn btn-primary" name="" type="button"
-			onclick="check()" value="提交" />
+		<?
+			if($assistant_id){
+					echo "<input class=\"btn btn-primary\" name=\"\" type=\"button\"\n";
+					echo "		onclick=\"check()\" value=\"提交\" />\n";
+			}
+		?>
+
 	</div>
 	<div>
 		<input type="hidden" id="LineNo" value="<?php echo $lineno?>"/>

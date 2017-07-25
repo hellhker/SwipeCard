@@ -63,8 +63,7 @@
 					FROM testswipecardtime a,testemployee b
 					WHERE  	Date_format(swipecardtime, '%Y-%m-%d') >= '".$SDate."'
 							AND Date_format(swipecardtime, '%Y-%m-%d') <= '".$EDate."'
-							AND Date_format(swipecardtime2, '%H:%i:%s') > '18:00:00'
-							AND Date_format(swipecardtime2, '%H:%i:%s') < '23:59:00'
+							and swipecardtime2 is not null
 							AND Shift = 'D'
 							AND (checkState=0 or checkState=9)
 							AND a.cardid = b.cardid
@@ -82,8 +81,7 @@
 					FROM testswipecardtime a,testemployee b
 					WHERE  	Date_format(swipecardtime, '%Y-%m-%d') >= '".$SDate."'
 							AND Date_format(swipecardtime, '%Y-%m-%d') <= '".$EDate."'
-							AND Date_format(swipecardtime2, '%H:%i:%s') > '05:00:00'
-							AND Date_format(swipecardtime2, '%H:%i:%s') < '08:00:00'
+							and swipecardtime2 is not null
 							AND (checkState=0 or checkState=9)
 							AND Shift = 'N'
 							AND a.cardid = b.cardid
@@ -98,7 +96,7 @@
 	// while($row = $line_rows->fetch_row()){
 		// $lineno[] = $row[0];
 	// }
-	// echo $rcno_sql;
+	echo $rcno_sql;
 	$rcno_true = array();
 	$rcno_all = array();
 	$norcno = array();

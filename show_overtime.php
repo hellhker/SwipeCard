@@ -76,6 +76,8 @@ while($row = $line_rows->fetch_row()){
 				<option value="1">已審核</option>
 			</select> <input name="" class="btn btn-primary" type="button"
 				onclick="showRCInforByDate();" value="查詢" />
+			</select> <input name="" class="btn btn-primary" type="button"
+				onclick="showRCInforByDate1();" value="只顯示間接" />
 
 
 		</div>
