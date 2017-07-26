@@ -1,0 +1,129 @@
+package com.backup.employee;
+
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import org.apache.commons.lang.ArrayUtils;
+
+public class BackupEmployee {
+
+	static String sql = null;
+	static String sql2 = null;
+	static String sql3 = null;
+	static String sql4 = null;
+	
+	static DBHelper db1 = null;
+	static DBHelper db2 = null;
+	static DBHelper db3 = null;
+	static DBHelper db4 = null;
+	
+	static ResultSet ret = null;
+	static int res;
+	
+
+	public static boolean contains(String[] arr, String targetValue){
+		 return ArrayUtils.contains(arr,targetValue);
+	}
+	
+	@SuppressWarnings("null")
+	public static void main(String[] args) {
+		System.out.println("test");
+//		sql = "select * from view_emp rand() limit 100";// SQL语句
+		sql = "select * from view_rybz_cabg";// SQL语句
+//		sql = "select * from view_emp where iccardid = '0313240578'";
+		sql2 = "INSERT INTO `testemployee`(`ID`, `Name`, `depid`, `depname`,`cardid`,`direct`,`costID` ) VALUES (?,?,?,?,?,?,?)";
+//		sql2 = "INSERT INTO `testemployee`(`ID`, `Name`, `depid`, `depname`, `cardid`) VALUES ('133028','徐文勇','7933','策略-資源管理-數據-系統整合課','0313240578')";
+		sql3 = "DELETE FROM `testemployee`";
+		sql4 = "UPDATE `testemployee` SET `Permission` = '1' WHERE ID IN ('01394','208648','40908','68951','CY439','KQ933','KV447','N6193','R0405','R5632','G0956','403935','U2782','WL930','R1004','286943','T9220','D3702','K7804','N5400','58788','FE440','G8611','N6398','N6315','N5289','N3447','A5798','G6659','156339','03236','AW050','04664','F0025','K4230','F0660','KQ728','256176','DC705','U1939','K7380','194236','175418','565535','368364','N5397','426017')";
+		sql = "select * from testemployee";
+		Connection conn = DBHelper.getConnection();
+		System.out.println("A");
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		System.out.println("B");
+		db1 = new DBHelper(sql);// 创建DBHelper对象 |SelectCRUD Create result Delete
+		db2 = new DBHelper(sql2);// 创建DBHelper对象 |Create
+		db3 = new DBHelper(sql3);
+		db4 = new DBHelper(sql4);
+		/**
+		 * 注意事项：PreparedStatement来自于java.sql.PreparedStatemet
+		 */
+
+		// 4.执行SQL语句
+		System.out.println("123");
+		String[] uids = null;
+		String[] unames = null;
+		String[] udepnames = null;
+		String[] udepids = null;
+		String[] ucardids = null;
+		String[] udirects = null;
+		String[] ucostids = null;
+		
+		int i = 0;
+		try {
+			db3.sta.executeUpdate();
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();// 执行查询
+			
+			while (rs.next()) {// 判断是否还有下一个数据
+				String uid = rs.getString(1);
+				String uname = rs.getString(2);
+				String udepname = rs.getString(3);
+				String udepid = rs.getString(4);
+				String ucardid = rs.getString(6);
+				String udirect = rs.getString(5);
+				String ucostid = rs.getString(7);
+				uids[i] = uid;
+				unames[i] = uname;
+				udepnames[i] = udepname;
+				udepids[i] = udepid;
+				ucardids[i] = ucardid;
+				udirects[i] = udirect;
+				ucostids[i] = ucostid;
+				
+				
+				db2.sta.setString(1, uid);
+				db2.sta.setString(2, uname);
+				db2.sta.setString(3, udepname);
+				db2.sta.setString(4, udepid);
+				db2.sta.setString(5, ucardid);
+				db2.sta.setString(6, udirect);
+				db2.sta.setString(7, ucostid);
+				res = db2.sta.executeUpdate();// 插入數據
+				System.out.println(uid +"\t"+ uname + "\t" + udepname + "\t"
+						+ udepid + "\t" + ucardid);
+//				System.out.println("ID:" + rs.getString("bmmc") + "\ticCardID:"
+//						+ rs.getString("iccardid") + "\tNAME:"
+//						+ rs.getString("xm"));
+			}
+			db4.sta.executeUpdate();
+			// ret = db1.pst.executeQuery();// 执行语句，得到结果集
+//			while (ret.next()) {
+//				String uid = ret.getString(1);
+//				String ufname = ret.getString(2);
+//				db2.sta.setString(1, uid);
+//				db2.sta.setString(2, ufname);
+//				// res = db2.sta.executeUpdate();
+//				// String ulname = ret.getString(3);
+//				// String udate = ret.getString(4);
+//				// System.out.println(uid + "\t" + ufname + "\t" + ulname + "\t"
+//				// + udate);
+//				// System.out.println(uid + "\t" + ufname);
+//			}// 显示数据
+//				// res = db2.sta.executeUpdate();
+//			ret.close();
+			// res.close();
+			db4.close();
+			db1.close();// 关闭连接
+			db2.close();
+			db3.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+
+
+}
