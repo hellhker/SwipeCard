@@ -464,10 +464,11 @@
 		if(hours<10){
 			hours="0"+hours;
 		}
-		if(hours!='08'&&hours=='07'){
-			hours='08';
-			mins='00';
-		}
+		// if(hours!='08'&&hours=='07'){
+			// hours='08';
+			// mins='00';
+		// }
+		
 		if(mins<10){
 			mins="0"+mins;
 		}
@@ -790,6 +791,7 @@
 					   testswipecardtime AS b 
 				WHERE  a.cardid = b.cardid 
 						and DATE_FORMAT(b.swipecardtime, '%Y-%m-%d') = '".$SDate."'
+						and swipecardtime2 is not null
 					   AND prod_line_code = '".$lineno."'
 					   AND a.depid = '".$depid."'
 						AND RC_NO = '".$RC_NO."'

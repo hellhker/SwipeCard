@@ -108,7 +108,6 @@
 							Date_format(a.swipecardtime, '%Y-%m-%d') sdate,
 							a.shift,
 							a.WorkshopNo
-							
 					FROM testswipecardtime a,testemployee b
 					WHERE  	Date_format(swipecardtime, '%Y-%m-%d') >= '".$SDate."'
 							AND Date_format(swipecardtime, '%Y-%m-%d') <= '".$EDate."'

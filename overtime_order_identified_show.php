@@ -1,6 +1,7 @@
 <?php 
 	session_start();
 	$access = $_SESSION["permission"];
+	$costid = $_SESSION['costid'];
 ?>
 <html>
 <head>
@@ -12,13 +13,14 @@
 <!-- Bootstrap stylesheets (included template modifications) -->
 
 <link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css">
-	<link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
-	<link rel="stylesheet" type="text/css" href="easyui/demo/demo.css">
-	
-	<script type="text/javascript" src="easyui/jquery.min.js"></script>
-	<script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
+<link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
+<link rel="stylesheet" type="text/css" href="easyui/demo/demo.css">
+<link rel="stylesheet" href="assets/css/bootstrap.min.css">  
+<script type="text/javascript" src="easyui/jquery.min.js"></script>
+<script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
 <script src="Button_Plugins.js"></script>
 
+<script src="assets/js/bootstrap.min.js"></script>
 <script type="text/javascript">
 	function allCheck(check) {
 		var checkbox = document.getElementsByName("checkbox");
@@ -127,16 +129,16 @@
 				//console.log(getHour(sdate1[i]));
 			} else if (cal == "2") {
 				if(shift=="D"){
-					minus = (edate1[i] - sdate1[i]) / 3600000 - 2;
+					minus = (edate1[i] - sdate1[i]) / 3600000 - 1.75;
 				}else if(shift=="N"){
-					
+					minus = (edate1[i] - sdate1[i]) / 3600000 - 1;
 				}
-				minus = (edate1[i] - sdate1[i]) / 3600000;
+				// minus = (edate1[i] - sdate1[i]) / 3600000;
 				//根據選擇的加班時間類型得出不同時段
 				//console.log("minus:"+ minus);
 			}
 			minus = getNum(minus);
-			sub = getHour(sdate1[i]) + "-" + getHour(edate1[i]);
+			sub = getHour(sdate1[i]) + "-" + getHour1(edate1[i]);
 			//console.log("時段sub: "+sub);
 			calInterval[i] = sub;
 			calHour[i] = minus;
@@ -336,9 +338,33 @@
 	function getHour(strDate) {
 		var hours = strDate.getHours();
 		var mins = strDate.getMinutes();
+		
 		if(hours<10){
 			hours="0"+hours;
 		}
+		if(hours!='08'&&hours=='07'){
+			hours='08';
+			mins='00';
+		}
+		if(mins=='0'){
+			mins="00";
+		}
+		var Hour = hours + ":" + mins;
+		return Hour;
+	}
+	
+	
+	function getHour1(strDate) {
+		var hours = strDate.getHours();
+		var mins = strDate.getMinutes();
+		
+		if(hours<10){
+			hours="0"+hours;
+		}
+		// if(hours!='08'&&hours=='07'){
+			// hours='08';
+			// mins='00';
+		// }
 		if(mins=='0'){
 			mins="00";
 		}
@@ -378,7 +404,6 @@
 		
 		return surplus + front;
 	}
-
 	
 	function firm() {
 		getValue();
@@ -389,8 +414,6 @@
 			alert("点击了取消");
 		}
 	}
-
-	
 
 	function update() {
 		
@@ -405,6 +428,7 @@
 			$check_boxes.each(function() {
 				dropIds.push($(this).val());
 			});
+			var shift = $("#Shift").val();
 			var workcontent=$("#workcontent").val();
 			//console.log($check_boxes);
 			//console.log(dropIds);
@@ -443,7 +467,6 @@
 				costids[i]=document.getElementById("tbl").rows[jtest].cells[5].innerText;
 				directs[i]=document.getElementById("tbl").rows[jtest].cells[6].innerText;
 				
-				
 				yds[i] = document.getElementById("tbl").rows[jtest].cells[7].innerText;
 				//console.log(typeof(yds[i]));
 				calInterval[i] = document.getElementById("tbl").rows[jtest].cells[8].innerText;
@@ -462,7 +485,7 @@
 			$.ajax({
 				type : 'post',
 				traditional : true,
-				url : 'overtime_order_pending_Update.php',
+				url : 'overtime_order_pending_Update111.php',
 				data : {
 					'dropId[]' : dropId,
 					'ids[]' : ids,
@@ -472,6 +495,7 @@
 					'costids[]':costids,
 					'directs[]':directs,
 					'yds' : yds,
+					'shift':shift,
 					'calInterval[]' : calInterval,
 					'calHour[]' : calHour,
 					'reason[]': reason,
@@ -568,24 +592,27 @@
 		 		if(text_v==check_v){
 		 			if(reason_v.length!=0){
 		 				alert("修改工時和原工時一樣,請重新確認！！！");
-		 				break;
+		 				return false;
 		 			}else{
 		 				
 		 			}
-		 		}else if(text_v!=check_v){
+		 		}else if(text_v<=check_v){
 		 			if(reason_v.length==0){
 		 				alert("請輸入修改加班工時原因，不少於6個字!");
-		 				break;
+		 				return false;
 		 			}else if(reason_v.length<12){
 		 				alert("請繼續補充，不少於6個字!");
-				 		break;
+				 		return false;
 		 			}else{
 		 				
 		 			}
-		 		}
+		 		}else if(text_v>check_v){
+					alert("修改后工時不得大於原工時！");
+					return false;
+				}
 		 	}else{
 		 		alert("非法輸入，請輸入0-12的正數！");
-		 		break;
+		 		return false;
 		 	}
 		 	//console.log(reason_v.length);
 		}
@@ -601,54 +628,69 @@
 		$Item_No = $_POST['item_no'];
 		$Shift = $_POST['Shift'];
 		
-		$MYSQL_LOGIN = "root";
-		$MYSQL_PASSWORD = "foxlink";
-		$MYSQL_HOST = "192.168.65.230";
+		// $MYSQL_LOGIN = "root";
+		// $MYSQL_PASSWORD = "foxlink";
+		// $MYSQL_HOST = "192.168.65.230";
 
-		$mysqli = new mysqli($MYSQL_HOST,$MYSQL_LOGIN,$MYSQL_PASSWORD,"swipecard");
-		$mysqli->query("SET NAMES 'utf8'");	 
-		$mysqli->query('SET CHARACTER_SET_CLIENT=utf8');
-		$mysqli->query('SET CHARACTER_SET_RESULTS=utf8'); 
+		// $mysqli = new mysqli($MYSQL_HOST,$MYSQL_LOGIN,$MYSQL_PASSWORD,"swipecard");
+		// $mysqli->query("SET NAMES 'utf8'");	 
+		// $mysqli->query('SET CHARACTER_SET_CLIENT=utf8');
+		// $mysqli->query('SET CHARACTER_SET_RESULTS=utf8'); 
+		include("mysql_config.php");
+		$employee_overtime_sql = 
+			"SELECT id, 
+		       name, 
+		       depid, 
+		       rid,
+			   direct,
+			   shift,
+		       overtimeDate, 
+		       overtimeInterval, 
+		       overtimeHours, 
+		       overtimeType,
+			   notesStates
+		FROM   
+		       notes_overtime_state 
+		WHERE  
+		        overtimedate  = '$SDate' 
+		       AND LineNo = '$lineno' 
+			   AND shift = '$Shift' ";
+		if($RC_NO!=''){
+			$employee_overtime_sql .= " AND rc_no = '$RC_NO'";
+		}
 		
-		$employee_overtime_sql = "SELECT a.id, 
-											a.cardid,
-										   a.name, 
-										   a.depid, 
-										   b.rid,
-										   b.overtimeDate, 
-										   b.overtimeInterval, 
-										   b.overtimeHours, 
-										   b.overtimetype 
-									FROM   testemployee AS a, 
-										   notes_overtime_state AS b 
-									WHERE  a.id = b.id 
-										   AND Date_format(b.overtimedate, '%Y-%m-%d') = '".$SDate."' 
-										   AND b.LineNo = '".$lineno."'
-										   AND b.rc_no = '".$RC_NO."'";
-		
-		
-		echo $employee_overtime_sql;
-		exit;	   
-			   
-	
+		// echo 
+		// echo $employee_overtime_sql;
+		$over_rows = $mysqli->query($employee_overtime_sql);
+		// echo $employee_overtime_sql;
+		// while($row = $over_rows->fetch_assoc()){
+					
+			// echo $row['ids'];
+			// echo $row[3];
+			// if($row[7]==0){
+				// $checkState="未審核";
+			// }else if($row[7]==9){
+				// $checkState="退回";
+			// }	
+			// $arr[] = $row['id'];
+			// $arr[] = $row['overtimeDate'];
+		// }
+		// var_dump($arr);
+		// exit;
 	?>
 
 	<div class="panel-body" style="border: 1px solid #e1e3e6;">
-		
-		<table class="table table-striped" id="tbl">
+		<table class="table" id="tbl">
 			<tr>
-				<th class="per5"><input name="checkbox1" type="checkbox"
-					id="inlineCheckbox1" value="option1" onclick="allCheck(this)">
-				</th>
 				<th>序號</th>
 				<th>工號</th>
 				<th>名字</th>
 				<th>部門代碼</th>
 				
-				<th>費用代碼</th>
 				<th>直間接人員</th>
 				
 				<th>加班日期</th>
+				<th>班別</th>
 				<th>加班時段</th>
 				<th>加班小時</th>
 				<th>加班類型</th>
@@ -660,14 +702,23 @@
 				// echo mysqli_num_rows($over_rows);
 				$cch = '';
 				$j=1;
-				while($row = $over_rows->fetch_row()){
+				while($row = $over_rows->fetch_assoc()){
 					
 					// echo $row['ids'];
 					// echo $row[3];
-					if($row[7]==0){
-						$checkState="未審核";
-					}else if($row[7]==9){
-						$checkState="退回";
+					if($row['overtimeType']==1){
+						$overType="延時加班";
+					}elseif($row['overtimeType']==2){
+						$overType="例假日加班";
+					}else if($row['overtimeType']==3){
+						$overType="節假日加班";
+					}
+					if($row['notesStates']==0){
+						$checkState="資訊未抓取";
+					}elseif($row['notesStates']==1){
+						$checkState="資訊通過";
+					}else if($row['notesStates']==2){
+						$checkState="資訊退回";
 					}
 					
 					
@@ -676,23 +727,17 @@
 					  . "<input type=\"hidden\" id=\"depname\" value=\"".$row[3]."\"/>"
 					  . "<input type=\"hidden\" name=\"stime\" value=\"".$row[11]."\" />"
 					  . "<input type=\"hidden\" name=\"etime\" value=\"".$row[12]."\" />"
-					  . "<td><input id=\"checkValue\" name=\"checkbox\" type=\"checkbox\" value=\"".$row[8]."_".$j."\"></td>"
 					  . "<td>".$j."</td>"
-					  . "<td><input type=\"hidden\" name=\"testid\" value=\"".$row[0]."\" />".$row[0]."</td>"
-					  . "<td><input type=\"hidden\" name=\"name\" value=\"".$row[1]."\" />".$row[1]."</td>"
-					  . "<td><input type=\"hidden\" name=\"depid\" value=\"".$row[2]."\" />".$row[2]."</td>"
-					  . "<td><input type=\"hidden\" name=\"costid\" value=\"".$row[5]."\" />".$row[5]."</td>"
-					  . "<td><input type=\"hidden\" name=\"direct\" value=\"".$row[4]."\" />".$row[4]."</td>"
-					  . "<td><input type=\"hidden\" name=\"yd\" value=\"".$row[6]."\" />".$row[6]."</td>"
-					  . "<td id=\"tck_".$row[8]."\"></td>"
-					  
-					  ."<td id=\"cal_".$row[8]."\" class=\"changeStatus\" >"
-					  . "<input type=\"text\" class=\"textBoxtest\" style=\"width:50px;height:32px\" value=\"\" readonly />"
-					  . "<input class=\"easyui-switchbutton\" name=\"stButton\" id=\"but_".$row[8]."\" value=\"\"  /> "
-					  . "</td>"
-					  . "<td id=\"type_".$row[8]."\"></td>"
+					  . "<td><input type=\"hidden\" name=\"testid\" value=\"".$row['id']."\" />".$row['id']."</td>"
+					  . "<td><input type=\"hidden\" name=\"name\" value=\"".$row['name']."\" />".$row['name']."</td>"
+					  . "<td><input type=\"hidden\" name=\"depid\" value=\"".$row['depid']."\" />".$row['depid']."</td>"
+					  . "<td><input type=\"hidden\" name=\"direct\" value=\"".$row['direct']."\" />".$row['direct']."</td>"
+					  . "<td><input type=\"hidden\" name=\"overtimeDate\" value=\"".$row['overtimeDate']."\" />".$row['overtimeDate']."</td>"
+					  . "<td><input type=\"hidden\" name=\"shift\" value=\"".$row['shift']."\" />".$row['shift']."</td>"
+					  . "<td><input type=\"hidden\" name=\"overtimeInterval\" value=\"".$row['overtimeInterval']."\" />".$row['overtimeInterval']."</td>"
+					  . "<td><input type=\"hidden\" name=\"overtimeHours\" value=\"".$row['overtimeHours']."\" />".$row['overtimeHours']."</td>"
+					  . "<td>".$overType."</td>"
 					  . "<td>".$checkState."</td>"
-					  . "<td><input class=\"easyui-textbox\" id=\"reason_".$row[8]."\" style=\"width:100%;height:32px\" readonly /></td>"
 					  
 					  ."</tr>";
 					 $j++;
@@ -700,8 +745,6 @@
 				// echo $cch;
 			?>
 		</table>
-		<input class="btn btn-primary" name="" type="button"
-			onclick="check()" value="退回" />
 	</div>
 	<div>
 		<input type="hidden" id="LineNo" value="<?php echo $lineno?>"/>
