@@ -91,12 +91,12 @@
 							
 	
 	
-	// echo $rcno_sql_n;
+	// echo $rcno_sql;
 	// $line_rows = $mysqli->query($line_sql);
 	// while($row = $line_rows->fetch_row()){
 		// $lineno[] = $row[0];
 	// }
-	echo $rcno_sql;
+	// echo $rcno_sql;
 	$rcno_true = array();
 	$rcno_all = array();
 	$norcno = array();

@@ -28,16 +28,16 @@
 			// $date = date_create($date);
 			if($shift=="D"){
 				if($j<$length-1){
-					$tempInterval = split("-",$setting[$j]);
-					$tempHour1 = split(":",$tempInterval[0]);
-					$tempHour2 = split(":",$tempInterval[1]);
+					$tempInterval = explode("-",$setting[$j]);
+					$tempHour1 = explode(":",$tempInterval[0]);
+					$tempHour2 = explode(":",$tempInterval[1]);
 				}else{
-					$tempHour1 = split(":",$setting[$j]);
+					$tempHour1 = explode(":",$setting[$j]);
 				}
 			}else if($shift=="N"){
-				$tempInterval = split("-",$setting[$j]);
-				$tempHour1 = split(":",$tempInterval[0]);
-				$tempHour2 = split(":",$tempInterval[1]);
+				$tempInterval = explode("-",$setting[$j]);
+				$tempHour1 = explode(":",$tempInterval[0]);
+				$tempHour2 = explode(":",$tempInterval[1]);
 			}
 			
 			
@@ -115,12 +115,35 @@
 
 	function getWeekend($SDate){
 		$w=date('w',strtotime($SDate));
-		if($w==6){
+		if($w==6||$w==0){
 			$weekend = 1;
 		}else{
-			$weekend = 0;//TODO
+			$weekend = 0;
 		}
 		return $weekend;
 	}
 	
-	
+	function getNum($Num) {//向下取整
+		$front = 0;
+		$$surplus = 0;
+		$front = floor($Num);
+		$surplus = $Num - $front;
+		// if ($surplus <= 0.25) {
+			// $surplus = 0;
+		// } else if ($surplus > 0.25 && $surplus <= 0.75) {
+			// $surplus = 0.5;
+		// } else if ($surplus > 0.75) {
+			// $surplus = 1;
+		// }
+		if ($surplus < 0.25) {
+			$surplus = 0;
+		} else if ($surplus > 0.25 && $surplus < 0.5) {
+			$surplus = 0.25;
+		} else if ($surplus>=0.5 && $surplus < 0.75) {
+			$surplus = 0.5;
+		}else if($surplus >=0.75 && $surplus < 1 ){
+			$surplus = 0.75;
+		}
+		$sum = $surplus+$front;
+		return $sum;
+	}

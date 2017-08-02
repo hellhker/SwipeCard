@@ -32,7 +32,10 @@
 // $mysqli->query('SET CHARACTER_SET_CLIENT=utf8');
 // $mysqli->query('SET CHARACTER_SET_RESULTS=utf8'); 
 
+
 include("mysql_config.php");
+
+
 
 $line_sql = "select lineno from lineno";
 $line_rows = $mysqli->query($line_sql);

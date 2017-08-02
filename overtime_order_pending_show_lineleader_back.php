@@ -1,6 +1,7 @@
 <?php 
 	session_start();
 	$access = $_SESSION["permission"];
+	$depid = $_SESSION['depid'];
 	$assistant_id = $_SESSION['assistant_id'];
 ?>
 <html>
@@ -42,6 +43,7 @@
 				//alert("box[i]: "+checkbox[i].checked);
 				record[i] = checkbox[i].value;
 				console.log(record[i]);
+				//alert(msg); //TODO
 			}
 		}
 		return record;
@@ -54,6 +56,7 @@
 			//alert("box[i]: "+checkbox[i].checked);
 			record[i] = checkbox1[i].value;
 			console.log(record[i]);
+			//alert(msg); //TODO
 		}
 		return record;
 	}
@@ -64,7 +67,7 @@
 		var checkbox2 = document.getElementsByName("etime");
 		var checkbox3 = document.getElementsByName("checkbox");
 		var shift = $("#Shift").val();
-		var t_set = $("#Interval_Setting").val();
+		var t_set = $("#Interval_Setting").val();//TODO
 		var sdate = [];
 		var sdate1 = [];
 		var edate = [];
@@ -110,14 +113,12 @@
 		var sub;
 		var tempInterval = [];
 		var tempHour1,tempHour2;//17:30 19:30
-		var tempTime;
-		var tempTime1;
+		// var tempTime1;
 		var tempTime2;//17 30
 		// var tempTime1 = new Date();
 		// var tempTime2 = new Date();//17 30
 		var $tempEnd,$tempStart;
 		for ( var i = 0; i < checkbox1.length; i++) {
-		// for ( var i = 0; i < 1; i++) {
 			//minus-根據選擇的加班時間類型得出不同時段
 			if (cal == "1") {
 				if(shift=="D"){
@@ -137,6 +138,7 @@
 				//根據選擇的加班時間類型得出不同時段
 				//console.log(getHour(sdate1[i]));
 			} else if (cal == "2") {
+				
 				// minus = (edate1[i] - sdate1[i]) / 3600000 - 2;
 				if(shift=="D"){
 					for(var j = 0;j<t_s.length;j++){
@@ -144,14 +146,14 @@
 						if(j<t_s.length-1){
 							tempInterval = t_s[j].split("-");
 							tempHour1 = tempInterval[0].split(":");
-							// console.log(edate1[i]);
+							// console.log(tempHour1);
 							tempHour2 = tempInterval[1].split(":");
 						}else{
 							tempHour1 = t_s[j].split(":");
 							tempHour2 = edate1[i];
 						}
 						
-						// console.log(edate1[i]);
+						// console.log(tempHour1);
 						
 						// console.log(tempHour2);
 						// tempTime1 = sdate1[i];
@@ -164,6 +166,8 @@
 						}
 						$calStart = sdate1[i]-tempTime1;
 						$calEnd   = edate1[i]-tempTime2;
+						// console.log(edate1[i]);
+						// console.log(tempTime2);
 						if($calEnd>0){
 							$tempEnd = tempTime2;//10:30
 							if($calStart>0){
@@ -177,12 +181,22 @@
 								$tempStart = tempTime1;//09:40
 								$tempEnd = edate1[i];//10:30
 								minus += $tempEnd - $tempStart;
+								var tempStart = new Date($tempStart);
+						var tempEnd = new Date($tempEnd);
+						console.log("$tempStart:"+ tempStart);
+						console.log("$tempEnd:"+ tempEnd);
+						minus += $tempEnd - $tempStart;
 								break;
 							}else{
 								break;
 							}
 						}
+						var tempStart = new Date($tempStart);
+						var tempEnd = new Date($tempEnd);
+						console.log("$tempStart:"+ tempStart);
+						console.log("$tempEnd:"+ tempEnd);
 						minus += $tempEnd - $tempStart;
+						// console.log(minus);
 					}
 				}else{
 					// minus = (edate1[i] - sdate1[i]);
@@ -224,6 +238,7 @@
 						
 						$calStart = sdate1[i]-tempTime1;
 						$calEnd   = edate1[i]-tempTime2;
+						// console.log($calEnd);
 						if($calEnd>0){
 							$tempEnd = tempTime2;//10:30
 							if($calStart>0){
@@ -242,17 +257,14 @@
 								break;
 							}
 						}
-						// var tempStart = new Date($tempStart);
-						// var tempEnd = new Date($tempEnd);
-						// console.log("$tempStart:"+ tempStart);
-						// console.log("$tempEnd:"+ tempEnd);
 						minus += $tempEnd - $tempStart;
 					}
 				}
 				
 				//根據選擇的加班時間類型得出不同時段
 			}
-			minus = minus / 3600000;
+			// console.log(minus);
+			minus = minus / 3600000;			
 			minus = getNum(minus);
 			sub = getHour(sdate1[i]) + "-" + getHour1(edate1[i]);
 			//console.log("時段sub: "+sub);
@@ -278,7 +290,6 @@
 			var x = $("#"+sp[i]).find("[switchbuttonName='stButton']");
 			x.switchbutton('setValue',minus);
 			minus = 0;
-			
 		}
 	}
 
@@ -354,7 +365,7 @@
 	}
 	
 	//function changeStatus(){
-		$(function(){
+		$(function(){ 
 			//var thisSwitchbuttonObj = $(".state").find("[switchbuttonName='unitState']");
 			//var swiButton = $("#cal_14364").find("[switchbuttonName='stButton']");
 			//status= $("#cal_14364").switchbutton("options").checked;
@@ -555,7 +566,7 @@
 			var lineNo=$("#LineNo").val();
 			var rC_NO=$("#RC_NO").val();
 			var item_No=$("#Item_No").val();
-			console.log("item_No： "+item_No);
+			// console.log("item_No： "+item_No);
 			var jtest;
 			var ids = [];
 			var names = [];
@@ -632,9 +643,9 @@
 				},
 				success : function(msg) {
 					alert("提交成功,窗口即將關閉！");
-					//$("#ttt").html(msg);
+					// $("#ttt").html(msg);
 					// console.log(msg);
-					// $temp = msg;
+					
 					window.close();
 				}
 			});
@@ -716,24 +727,28 @@
 		 		if(text_v==check_v){
 		 			if(reason_v.length!=0){
 		 				alert("修改工時和原工時一樣,請重新確認！！！");
-		 				break;
+		 				return false;
 		 			}else{
 		 				
 		 			}
-		 		}else if(text_v!=check_v){
+		 		}else if(text_v<=check_v){
 		 			if(reason_v.length==0){
 		 				alert("請輸入修改加班工時原因，不少於6個字!");
-		 				break;
+		 				return false;
 		 			}else if(reason_v.length<6){
+						console.log(reason_v.length)
 		 				alert("請繼續補充，不少於6個字!");
-				 		break;
+				 		return false;
 		 			}else{
 		 				
 		 			}
-		 		}
+		 		}else if(text_v>check_v){
+					alert("修改后工時不得大於原工時！");
+					return false;
+				}
 		 	}else{
 		 		alert("非法輸入，請輸入0-12的正數！");
-		 		break;
+		 		return false;
 		 	}
 		 	//console.log(reason_v.length);
 		}
@@ -743,22 +758,6 @@
 </head>
 <body class="pace-done">
 	<?php 
-	
-		$SDate = $_POST['SDate'];
-		$WorkshopNo = $_POST['WorkshopNo'];
-		$lineno = $_POST['LineNo'];
-		$RC_NO = $_POST['rc_no'];
-		$Item_No = $_POST['item_no'];
-		$Shift = $_POST['Shift'];
-		$type = $_POST['type'];
-		$w=date('w',strtotime($SDate));
-		if($w==6){
-			$weekend = 1;
-		}else{
-			$weekend = 0;//TODO
-		}
-		// echo $type."<br>";
-		
 		// $MYSQL_LOGIN = "root";
 		// $MYSQL_PASSWORD = "foxlink";
 		// $MYSQL_HOST = "192.168.65.230";
@@ -767,8 +766,21 @@
 		// $mysqli->query("SET NAMES 'utf8'");	 
 		// $mysqli->query('SET CHARACTER_SET_CLIENT=utf8');
 		// $mysqli->query('SET CHARACTER_SET_RESULTS=utf8'); 
-		
 		include("mysql_config.php");
+	
+		$SDate = $_POST['SDate'];
+		$WorkshopNo = $_POST['WorkshopNo'];
+		$lineno = $_POST['LineNo'];
+		$RC_NO = $_POST['rc_no'];
+		$Item_No = $_POST['item_no'];
+		$Shift = $_POST['Shift'];
+		$w=date('w',strtotime($SDate));
+		if($w==6||$w==0){
+			$weekend = 1;
+		}else{
+			$weekend = 0;//TODO
+		}
+		
 		if($Shift=="D"){
 			$employee_overtime_sql = 
 				"SELECT a.id, 
@@ -788,10 +800,10 @@
 					   testswipecardtime AS b 
 				WHERE  a.cardid = b.cardid 
 						and DATE_FORMAT(b.swipecardtime, '%Y-%m-%d') = '".$SDate."'
-					   and shift = 'D'
-					   AND WorkshopNo = '".$WorkshopNo."'
-					    AND prod_line_code = '".$lineno."'
-					   and swipecardtime2 is not null
+						and swipecardtime2 is not null
+						and shift = 'D'
+					   AND prod_line_code = '".$lineno."'
+					   AND a.depid = '".$depid."'
 						AND RC_NO = '".$RC_NO."'
 					   and checkstate in('0','9') ";
 		}else if($Shift=="N"){
@@ -813,20 +825,13 @@
 					   testswipecardtime AS b 
 				WHERE  a.cardid = b.cardid 
 						and DATE_FORMAT(b.swipecardtime, '%Y-%m-%d') = '".$SDate."'
-						and b.shift = 'N'
-						and b.swipecardtime2 is not null
-						 AND b.WorkshopNo = '".$WorkshopNo."'
+						and shift = 'N'
+						and swipecardtime2 is not null
 					   AND prod_line_code = '".$lineno."'
+					   AND a.depid = '".$depid."'
 						AND RC_NO = '".$RC_NO."'
-					   and b.checkstate in('0','9') ";
+					   and checkstate in('0','9') ";
 		}
-		
-		if($type=="I"){
-			$cch_sql = "AND a.Direct = 'I'";
-			$employee_overtime_sql = $employee_overtime_sql.$cch_sql;
-		}
-		// echo $type."<br>";
-		// echo $employee_overtime_sql;
 		// echo $employee_overtime_sql;
 		if($Shift=="D"){
 			$interval_sql = "select * from interval_setting where WorkshopNo='$WorkshopNo' and weekend = '$weekend' and Shift = '$Shift'";
@@ -850,7 +855,7 @@
 			}else{
 				$cch_t_set.= $value."*";
 			}
-		}	  	   
+		}	
 			   
 		$person_sql = "select * from assistant_data where application_id='$assistant_id'";
 		// echo $person_sql."<Br>";
@@ -861,12 +866,15 @@
 			$application_dep = $row['application_dep'];
 			$application_tel = $row['application_tel'];
 		}
+		
 		mysqli_free_result($zhuli_rows);	   
 		if(strcmp($application_person,"")<=0){
 			echo "當前對應助理信息缺失，不能提交，請嘗試更換電腦再重新嘗試。";
 		}
 	?>
-
+	<div>
+	
+	</div>
 	<div class="panel-body" style="border: 1px solid #e1e3e6;">
 		時間： <select id="overtimeCal" onclick="getValueB()">
 			<option value="0">待選</option>
@@ -890,7 +898,6 @@
 				<th class="per5"><input name="checkbox1" type="checkbox"
 					id="inlineCheckbox1" value="option1" onclick="allCheck(this)">
 				</th>
-				<th>序號</th>
 				<th>工號</th>
 				<th>名字</th>
 				<th>部門代碼</th>
@@ -948,6 +955,7 @@
 					 $j++;
 				}
 				// echo $cch;
+				
 			?>
 		</table>
 		<?
@@ -956,7 +964,6 @@
 					echo "		onclick=\"check()\" value=\"提交\" />\n";
 			}
 		?>
-
 	</div>
 	<div>
 		<input type="hidden" id="LineNo" value="<?php echo $lineno?>"/>
@@ -964,11 +971,12 @@
 		<input type="hidden" id="Item_No" value="<?php echo $Item_No?>" />
 		<input type="hidden" id="Shift" value="<?php echo $Shift?>" />
 		<input type="hidden" id="WorkshopNo" value="<?php echo $WorkshopNo?>" />
-		<input type="hidden" id="Interval_Setting" value="<?php echo $cch_t_set  ?>" />
+		<input type="hidden" id="Interval_Setting" value="<?php echo $cch_t_set //TODO_List ?>" />
 	</div>
 	<!-- 
 	<input name="" type="button" onclick="location.href = 'index_test.jsp'"		value="返回" />
 	 -->
 </body>
 </html>
+
 

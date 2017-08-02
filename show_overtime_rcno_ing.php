@@ -15,13 +15,10 @@
 	// $MYSQL_LOGIN = "root";
 	// $MYSQL_PASSWORD = "foxlink";
 	// $MYSQL_HOST = "192.168.65.230";
-
 	// $mysqli = new mysqli($MYSQL_HOST,$MYSQL_LOGIN,$MYSQL_PASSWORD,"swipecard");
 	// $mysqli->query("SET NAMES 'utf8'");	 
 	// $mysqli->query('SET CHARACTER_SET_CLIENT=utf8');
 	// $mysqli->query('SET CHARACTER_SET_RESULTS=utf8'); 
-
-
 	// $line_sql = "select lineno from lineno";
 	// $line_rows = $mysqli->query($line_sql);
 	// while($row = $line_rows->fetch_row()){
@@ -47,24 +44,23 @@
 		}
 		// echo $cch."<br>";
 	}
-	// echo $cch;
-	if($type=="D*I"){
-		$rcno_sql   = "SELECT 	a.rc_no,
-							a.prod_line_code,
-							a.checkstate,
-							Date_format(a.swipecardtime, '%Y-%m-%d') sdate,
-							a.shift,
-							a.WorkshopNo
-					FROM testswipecardtime a,testemployee b
-					WHERE  	Date_format(swipecardtime, '%Y-%m-%d') >= '".$SDate."'
-							AND Date_format(swipecardtime, '%Y-%m-%d') <= '".$EDate."'
-							AND swipecardtime2 is not null
-							AND Shift = 'D'
-							AND (checkState=0 or checkState=9)
-							AND a.cardid = b.cardid
-							AND prod_line_code like '".$lineno."'
-							AND b.costid in ($cch)
-							";
+	// echo $type;
+	$rcno_sql   = "SELECT 	a.rc_no,
+						a.prod_line_code,
+						a.checkstate,
+						Date_format(a.swipecardtime, '%Y-%m-%d') sdate,
+						a.shift,
+						a.WorkshopNo
+				FROM testswipecardtime a,testemployee b
+				WHERE  	Date_format(swipecardtime, '%Y-%m-%d') >= '".$SDate."'
+						AND Date_format(swipecardtime, '%Y-%m-%d') <= '".$EDate."'
+						AND swipecardtime2 is not null
+						AND Shift = 'D'
+						AND (checkState=0 or checkState=9)
+						AND a.cardid = b.cardid
+						AND prod_line_code like '".$lineno."'
+						AND b.costid in ($cch)
+						";
 							
 	$rcno_sql_n = "SELECT 	a.rc_no,
 							a.prod_line_code,
@@ -72,7 +68,6 @@
 							Date_format(a.swipecardtime, '%Y-%m-%d') sdate,
 							a.shift,
 							a.WorkshopNo
-							
 					FROM testswipecardtime a,testemployee b
 					WHERE  	Date_format(swipecardtime, '%Y-%m-%d') >= '".$SDate."'
 							AND Date_format(swipecardtime, '%Y-%m-%d') <= '".$EDate."'
@@ -83,47 +78,17 @@
 							AND prod_line_code like '".$lineno."'
 							AND b.costid in ($cch)
 							";	
-	}else if($type=="I"){
-		$rcno_sql   = "SELECT 	a.rc_no,
-							a.prod_line_code,
-							a.checkstate,
-							Date_format(a.swipecardtime, '%Y-%m-%d') sdate,
-							a.shift,
-							a.WorkshopNo
-					FROM testswipecardtime a,testemployee b
-					WHERE  	Date_format(swipecardtime, '%Y-%m-%d') >= '".$SDate."'
-							AND Date_format(swipecardtime, '%Y-%m-%d') <= '".$EDate."'
-							AND swipecardtime2 is not null
-							AND Shift = 'D'
-							AND (checkState=0 or checkState=9)
-							AND b.Direct = 'I'
-							AND a.cardid = b.cardid
-							AND prod_line_code like '".$lineno."'
-							AND b.costid in ($cch)
-							";
-							
-		$rcno_sql_n = "SELECT 	a.rc_no,
-							a.prod_line_code,
-							a.checkstate,
-							Date_format(a.swipecardtime, '%Y-%m-%d') sdate,
-							a.shift,
-							a.WorkshopNo
-					FROM testswipecardtime a,testemployee b
-					WHERE  	Date_format(swipecardtime, '%Y-%m-%d') >= '".$SDate."'
-							AND Date_format(swipecardtime, '%Y-%m-%d') <= '".$EDate."'
-							AND (checkState=0 or checkState=9)
-							AND Shift = 'N'
-							AND b.Direct = 'I'
-							AND a.cardid = b.cardid
-							and swipecardtime2 is not null
-							AND prod_line_code like '".$lineno."'
-							AND b.costid in ($cch)
-							";	
-	}
+	
 						
+	if($type=="I"){
+		$cch_sql = "AND b.Direct = 'I'";
+		$rcno_sql = $rcno_sql.$cch_sql;
+		$rcno_sql_n = $rcno_sql_n.$cch_sql;
+	
+	}
 	
 	$cch = "";
-	// echo $rcno_sql_n;
+	// echo $rcno_sql;
 	// $line_rows = $mysqli->query($line_sql);
 	// while($row = $line_rows->fetch_row()){
 		// $lineno[] = $row[0];
@@ -306,6 +271,7 @@
 							<input type=\"hidden\" name=\"rc_no\" value=\"".$value."\">
 							<input type=\"hidden\" name=\"item_no\" value=\"".$item_no[$value]."\">
 							<input type=\"hidden\" name=\"Shift\" value=\"D\">
+							<input type=\"hidden\" name=\"type\"value=\"".$type."\">
 							<input class=\"btn btn-primary\" type=\"submit\" value=\"詳情\" > 
 						</form>";
 				$cch .="</td>";
@@ -336,6 +302,7 @@
 							<input type=\"hidden\" name=\"rc_no\" value=\"".$value."\">
 							<input type=\"hidden\" name=\"item_no\" value=\"".$item_no_n[$value]."\">
 							<input type=\"hidden\" name=\"Shift\" value=\"N\">
+							<input type=\"hidden\" name=\"type\"value=\"".$type."\">
 							<input class=\"btn btn-primary\" type=\"submit\" value=\"詳情\" > 
 					</form>";
 				$cch .="</td>";
@@ -386,7 +353,7 @@
 									<input type=\"hidden\" name=\"LineNo\" value=\"".$key1."\">
 									<input type=\"hidden\" name=\"SDate\" value=\"".$key2."\">
 									<input type=\"hidden\" name=\"Shift\"value=\"".$key3."\">
-									
+									<input type=\"hidden\" name=\"type\"value=\"".$type."\">
 									<input class=\"btn btn-primary\" type=\"submit\" value=\"詳情\" > 
 								</form>";
 						$cch_no .="</td>";

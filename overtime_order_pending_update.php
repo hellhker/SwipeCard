@@ -1,6 +1,7 @@
 <?php 
 	session_start();
 	$access = $_SESSION["permission"];
+	$assistant_id = $_SESSION['assistant_id'];
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -31,7 +32,11 @@
 		$rC_NO = $_POST['rC_NO'];
 		$item_No = $_POST['item_No'];
 		
-		$assistant_id = $_SESSION['assistant_id'];
+		
+		
+		// if(strcmp($application_person,"")==0){
+			// echo "123";
+		// }
 		
 		$person_sql = "select * from assistant_data where application_id='$assistant_id'";
 		// echo $person_sql."<Br>";
@@ -43,7 +48,11 @@
 			$application_tel = $row['application_tel'];
 		}
 		
-		
+		if(strcmp($application_person,"")<=0){
+			echo "alert(\"當前登陸線長或助理登陸信息缺失，請嘗試更換電腦，或者重新登陸！\");\n";
+			return false;
+		}
+		mysqli_free_result($zhuli_rows);
 		if($_POST['workcontent']){
 			$WorkContent = $_POST['workcontent'];
 		}else{
@@ -72,46 +81,47 @@
 			$a[$i][3]=$depids[$i];
 			$a[$i][4]=$depname[$i];
 			$a[$i][5]=$calInterval[$i];
+			$a[$i][6]=$calHour[$i];
 			if($calHour[$i]==0){
 				echo "alert(\"工時小於等於0，有誤，請重新選擇加班人員！\");\n";
 				return false;
 			}
-			$a[$i][6]=$calHour[$i];
-			
 			$a[$i][7]=$costids[$i];
 			$a[$i][8]=$directs[$i];
 			// echo ("a[1][" + $i + "]: " + $a[$i][1]);
 		}
+		// var_dump($calHour);
+		// exit;
 	
-	for($i=0;$i<count($checkValue);$i++){
-		$update_sql = "update testswipecardtime set CheckState = '1',overtimeCal='".$timeCal."',overtimeType='".$timeType."' where RecordId = '".$a[$i][0]."'";
-		$cch = "insert into notes_overtime_state (id,name,depid,depname,overtimeInterval,overtimeHours,costID,Direct,overtimeDate,shift,overtimeType,LineNo,RC_NO,PRIMARY_ITEM_NO,WorkContent,application_person, application_id, application_dep, application_tel) value (";
-		for($j=1;$j<=8;$j++){
-			$cch .= "'".$a[$i][$j]."',";
+		for($i=0;$i<count($checkValue);$i++){
+			$update_sql = "update testswipecardtime set CheckState = '1',overtimeCal='".$timeCal."',overtimeType='".$timeType."' where RecordId = '".$a[$i][0]."'";
+			$cch = "insert into notes_overtime_state (id,name,depid,depname,overtimeInterval,overtimeHours,costID,Direct,overtimeDate,shift,overtimeType,LineNo,RC_NO,PRIMARY_ITEM_NO,WorkContent,application_person, application_id, application_dep, application_tel) value (";
+			for($j=1;$j<=8;$j++){
+				$cch .= "'".$a[$i][$j]."',";
+			}
+			$cch .= "'".$yds."',";
+			$cch .= "'".$shift."',";
+			$cch .= "'".$timeType."',";
+			$cch .= "'".$lineNo."',";
+			$cch .= "'".$rC_NO."',";
+			$cch .= "'".$item_No."',";
+			$cch .= "'".$WorkContent."',";
+			$cch .= "'".$application_person."',";
+			$cch .= "'".$application_id."',";
+			$cch .= "'".$application_dep."',";
+			$cch .= "'".$application_tel."')";
+			$insert_sql = $cch;
+			
+			
+			
+			// $cch = '';
+			// echo $insert_sql."<br>";
+			
+			$update_rows = $mysqli->query($update_sql);
+			$insert_rows =$mysqli->query($insert_sql);
 		}
-		$cch .= "'".$yds."',";
-		$cch .= "'".$shift."',";
-		$cch .= "'".$timeType."',";
-		$cch .= "'".$lineNo."',";
-		$cch .= "'".$rC_NO."',";
-		$cch .= "'".$item_No."',";
-		$cch .= "'".$WorkContent."',";
-		$cch .= "'".$application_person."',";
-		$cch .= "'".$application_id."',";
-		$cch .= "'".$application_dep."',";
-		$cch .= "'".$application_tel."')";
-		$insert_sql = $cch;
-		
-		
-		
-		// $cch = '';
-		// echo $insert_sql."<br>";
-		
-		$update_rows = $mysqli->query($update_sql);
-		$insert_rows =$mysqli->query($insert_sql);
-	}
 	
-	$mysqli->close();
+		$mysqli->close();
 ?>
 
 </body>
