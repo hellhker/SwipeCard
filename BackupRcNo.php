@@ -8,8 +8,8 @@
 	$conn = oci_new_connect($ORACLE_LOGIN,$ORACLE_PASSWORD,$ORACLE_HOST,'AL32UTF8');
 	
 	
-	// $sql = "select RC_NO, PRIMARY_ITEM_NO,STD_MAN_POWER,PROD_LINE_CODE,to_char(creation_date,'YYYY-MM-DD HH24:MI:SS') " . "from APPS.FL_RC_LINES_V " . "where creation_date >= (to_date('$date','YYYY-MM-DD')-10) order by creation_date"; // SQL语句
-	$sql = "select RC_NO, PRIMARY_ITEM_NO,STD_MAN_POWER,PROD_LINE_CODE,to_char(creation_date,'YYYY-MM-DD HH24:MI:SS') " . "from APPS.FL_RC_LINES_V " . "where creation_date >= (to_date('$date','YYYY-MM-DD')) order by creation_date"; // SQL语句
+	$sql = "select RC_NO, PRIMARY_ITEM_NO,STD_MAN_POWER,PROD_LINE_CODE,to_char(creation_date,'YYYY-MM-DD HH24:MI:SS') " . "from APPS.FL_RC_LINES_V " . "where creation_date >= (to_date('$date','YYYY-MM-DD')-10) order by creation_date"; // SQL语句
+	// $sql = "select RC_NO, PRIMARY_ITEM_NO,STD_MAN_POWER,PROD_LINE_CODE,to_char(creation_date,'YYYY-MM-DD HH24:MI:SS') " . "from APPS.FL_RC_LINES_V " . "where creation_date >= (to_date('$date','YYYY-MM-DD')) order by creation_date"; // SQL语句
 	$result_RC_document_number = oci_parse($conn,$sql);
 	oci_execute($result_RC_document_number, OCI_DEFAULT);//缺省模式;
 		
@@ -20,9 +20,11 @@
 		$a4[$row[0]] = $row[3];
 		$a5[$row[0]] = $row[4];
 	}
-	
+	oci_free_statement($result_RC_document_number);
+	oci_close($conn);
 	
 	// var_dump($a2);
+	// echo $sql;
 	// exit;
 	// date_format()
 	
@@ -41,8 +43,8 @@
 	// var_dump($a1);
 	// exit;
 	// CUR_DATE > date_sub(curdate(),interval 10 day)
-	// $sql = "select RC_NO, PRIMARY_ITEM_NO,STD_MAN_POWER,PROD_LINE_CODE,CUR_DATE from testrcline1 where CUR_DATE >= date_sub('$date',interval 10 day) order by CUR_DATE";
-	$sql = "select RC_NO, PRIMARY_ITEM_NO,STD_MAN_POWER,PROD_LINE_CODE,CUR_DATE from testrcline where CUR_DATE >= '$date' order by CUR_DATE";
+	$sql = "select RC_NO, PRIMARY_ITEM_NO,STD_MAN_POWER,PROD_LINE_CODE,CUR_DATE from testrcline where CUR_DATE >= date_sub('$date',interval 10 day) order by CUR_DATE";
+	// $sql = "select RC_NO, PRIMARY_ITEM_NO,STD_MAN_POWER,PROD_LINE_CODE,CUR_DATE from testrcline where CUR_DATE >= '$date' order by CUR_DATE";
 	$mysql_row = $mysqli->query($sql);
 	while($row = $mysql_row->fetch_row()){
 		$b1[] = $row[0];
@@ -51,7 +53,7 @@
 		$b4[$row[0]] = $row[3];
 		$b5[$row[0]] = $row[4];
 	}
-	// mysqli_free_result($mysql_row);
+	mysqli_free_result($mysql_row);
 	// var_dump($b2);
 	// exit;
 	$i=0;
@@ -73,6 +75,8 @@
 				// echo $a5[$v]." - ".$b5[$v]."<br>";
 				// echo $update_sql."<br>";
 				// break ;
+			}else{
+				
 			}
 		}else{
 			$insert_sql = "insert into testrcline (RC_NO, PRIMARY_ITEM_NO, STD_MAN_POWER, PROD_LINE_CODE,CUR_DATE) values('$v','$a2[$v]','$a3[$v]','$a4[$v]','$a5[$v]')";
