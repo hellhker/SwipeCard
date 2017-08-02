@@ -20,7 +20,7 @@
 <script type="text/javascript" src="easyui/jquery.min.js"></script>
 <script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
 <script src="Button_Plugins.js"></script>
-<script src="ext_function.js"></script>
+<script src="js/ext_function.js"></script>
 
 <title>線長審核</title>
 </head>
@@ -147,7 +147,7 @@
 			<option value="0">待選</option>
 			<option value="1">正常班</option>
 			<option value="2">假日班</option>
-
+			<option value="3">連班時數</option>
 		</select> 加班類型： <select id="overtimeType" onclick="setOverType()">
 			<option value="0">待選</option>
 			<option value="1">加班1</option>
@@ -165,6 +165,7 @@
 				<th class="per5"><input name="checkbox1" type="checkbox"
 					id="inlineCheckbox1" value="option1" onclick="allCheck(this)">
 				</th>
+				<th>序號</th>
 				<th>工號</th>
 				<th>名字</th>
 				<th>部門代碼</th>
@@ -175,6 +176,7 @@
 				<th>加班日期</th>
 				<th>加班時段</th>
 				<th>加班小時</th>
+				<th>連班時數</th>
 				<th>加班類型</th>
 				<th>審核狀態</th>
 			</tr>
@@ -211,6 +213,10 @@
 					  ."<td id=\"cal_".$row[8]."\" class=\"changeStatus\" >"
 					  . "<input type=\"text\" class=\"textBoxtest\" style=\"width:50px;height:32px\" value=\"\" readonly />"
 					  . "<input class=\"easyui-switchbutton\" name=\"stButton\" id=\"but_".$row[8]."\" value=\"\"  /> "
+					  . "</td>"
+					  ."<td id=\"cont_".$row[8]."\" class=\"changeStatus_Cont\" >"
+					  . "<input type=\"text\" class=\"textBoxCont\" style=\"width:50px;height:32px\" value=\"\" readonly />"
+					  . "<input class=\"easyui-switchbutton\" name=\"stButtonCont\" id=\"butCont_".$row[8]."\" value=\"\"  /> "
 					  . "</td>"
 					  . "<td id=\"type_".$row[8]."\"></td>"
 					  . "<td>".$checkState."</td>"

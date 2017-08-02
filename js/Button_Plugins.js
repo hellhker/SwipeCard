@@ -1,4 +1,4 @@
-﻿function showTableByIdentified() {
+function showTableByIdentified() {
 	var lineno = $("#test").val();
 	var SDate = $("#dpick1").val();
 	var EDate = $("#dpick2").val();
