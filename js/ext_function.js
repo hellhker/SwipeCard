@@ -116,6 +116,7 @@
 				//console.log("時長minus: "+ minus);
 				//根據選擇的加班時間類型得出不同時段
 				//console.log(getHour(sdate1[i]));
+				minus = minus / 3600000;	
 			} else if (cal == "2") {
 				
 				// minus = (edate1[i] - sdate1[i]) / 3600000 - 2;
@@ -177,7 +178,7 @@
 						minus += $tempEnd - $tempStart;
 						// console.log(minus);
 					}
-					minus = minus / 3600000;	
+					// minus = minus / 3600000;	
 				}else{
 					// minus = (edate1[i] - sdate1[i]);
 					for(var j = 0;j<t_s.length;j++){
@@ -241,38 +242,101 @@
 					}
 				}
 				minus = minus / 3600000;	
+				// console.log(minus);	
 				//根據選擇的加班時間類型得出不同時段
 			}else if(cal=='3'){
 				if(shift=="D"){
 					var continus = 0;
 					var calTemp;
-				//console.log("sdate1[0]:"+ sdate1[0]);{
-					var timeTemp = sdate1[i].setHours(15, 40, 0);
-					calTemp = (edate1[i] - sdate1[i])/3600000;
-					if( calTemp >0&&calTemp <=2){
-						minus = calTemp;
-					}else if(calTemp >2&&calTemp <=4){
-						minus = 2;
-						continus = calTemp - 2;
-					}else if(calTemp >4){
-						minus = calTemp -2;
-						continus = 2;
-					}
-					console.log(minus);
-					console.log(continus);
+					sdate1[i].setHours(15, 40, 0);
+					
+					// console.log(minus);
+					// console.log(continus);
 				}else{
 					// var tempDay  = getNextDay.time.getPreDate(1,sdate1[i]);
 					var tempDay = sdate1[i].getDate();
 					sdate1[i].setDate(tempDay+1);
-					// console.log(sdate1[i]);
-					sdate1[i].setHours(05, 00, 0);
+					sdate1[i].setHours(03, 40, 0);
 				}
-				
+				calTemp = (edate1[i] - sdate1[i])/3600000;
+				if( calTemp >0&&calTemp <=2){
+					minus = calTemp;
+				}else if(calTemp >2&&calTemp <=4){
+					minus = 2;
+					continus = calTemp - 2;
+				}else if(calTemp >4){
+					minus = calTemp -2;
+					continus = 2;
+				}
 				// minus = (edate1[i] - sdate1[i]);
-			}
-			// console.log(minus);	
-			
+			}else if(cal=='4'){
+				for(var j = 0;j<t_s.length;j++){
+					// for(var j = 0;j<1;j++){
+					if(j<t_s.length-1){
+						tempInterval = t_s[j].split("-");
+						tempHour1 = tempInterval[0].split(":");
+						// console.log(tempHour1);
+						tempHour2 = tempInterval[1].split(":");
+					}else{
+						tempHour1 = t_s[j].split(":");
+						tempHour2 = edate1[i];
+					}
 					
+					// console.log(tempHour1);
+					// console.log(tempHour2);
+					// tempTime1 = sdate1[i];
+					var	tempTime1 = new Date(sdate1[i]);
+					tempTime1 = tempTime1.setHours(tempHour1[0],tempHour1[1],0);
+					// console.log("T1 :" + tempTime1);
+					var	tempTime2 = new Date(edate1[i]);
+					if(j<t_s.length-1){
+						tempTime2 = tempTime2.setHours(tempHour2[0],tempHour2[1],0);
+					}
+					$calStart = sdate1[i]-tempTime1;
+					$calEnd   = edate1[i]-tempTime2;
+					// console.log(edate1[i]);
+					console.log($calEnd);
+					
+					if(j=='1'){
+						continus = tempTime2 -tempTime1;
+					}else{
+						if($calEnd>0){
+							$tempEnd = tempTime2;//10:30
+							if($calStart>0){
+								$tempStart = sdate1[i];//08:30
+								$tempStart.setSeconds(0);
+							}else{
+								$tempStart = tempTime1;//07:40
+							}
+						}else{
+							if(edate1[i]-tempTime1>0){
+								$tempStart = tempTime1;//09:40
+								$tempEnd = edate1[i];//10:30
+								// var tempStart = new Date($tempStart);
+								// var tempEnd = new Date($tempEnd);
+								// console.log("$tempStart:"+ tempStart);
+								// console.log("$tempEnd:"+ tempEnd);
+								minus += $tempEnd - $tempStart;
+								// console.log("$tempEnd:"+ ($tempEnd - $tempStart));
+								break;
+							}else{
+								break;
+							}
+						}
+						// var tempStart = new Date($tempStart);
+						// var tempEnd = new Date($tempEnd);
+						// console.log("$tempStart:"+ tempStart);
+						// console.log("$tempEnd:"+ tempEnd);
+						minus += $tempEnd - $tempStart;
+					}
+					
+				}
+			}
+			
+			
+			minus = minus/3600000;
+			// console.log(continus);
+			// console.log(minus);	
 			minus = getNum(minus);
 			
 			sub = getHour(sdate1[i]) + "-" + getHour1(edate1[i]);
@@ -559,7 +623,7 @@
 			$.ajax({
 				type : 'post',
 				traditional : true,
-				url : 'overtime_order_pending_Update.php',
+				url : 'overtime_order_pending_Update123.php',
 				data : {
 					'dropId[]' : dropId,
 					'ids[]' : ids,
@@ -581,11 +645,11 @@
 					'item_No':item_No
 				},
 				success : function(msg) {
-					alert("提交成功,窗口即將關閉！");
+					// alert("提交成功,窗口即將關閉！");
 					// $("#ttt").html(msg);
-					// console.log(msg);
+					console.log(msg);
 					
-					window.close();
+					// window.close();
 				}
 			});
 			

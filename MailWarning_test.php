@@ -70,7 +70,7 @@ require_once 'getExcel.php';
 
 	}	
 	echo date("Y-m-d H:i:s")."<br>";
-	// var_dump($temp2);
+	var_dump($temp2);
 
 exit;			
 foreach($vip_lv as $key_lv => $value_lv){

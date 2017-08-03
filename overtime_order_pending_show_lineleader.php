@@ -108,24 +108,36 @@
 		
 		$timeset_row = $mysqli->query($interval_sql);
 		$temp = array();
-		// echo $interval_sql.'<br>';
-		while($row1 = $timeset_row->fetch_assoc()){
-			$temp[] = $row1['d_interval1'];
-			$temp[] = $row1['d_interval2'];
-			$temp[] = $row1['d_interval3'];
-			$temp[] = $row1['d_interval4'];
-			$temp[] = $row1['d_interval5'];
+		echo $interval_sql.'<br>';
+		$set_count = mysqli_num_rows($timeset_row);
+		if($set_count==3){
+			while($row1 = $timeset_row->fetch_assoc()){
+				$temp[] = $row1['d_interval1'];
+				$temp[] = $row1['d_interval2'];
+				$temp[] = $row1['d_interval3'];
+				$temp[] = $row1['d_interval4'];
+				$temp[] = $row1['d_interval5'];
+			}
+		}else{
+			while($row1 = $timeset_row->fetch_assoc()){
+				$temp[] = $row1['d_interval1'];
+				$temp[] = $row1['d_interval2'];
+				$temp[] = $row1['d_interval3'];
+			}
 		}
+		
 		foreach($temp as $key => $value){
-			if($value==end($temp)){
-				$cch_t_set.= $value;
-			}else{
-				$cch_t_set.= $value."*";
+			if(strcmp($value,"")>0){
+				if($value==end($temp)){
+					$cch_t_set.= $value;
+				}else{
+					$cch_t_set.= $value."*";
+				}
 			}
 		}	
 			   
 		$person_sql = "select * from assistant_data where application_id='$assistant_id'";
-		// echo $person_sql."<Br>";
+		echo $cch_t_set."<Br>";
 		$zhuli_rows = $mysqli->query($person_sql);
 		while($row = $zhuli_rows->fetch_assoc()){
 			$application_person = $row['application_person'];
@@ -147,7 +159,8 @@
 			<option value="0">待選</option>
 			<option value="1">正常班</option>
 			<option value="2">假日班</option>
-			<option value="3">連班時數</option>
+			<option value="3">延時連班</option>
+			<option value="4">假日連班</option>
 		</select> 加班類型： <select id="overtimeType" onclick="setOverType()">
 			<option value="0">待選</option>
 			<option value="1">加班1</option>
