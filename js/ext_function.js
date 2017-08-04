@@ -334,9 +334,9 @@
 			}
 			
 			
-			minus = minus/3600000;
+			// minus = minus/3600000;
 			// console.log(continus);
-			// console.log(minus);	
+			console.log(minus);	
 			minus = getNum(minus);
 			
 			sub = getHour(sdate1[i]) + "-" + getHour1(edate1[i]);

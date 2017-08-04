@@ -109,23 +109,21 @@
 		$timeset_row = $mysqli->query($interval_sql);
 		$temp = array();
 		echo $interval_sql.'<br>';
-		$set_count = mysqli_num_rows($timeset_row);
-		if($set_count==3){
-			while($row1 = $timeset_row->fetch_assoc()){
-				$temp[] = $row1['d_interval1'];
-				$temp[] = $row1['d_interval2'];
-				$temp[] = $row1['d_interval3'];
-				$temp[] = $row1['d_interval4'];
-				$temp[] = $row1['d_interval5'];
-			}
-		}else{
-			while($row1 = $timeset_row->fetch_assoc()){
-				$temp[] = $row1['d_interval1'];
-				$temp[] = $row1['d_interval2'];
-				$temp[] = $row1['d_interval3'];
-			}
+		// $set_count = mysqli_num_rows($timeset_row);
+		// if($set_count==3){
+			// while($row1 = $timeset_row->fetch_assoc()){
+				// $temp[] = $row1['d_interval1'];
+				// $temp[] = $row1['d_interval2'];
+				// $temp[] = $row1['d_interval3'];
+			// }
+		while($row1 = $timeset_row->fetch_assoc()){
+			$temp[] = $row1['d_interval1'];
+			$temp[] = $row1['d_interval2'];
+			$temp[] = $row1['d_interval3'];
+			$temp[] = $row1['d_interval4'];
+			$temp[] = $row1['d_interval5'];
 		}
-		
+		var_dump($temp);
 		foreach($temp as $key => $value){
 			if(strcmp($value,"")>0){
 				if($value==end($temp)){
@@ -137,7 +135,7 @@
 		}	
 			   
 		$person_sql = "select * from assistant_data where application_id='$assistant_id'";
-		echo $cch_t_set."<Br>";
+		echo $set_count."<Br>";
 		$zhuli_rows = $mysqli->query($person_sql);
 		while($row = $zhuli_rows->fetch_assoc()){
 			$application_person = $row['application_person'];
