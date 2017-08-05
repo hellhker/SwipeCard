@@ -74,7 +74,7 @@
 	$rcno_all = array();
 	$norcno = array();
 	
-	// echo $rcno_sql_n;
+	// echo $rcno_sql;
 	$rcno_rows = $mysqli->query($rcno_sql);
 	while($row1 = $rcno_rows->fetch_row()){
 		if((empty($row1[0]))&&($row1[4]=='D'||$row1[4]=='N')){
@@ -338,15 +338,10 @@
 			}
 			$cch_no .= "</tr>";
 		}
-		 
-		 
-		 
-		
-			
-			echo $cch_no;
-			echo	"</table>"
-				  . "</div>"
-				 ."";
+		echo $cch_no;
+		echo	"</table>"
+			  . "</div>"
+			 ."";
 	}else{
 		echo "當前查詢條件下無刷卡資料"."<br>";
 	}

@@ -713,11 +713,11 @@
 						$overType="節假日加班";
 					}
 					if($row['notesStates']==0){
-						$checkState="資訊未抓取";
+						$checkState="待產生加班單";
 					}elseif($row['notesStates']==1){
-						$checkState="資訊通過";
+						$checkState="已產生加班單";
 					}else if($row['notesStates']==2){
-						$checkState="資訊退回";
+						$checkState="不符規定";
 					}
 					
 					

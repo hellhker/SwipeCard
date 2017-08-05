@@ -2,11 +2,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>工時預警</title>
-<link href="css/bootstrap.css" rel="stylesheet">
 </head>
 <body>
+<?
 
-<?php 
+require_once('PHPMailer/class.phpmailer.php');
+require_once 'getExcel.php';
+
+
 	
 	// $MYSQL_LOGIN = "root";
 	// $MYSQL_PASSWORD = "foxlink";
@@ -18,7 +21,8 @@
 	// $mysqli->query('SET CHARACTER_SET_RESULTS=utf8'); 
 	include("mysql_config.php");
 	include("config.php");
-	$date = date('2017/07/22');
+	// $date = date('Y/m/d');
+	$date = date('2017/07/30');
 	// $date1 = strtotime('-30 days',strtotime($date));
 	$date = strtotime('-1 days',strtotime($date));
 	// $date1 = strtotime('-30 days',strtotime($date));
@@ -31,14 +35,16 @@
 	
 	// $employee_sql = "select b.cardid,b.id,b.depname,b.depid from (select cardid from testswipecardtime group by cardid) a,testemployee b where a.cardid = b.cardid and depid='XR-54' order by b.cardid";
 	
-	$employee_sql = "select b.cardid,b.id,b.depname,b.depid from (select cardid from testswipecardtime group by cardid) a,testemployee b where a.cardid = b.cardid and costid='6251' order by b.cardid";
-	
+	$employee_sql = "select b.cardid,b.id,b.depname,b.depid from (select cardid from testswipecardtime group by cardid) a,testemployee b where a.cardid = b.cardid and costid='6252' order by b.cardid";
+	// $employee_sql = "select b.cardid,b.id,b.depname,b.depid from (select cardid from testswipecardtime group by cardid) a,testemployee b where a.cardid = b.cardid and costid='6252' order by b.cardid";
+	// $employee_sql = "select b.cardid,b.id,b.depname,b.depid from (select cardid from testswipecardtime group by cardid) a,testemployee b where a.cardid = b.cardid and costid='9628' order by b.cardid";
+	// $employee_sql = "select b.cardid,b.id,b.depname,b.depid from (select cardid from testswipecardtime group by cardid) a,testemployee b where a.cardid = b.cardid and costid='6251' order by b.cardid";
 	// $time_sql = "select prod_line_code,cardid,name,swipecardtime,swipecardtime2,shift,workshopno from testswipecardtime where swipecardtime > date_sub(curdate(),interval 30 day) and swipecardtime2 is not null order by cardid,swipecardtime desc";
 	
 	$time_sql = "select prod_line_code,cardid,name,swipecardtime,swipecardtime2,shift,WorkshopNo from testswipecardtime where swipecardtime >= date_sub('$date',interval 30 day) and date_format(swipecardtime,'%Y/%m/%d') <= '$date' and swipecardtime2 is not null order by cardid,swipecardtime desc";
 	// echo $time_sql."<br>";
 	
-	
+	// exit;
 	
 	// $time_sql = "select prod_line_code,cardid,name,swipecardtime,swipecardtime2,shift from testswipecardtime where swipecardtime > date_sub(curdate(),interval 30 day) and swipecardtime2 is not null  order by cardid,swipecardtime desc";
 	
@@ -133,8 +139,8 @@
 	// echo $k;
 	// date('Y-m-d',strtotime($temp[4][$j]));
 	
-	// var_dump($temp2);
-	// exit;
+	var_dump($temp2);
+	exit;
 	// $i = count($temp2[]);
 	// for($j=0;$j<$i;$j++){//TODO
 		// $temp2[7][$j] = date('Y-m-d',strtotime($temp2[4][$j]));
@@ -241,40 +247,123 @@
 	}
 	 // var_dump($temp3);
 	// exit;
-	?>
-	<div class="panel-body" style="border: 1px solid #e1e3e6;">
-		<table class="table table-striped">
-			<tr>
-				<th>部門代碼</th>
-				<th>部門</th>
-				<th>工號</th>
-				<th>名字</th>
-				<th>连续天数</th>
-				<th>连续工時</th>
-				<th>工作日期</th>
-			</tr>
-			<?php 
-				foreach($temp3 as $key=>$value){
-					if($value['cont_time']>=45||$value['cont_date']>=5){
-			?>
-					<tr>
-						<td><? echo $value['depid'] ?></td>
-						<td><? echo $value['depname'] ?></td>
-						<td><? echo $value['id'] ?></td>
-						<td><? echo $value['name'] ?></td>
-						<td><? echo $value['cont_date'] ?></td>
-						<td><? echo $value['cont_time'] ?></td>
-						<td><? echo $value['date_interval'] ?></td>
-					</tr>
-			<?
-					}
-				}
-			
-			?>
-			
-		</table>
-	</div>
+	
+
+	foreach($temp3 as $key => $value){
+		if($value['cont_time']>=45||$value['cont_date']>=5){
+			$depid[] = $value['depid'];
+			$depname[] = $value['depname'];
+			$id[] = $value['id'];
+			$name[] = $value['name'];
+			$cont_date[] = $value['cont_date'];
+			$cont_time[] = $value['cont_time'];
+			$date_interval[] = $value['date_interval'];
+		}
+	}
 	
 	
-</body>
+$data=array($depid,$depname,$id,$name,$cont_date,$cont_time,$date_interval);
+
+// var_dump($data);
+// exit;
+// mysqli_free_result($query); 
+
+
+
+//$project = "N71 E75";
+$cur_date = Date("Y-m-d");
+$cur_time = Date("H:i:s");
+
+// if($cur_time>="07:40:00" && $cur_time<"20:00:00") //執行時間為日班的話，抓取的報表應該為前一日夜班
+// {
+    // $shift = "夜班";
+    // $report_date = date("Y-m-d", strtotime("-1 day", time()));
+// }
+// else
+// {
+    // $shift = "日班";
+    // $report_date = $cur_date;
+// }
+
+$email = new PHPMailer();
+$email->From      = 'Paul_Qin@foxlink.com.tw';
+$email->FromName  = '工時預警';
+$email->Subject   = $cur_date.' '.$project.' '.$shift.' 工時預警郵件';
+$message = "您好!\n"
+			."以下人員已連續上班5天/工時已達45H\n"
+			."詳情見附件！\n\n\n";
+// $message = "您好!\n"
+			// ."以下人員已連續上班5天/工時已達45H\n"
+			// ."詳情見附件！\n\n\n"
+			// ."測試郵件，正式郵件于明天07/28發出\n\n\n";		  
+		  
+// $message = "您好!\n"
+			// ."以下人員已連續上班5天/工時已達45H\n"
+			// ."詳情見附件！\n\n\n"
+          // ."Contact Us\n系統整合課\n姓名:蒲秦川\n分機:32910\nE-mail: Paul_Qin@foxlink.com";
+$email->Body      = $message;
+
+
+
+// $email->AddAddress("Paul_Qin@foxlink.com.tw");
+
+// $email->AddAddress("Xiaocui_Yan@FU-YAO");
+// foreach($emails as $key => $value){
+	// $email->AddAddress($value);
+	// echo $value."<br>";
+// }
+$email->AddAddress("Paul_Qin@foxlink.com.tw");
+// $email->AddAddress("Shimin_Chen@FU-YAO");
+// $email->AddAddress("Zeus_Qin@FU-YAO");
+// $email->AddAddress("Paul_Qin@foxlink.com.tw");
+// $email->AddAddress("Paul_Qin@foxlink.com.tw");
+
+// Canny_Du@FU-YAO
+// Xiaocui_Yan@FU-YAO
+
+// Pingguo_Su@FU-YAO
+// Dongju_Yang@FU-YAO
+
+// Shimin_Chen@FU-YAO
+// Zeus_Qin@FU-YAO
+
+// Jinwei_Xu@FU-YAO
+// Yu_Xiang@FU-YAO
+
+// Peggy_liu@FU-YAO
+
+
+
+// $email->AddAddress("Xiaocui_Yan@FU-YAO");
+// $email->AddAddress("Minjing_Zou@foxlink.com.tw");
+
+// $mysqli->close();
+    
+$email->CharSet="UTF-8";
+//---------  ---------- "../sfc/excel/"
+$fileName = "Hours_Warning";
+$headArr = array("部門ID","部門名稱","工號","姓名","連續天數","連續小時","工作日期段");
+// $data = array(array(1,2,3),array(1,3,5),array(5,7,9));
+// getExcel($fileName,$headArr,$data);
+$excel_name =  getExcel($fileName,$headArr,$data);
+$file_to_attach=$excel_name;
+$email->AddAttachment($file_to_attach);
+
+//擷取HMI Official Report畫面圖檔-------------
+// $imgname = 'Worktime_Warning.png';
+// screenshot('http://localhost:8888/AddDemo/Compute_Hours_Warning.jsp',1200,4800,$imgname);
+//sleep(30);
+// $file_to_attach = '../sfc/img1/'.$imgname;
+
+// $email->AddAttachment($file_to_attach);
+
+$email->Send();
+echo $report_date." ".$project." ".$shift."Official Report發送郵件成功!!";
+?>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script language="javascript">setTimeout("window.opener = window.open('','_parent',''); window.close();" ,2000)</script>
+</head>
+<body></body>
 </html>

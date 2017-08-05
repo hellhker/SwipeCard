@@ -7,7 +7,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <!-- 
-
 <script src="assets/js/jquery-1.8.3.min.js"></script>
 <link href="assets/css/bootstrap.css" rel="stylesheet">
 <!-- Bootstrap stylesheets (included template modifications) -->
@@ -34,7 +33,6 @@
 			}
 		}
 	}
-
 	function getValue() {//此為取recordID
 		var checkbox = document.getElementsByName("checkbox");
 		var record = [];
@@ -48,7 +46,6 @@
 		}
 		return record;
 	}
-
 	function getValueA() {//此為取id/工號
 		var checkbox1 = document.getElementsByName("testid");
 		var record = [];
@@ -60,7 +57,6 @@
 		}
 		return record;
 	}
-
 	var calInterval, calHour;
 	function getValueB() {//獲取上下班時間并處理
 		var checkbox1 = document.getElementsByName("stime");
@@ -87,7 +83,6 @@
 			edate[i] = checkbox2[i].value;
 			sdate1[i] = getDate1(sdate[i]);
 			edate1[i] = getDate1(edate[i]);
-
 			str = checkbox3[i].value.split("_");
 			//record[i] = checkbox3[i].value;
 			record[i] = str[0];
@@ -161,7 +156,6 @@
 			
 		}
 	}
-
 	function getNextDay() {
 		var time={
 			getPreDate:function(pre,mydate){
@@ -329,11 +323,9 @@
 			*/
 			document.getElementById(mType[i]).innerHTML = atype[type];
 		}
-
 	}
 	
 	
-
 	//得到時間段
 	function getHour(strDate) {
 		var hours = strDate.getHours();
@@ -379,7 +371,6 @@
 				}).match(/\d+/g) + ')');
 		return date;
 	}
-
 	function getNum(Num) {
 		var front = 0;
 		var surplus = 0;
@@ -408,13 +399,11 @@
 	function firm() {
 		getValue();
 		if (confirm("你确定提交吗？")) {
-
 			alert("点击了确定");
 		} else {
 			alert("点击了取消");
 		}
 	}
-
 	function update() {
 		
 		if (confirm("你确定提交當前選擇人員名單吗？")) {
@@ -517,7 +506,6 @@
 			
 		}
 	}
-
 	function check() {
 		
 		// checkBox1();
@@ -631,7 +619,6 @@
 		// $MYSQL_LOGIN = "root";
 		// $MYSQL_PASSWORD = "foxlink";
 		// $MYSQL_HOST = "192.168.65.230";
-
 		// $mysqli = new mysqli($MYSQL_HOST,$MYSQL_LOGIN,$MYSQL_PASSWORD,"swipecard");
 		// $mysqli->query("SET NAMES 'utf8'");	 
 		// $mysqli->query('SET CHARACTER_SET_CLIENT=utf8');
@@ -714,11 +701,11 @@
 						$overType="節假日加班";
 					}
 					if($row['notesStates']==0){
-						$checkState="資訊未抓取";
+						$checkState="待產生加班單";
 					}elseif($row['notesStates']==1){
-						$checkState="資訊通過";
+						$checkState="已產生加班單";
 					}else if($row['notesStates']==2){
-						$checkState="資訊退回";
+						$checkState="不符規定";
 					}
 					
 					
@@ -757,5 +744,3 @@
 	 -->
 </body>
 </html>
-
-
