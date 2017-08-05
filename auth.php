@@ -9,7 +9,9 @@ session_start();
 // $mysqli->query("SET NAMES 'utf8'");	 
 // $mysqli->query('SET CHARACTER_SET_CLIENT=utf8');
 // $mysqli->query('SET CHARACTER_SET_RESULTS=utf8'); 
+
 include("mysql_config.php");
+
 $userName = $_POST["username"];
 $password = $_POST["password"];
 
@@ -26,7 +28,7 @@ while($rows = $user_rows->fetch_row()){
 	$costid = $rows[2];
 	$assistant_id = $rows[3];
 }
-	if($user_num > 0 && $level==2){
+	if($user_num > 0 && $level>=2){
 		$_SESSION['userName']=$userName;
 		$_SESSION['password']=$password;
 		$_SESSION['costid'] = $costid;
@@ -43,6 +45,7 @@ while($rows = $user_rows->fetch_row()){
 		$_SESSION['password']=$password;
 		$_SESSION['depid'] = $depid;
 		$_SESSION['assistant_id'] = $assistant_id;
+		// $_SESSION['assistant_id'] = "K4511";
 		$url="index_lineleader.php"; 
 		echo "<SCRIPT LANGUAGE=javascript>"; 
 		echo "location.href='$url'"; 
