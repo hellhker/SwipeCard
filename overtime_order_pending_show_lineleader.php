@@ -20,7 +20,7 @@
 <script type="text/javascript" src="easyui/jquery.min.js"></script>
 <script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
 <script src="Button_Plugins.js"></script>
-<script src="js/ext_function.js"></script>
+<script src="js/ext_function.js?v=20170806"></script>
 
 <title>線長審核</title>
 </head>
@@ -48,6 +48,7 @@
 		}else{
 			$weekend = 0;//TODO
 		}
+		// if()
 		if($Shift=="D"){
 			$employee_overtime_sql = 
 				"SELECT a.id, 
@@ -100,6 +101,7 @@
 					   and checkstate in('0','9') ";
 		}
 		// echo $employee_overtime_sql;
+		// $weekend = 0;
 		if($Shift=="D"){
 			$interval_sql = "select * from interval_setting where WorkshopNo='$WorkshopNo' and weekend = '$weekend' and Shift = '$Shift'";
 		}else{

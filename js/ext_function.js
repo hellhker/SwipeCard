@@ -61,6 +61,7 @@
 		//加班時間
 		var minus = 0;
 		var str=null;
+		// console.log(t_set);
 		t_s = t_set.split("*");
 		for ( var i = 0; i < checkbox1.length; i++) {
 			//alert("box[i]: "+checkbox[i].checked);
@@ -133,10 +134,6 @@
 							tempHour2 = edate1[i];
 						}
 						
-						// console.log(tempHour1);
-						
-						// console.log(tempHour2);
-						// tempTime1 = sdate1[i];
 						var	tempTime1 = new Date(sdate1[i]);
 						tempTime1 = tempTime1.setHours(tempHour1[0],tempHour1[1],0);
 						// console.log("T1 :" + tempTime1);
@@ -148,35 +145,40 @@
 						$calEnd   = edate1[i]-tempTime2;
 						// console.log(edate1[i]);
 						// console.log(tempTime2);
-						if($calEnd>0){
-							$tempEnd = tempTime2;//10:30
-							if($calStart>0){
-								$tempStart = sdate1[i];//08:30
-								$tempStart.setSeconds(0);
+						$calOn = sdate1[i]-tempTime2;
+						
+						if($calOn<0){
+							if($calEnd>0){
+								$tempEnd = tempTime2;//20.00
+								if($calStart>0){
+									$tempStart = sdate1[i];//08:30
+									$tempStart.setSeconds(0);
+								}else{
+									$tempStart = tempTime1;//07:40
+								}
 							}else{
-								$tempStart = tempTime1;//07:40
-							}
-						}else{
-							if(edate1[i]-tempTime1>0){
-								$tempStart = tempTime1;//09:40
-								$tempEnd = edate1[i];//10:30
+								if($calStart>0){
+									$tempStart = sdate1[i];//16.30
+									$tempEnd = edate1[i];
+									$tempStart.setSeconds(0);
+								}else{
+									$tempStart = tempTime1;//16.30
+									$tempEnd = edate1[i];
+									$tempEnd.setSeconds(0);
+								}
+								// var tempStart = new Date($tempStart);
+								// var tempEnd = new Date($tempEnd);
+								// console.log("$tempStart:"+ tempStart);
+								// console.log("$tempEnd:"+ tempEnd);
 								minus += $tempEnd - $tempStart;
-								var tempStart = new Date($tempStart);
-						var tempEnd = new Date($tempEnd);
-						console.log("$tempStart:"+ tempStart);
-						console.log("$tempEnd:"+ tempEnd);
-						minus += $tempEnd - $tempStart;
-								break;
-							}else{
 								break;
 							}
+							// var tempStart = new Date($tempStart);
+							// var tempEnd = new Date($tempEnd);
+							// console.log("$tempStart:"+ tempStart);
+							// console.log("$tempEnd:"+ tempEnd);
+							minus += $tempEnd - $tempStart;
 						}
-						var tempStart = new Date($tempStart);
-						var tempEnd = new Date($tempEnd);
-						console.log("$tempStart:"+ tempStart);
-						console.log("$tempEnd:"+ tempEnd);
-						minus += $tempEnd - $tempStart;
-						// console.log(minus);
 					}
 					// minus = minus / 3600000;	
 				}else{
@@ -209,42 +211,85 @@
 							tempTime2 = tempTime2.setHours(tempHour2[0],tempHour2[1],0);
 						}else{
 							tempTime2 = tempTime.setHours(tempHour2[0],tempHour2[1],0);
-							console.log("321");
+							// console.log("321");
 						}
 						
-						tempTime1 = new Date(tempTime1);
-						console.log("T1 :" + edate1[i]);
-						tempTime2 = new Date(tempTime2);
-						console.log("T2 :" + tempTime2);
+						// tempTime1 = new Date(tempTime1);
+						// console.log("T1 :" + edate1[i]);
+						// tempTime2 = new Date(tempTime2);
+						// console.log("T2 :" + tempTime2);
 						
 						$calStart = sdate1[i]-tempTime1;
 						$calEnd   = edate1[i]-tempTime2;
 						// console.log($calEnd);
-						if($calEnd>0){
-							$tempEnd = tempTime2;//10:30
-							if($calStart>0){
-								$tempStart = sdate1[i];//08:30
-								$tempStart.setSeconds(0);
+						// if($calEnd>0){
+							// $tempEnd = tempTime2;//10:30
+							// if($calStart>0){
+								// $tempStart = sdate1[i];//08:30
+								// $tempStart.setSeconds(0);
+							// }else{
+								// $tempStart = tempTime1;//07:40
+							// }
+						// }else{
+							// if(edate1[i]-tempTime1>0){
+								// $tempStart = tempTime1;//09:40
+								// $tempEnd = edate1[i];//10:30
+								// minus += $tempEnd - $tempStart;
+								// var tempStart = new Date($tempStart);
+								// var tempEnd = new Date($tempEnd);
+								// console.log("$tempStart:"+ tempStart);
+								// console.log("$tempEnd:"+ tempEnd);
+								// break;
+							// }else{
+								// break;
+							// }
+						// }
+						// var tempStart = new Date($tempStart);
+						// var tempEnd = new Date($tempEnd);
+						// console.log("$tempStart:"+ tempStart);
+						// console.log("$tempEnd:"+ tempEnd);
+						// minus += $tempEnd - $tempStart;
+						
+						$calOn = sdate1[i]-tempTime2;
+						
+						if($calOn<0){
+							if($calEnd>0){
+								$tempEnd = tempTime2;//20.00
+								if($calStart>0){
+									$tempStart = sdate1[i];//08:30
+									$tempStart.setSeconds(0);
+								}else{
+									$tempStart = tempTime1;//07:40
+								}
 							}else{
-								$tempStart = tempTime1;//07:40
-							}
-						}else{
-							if(edate1[i]-tempTime1>0){
-								$tempStart = tempTime1;//09:40
-								$tempEnd = edate1[i];//10:30
+								if($calStart>0){
+									$tempStart = sdate1[i];//16.30
+									$tempEnd = edate1[i];
+									$tempStart.setSeconds(0);
+								}else{
+									$tempStart = tempTime1;//16.30
+									$tempEnd = edate1[i];
+									$tempEnd.setSeconds(0);
+								}
+								var tempStart = new Date($tempStart);
+								var tempEnd = new Date($tempEnd);
+								console.log("$tempStart:"+ tempStart);
+								console.log("$tempEnd:"+ tempEnd);
 								minus += $tempEnd - $tempStart;
 								break;
-							}else{
-								break;
 							}
+							var tempStart = new Date($tempStart);
+							var tempEnd = new Date($tempEnd);
+							console.log("$tempStart:"+ tempStart);
+							console.log("$tempEnd:"+ tempEnd);
+							minus += $tempEnd - $tempStart;
 						}
-						minus += $tempEnd - $tempStart;
 					}
 				}
-				minus = minus / 3600000;	
+				// minus = minus / 3600000;	
 				// console.log(minus);	
 				//根據選擇的加班時間類型得出不同時段
-			}else if(cal=='3'){
+			}else if(cal=='3'){//TODO
 				if(shift=="D"){
 					var continus = 0;
 					var calTemp;
@@ -277,9 +322,11 @@
 						tempHour1 = tempInterval[0].split(":");
 						// console.log(tempHour1);
 						tempHour2 = tempInterval[1].split(":");
+						// console.log("A");
 					}else{
 						tempHour1 = t_s[j].split(":");
 						tempHour2 = edate1[i];
+						// console.log("B");
 					}
 					
 					// console.log(tempHour1);
@@ -292,16 +339,20 @@
 					if(j<t_s.length-1){
 						tempTime2 = tempTime2.setHours(tempHour2[0],tempHour2[1],0);
 					}
-					$calStart = sdate1[i]-tempTime1;
-					$calEnd   = edate1[i]-tempTime2;
+					$calStart = sdate1[i]-tempTime1;//18.30 18.00 1
+					$calEnd   = edate1[i]-tempTime2;//19.30-20.00 0
 					// console.log(edate1[i]);
-					console.log($calEnd);
+					// console.log($calEnd);
+					// var tempTime1 = new Date(tempTime1);
+					// var tempTime2 = new Date(tempTime2);
+					// console.log("sdate1[i]:"+ sdate1[i]);
+					// console.log("$tempTime2:"+ tempTime2);
 					
-					if(j=='1'){
-						continus = tempTime2 -tempTime1;
-					}else{
+					$calOn = sdate1[i]-tempTime2;
+						
+					if($calOn<0){
 						if($calEnd>0){
-							$tempEnd = tempTime2;//10:30
+							$tempEnd = tempTime2;//20.00
 							if($calStart>0){
 								$tempStart = sdate1[i];//08:30
 								$tempStart.setSeconds(0);
@@ -309,19 +360,21 @@
 								$tempStart = tempTime1;//07:40
 							}
 						}else{
-							if(edate1[i]-tempTime1>0){
-								$tempStart = tempTime1;//09:40
-								$tempEnd = edate1[i];//10:30
-								// var tempStart = new Date($tempStart);
-								// var tempEnd = new Date($tempEnd);
-								// console.log("$tempStart:"+ tempStart);
-								// console.log("$tempEnd:"+ tempEnd);
-								minus += $tempEnd - $tempStart;
-								// console.log("$tempEnd:"+ ($tempEnd - $tempStart));
-								break;
+							if($calStart>0){
+								$tempStart = sdate1[i];//16.30
+								$tempEnd = edate1[i];
+								$tempStart.setSeconds(0);
 							}else{
-								break;
+								$tempStart = tempTime1;//16.30
+								$tempEnd = edate1[i];
+								$tempEnd.setSeconds(0);
 							}
+							// var tempStart = new Date($tempStart);
+							// var tempEnd = new Date($tempEnd);
+							// console.log("$tempStart:"+ tempStart);
+							// console.log("$tempEnd:"+ tempEnd);
+							minus += $tempEnd - $tempStart;
+							break;
 						}
 						// var tempStart = new Date($tempStart);
 						// var tempEnd = new Date($tempEnd);
@@ -329,12 +382,16 @@
 						// console.log("$tempEnd:"+ tempEnd);
 						minus += $tempEnd - $tempStart;
 					}
+						
+						
+					// }
 					
 				}
+				 // minus = minus/3600000;
 			}
 			
 			
-			// minus = minus/3600000;
+			minus = minus/3600000;
 			// console.log(continus);
 			console.log(minus);	
 			minus = getNum(minus);
