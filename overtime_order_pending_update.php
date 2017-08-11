@@ -113,12 +113,11 @@
 			$insert_sql = $cch;
 			
 			
-			
 			// $cch = '';
 			// echo $insert_sql."<br>";
 			
-			$update_rows = $mysqli->query($update_sql);
-			$insert_rows =$mysqli->query($insert_sql);
+			// $update_rows = $mysqli->query($update_sql);
+			// $insert_rows =$mysqli->query($insert_sql);
 		}
 	
 		$mysqli->close();

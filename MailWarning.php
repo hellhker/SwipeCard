@@ -10,8 +10,8 @@
 	require_once 'getExcel.php';
 	include("mysql_config.php");
 	include("config.php");
-	$date = date('Y/m/d');
-	// $date = date('2017/07/30');
+	// $date = date('Y/m/d');
+	$date = date('2017/08/06');
 	// $date1 = strtotime('-30 days',strtotime($date));
 	$date = strtotime('-1 days',strtotime($date));
 	// $date1 = strtotime('-30 days',strtotime($date));
@@ -33,8 +33,8 @@
 	$row1_sql = "SELECT a.prod_line_code, a.cardid, a.name, a.swipecardtime, a.swipecardtime2
 			, a.shift, a.WorkshopNo, b.id, b.depname, b.depid,b.costid
 		FROM testswipecardtime a INNER JOIN testemployee b ON a.cardid = b.cardid
-		WHERE a.swipecardtime >= date_sub('2017-07-30', INTERVAL 30 DAY)
-			AND date_format(a.swipecardtime, '%Y/%m/%d') <= '2017/07/30'
+		WHERE a.swipecardtime >= date_sub('$date', INTERVAL 30 DAY)
+			AND date_format(a.swipecardtime, '%Y/%m/%d') <= '$date'
 			AND a.swipecardtime2 IS NOT NULL
 			and b.costid in(6251,6252,9628,9629)
 			order by a.cardid,a.swipecardtime desc
@@ -174,7 +174,7 @@
 
 
 			foreach($emails[$cid] as $key => $value){
-				$email->AddAddress($value);
+				// $email->AddAddress($value);
 				$email->AddAddress("Minjing_Zou@foxlink.com.tw");
 				// $email->AddAddress("Paul_Qin@foxlink.com.tw");
 				// echo $value."<br>";

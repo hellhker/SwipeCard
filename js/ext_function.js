@@ -157,6 +157,9 @@
 									$tempStart = tempTime1;//07:40
 								}
 							}else{
+								if(edate1[i]-tempTime1<0){
+									break;
+								}
 								if($calStart>0){
 									$tempStart = sdate1[i];//16.30
 									$tempEnd = edate1[i];
@@ -221,34 +224,7 @@
 						
 						$calStart = sdate1[i]-tempTime1;
 						$calEnd   = edate1[i]-tempTime2;
-						// console.log($calEnd);
-						// if($calEnd>0){
-							// $tempEnd = tempTime2;//10:30
-							// if($calStart>0){
-								// $tempStart = sdate1[i];//08:30
-								// $tempStart.setSeconds(0);
-							// }else{
-								// $tempStart = tempTime1;//07:40
-							// }
-						// }else{
-							// if(edate1[i]-tempTime1>0){
-								// $tempStart = tempTime1;//09:40
-								// $tempEnd = edate1[i];//10:30
-								// minus += $tempEnd - $tempStart;
-								// var tempStart = new Date($tempStart);
-								// var tempEnd = new Date($tempEnd);
-								// console.log("$tempStart:"+ tempStart);
-								// console.log("$tempEnd:"+ tempEnd);
-								// break;
-							// }else{
-								// break;
-							// }
-						// }
-						// var tempStart = new Date($tempStart);
-						// var tempEnd = new Date($tempEnd);
-						// console.log("$tempStart:"+ tempStart);
-						// console.log("$tempEnd:"+ tempEnd);
-						// minus += $tempEnd - $tempStart;
+						
 						
 						$calOn = sdate1[i]-tempTime2;
 						
@@ -341,16 +317,10 @@
 					}
 					$calStart = sdate1[i]-tempTime1;//18.30 18.00 1
 					$calEnd   = edate1[i]-tempTime2;//19.30-20.00 0
-					// console.log(edate1[i]);
-					// console.log($calEnd);
-					// var tempTime1 = new Date(tempTime1);
-					// var tempTime2 = new Date(tempTime2);
-					// console.log("sdate1[i]:"+ sdate1[i]);
-					// console.log("$tempTime2:"+ tempTime2);
-					
 					$calOn = sdate1[i]-tempTime2;
 						
 					if($calOn<0){
+						
 						if($calEnd>0){
 							$tempEnd = tempTime2;//20.00
 							if($calStart>0){
@@ -676,6 +646,11 @@
 				//console.log(costids[i]+"  "+directs[i]);
 				console.log(dropId[i]+" "+ ids[i]+" "+names[i]+" "+depids[i]+" "+yds[i]+" "+calInterval[i]+" "+calHour[i]);
 			}
+			
+			/**
+				dataType: 'json',
+				sfc\tab_prod\show_capacity.php
+			*/
 			
 			$.ajax({
 				type : 'post',

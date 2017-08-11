@@ -73,7 +73,8 @@
 					   AND prod_line_code = '".$lineno."'
 					   AND a.depid = '".$depid."'
 						AND RC_NO = '".$RC_NO."'
-					   and checkstate in('0','9') ";
+					   and checkstate in('0','9') 
+					   order by swipecardtime2";
 		}else if($Shift=="N"){
 			$employee_overtime_sql = 
 				"SELECT a.id, 
@@ -98,7 +99,8 @@
 					   AND prod_line_code = '".$lineno."'
 					   AND a.depid = '".$depid."'
 						AND RC_NO = '".$RC_NO."'
-					   and checkstate in('0','9') ";
+					   and checkstate in('0','9') 
+					   order by swipecardtime2";
 		}
 		// echo $employee_overtime_sql;
 		// $weekend = 0;
@@ -123,7 +125,10 @@
 			$temp[] = $row1['d_interval2'];
 			$temp[] = $row1['d_interval3'];
 			$temp[] = $row1['d_interval4'];
-			$temp[] = $row1['d_interval5'];
+			if($row1['d_interval5']){
+				$temp[] = $row1['d_interval5'];
+			}
+			
 		}
 		var_dump($temp);
 		foreach($temp as $key => $value){
