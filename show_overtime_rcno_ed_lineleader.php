@@ -224,7 +224,6 @@
 			foreach($rcno_false as $key => $value){//rc_no 
 				foreach($value as $key1 => $value1){//date
 					$cch .= "<tr>";
-					$cch .= "<td>".$arr_workshopno[$value]."</td>";
 					$cch .= "<td>".$arr_lineno[$key]."</td>";
 					$cch .= "<td>".$key1."</td>";
 					$cch .= "<td>日班</td>";

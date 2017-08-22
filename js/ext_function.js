@@ -117,7 +117,7 @@
 				//console.log("時長minus: "+ minus);
 				//根據選擇的加班時間類型得出不同時段
 				//console.log(getHour(sdate1[i]));
-				minus = minus / 3600000;	
+				// minus = minus / 3600000;	
 			} else if (cal == "2") {
 				
 				// minus = (edate1[i] - sdate1[i]) / 3600000 - 2;

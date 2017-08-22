@@ -17,27 +17,12 @@
 <body>
 	<?php 
 	
-		// $MYSQL_LOGIN = "root";
-		// $MYSQL_PASSWORD = "foxlink";
-		// $MYSQL_HOST = "192.168.65.230";
-
-		// $mysqli = new mysqli($MYSQL_HOST,$MYSQL_LOGIN,$MYSQL_PASSWORD,"swipecard");
-		// $mysqli->query("SET NAMES 'utf8'");	 
-		// $mysqli->query('SET CHARACTER_SET_CLIENT=utf8');
-		// $mysqli->query('SET CHARACTER_SET_RESULTS=utf8'); 
 		include("mysql_config.php");
 		$timeCal = $_POST['timeCal'];
 		$timeType = $_POST['timeType'];
 		$lineNo = $_POST['lineNo'];
 		$rC_NO = $_POST['rC_NO'];
 		$item_No = $_POST['item_No'];
-		
-		
-		
-		// if(strcmp($application_person,"")==0){
-			// echo "123";
-		// }
-		
 		$person_sql = "select * from assistant_data where application_id='$assistant_id'";
 		// echo $person_sql."<Br>";
 		$zhuli_rows = $mysqli->query($person_sql);
@@ -86,17 +71,24 @@
 				echo "alert(\"工時小於等於0，有誤，請重新選擇加班人員！\");\n";
 				return false;
 			}
+			
 			$a[$i][7]=$costids[$i];
 			$a[$i][8]=$directs[$i];
+			if($timeType==1&&$calHour[$i]==2){
+				$exception[$i] = 0;
+			}else if(($timeType==2||$timeType==3)&&$calHour[$i]==10){
+				$exception[$i] = 0;
+			}else{
+				$exception[$i] = 1;
+			}
 			// echo ("a[1][" + $i + "]: " + $a[$i][1]);
 		}
 		// var_dump($calHour);
-		// exit;
 	
 		for($i=0;$i<count($checkValue);$i++){
 			$update_sql = "update testswipecardtime set CheckState = '1',overtimeCal='".$timeCal."',overtimeType='".$timeType."' where RecordId = '".$a[$i][0]."'";
-			$cch = "insert into notes_overtime_state (id,name,depid,depname,overtimeInterval,overtimeHours,costID,Direct,overtimeDate,shift,overtimeType,LineNo,RC_NO,PRIMARY_ITEM_NO,WorkContent,application_person, application_id, application_dep, application_tel) value (";
-			for($j=1;$j<=8;$j++){
+			$cch = "insert into notes_overtime_state (id,name,depid,depname,overtimeInterval,overtimeHours,costID,Direct,isException,overtimeDate,shift,overtimeType,LineNo,RC_NO,PRIMARY_ITEM_NO,WorkContent,application_person, application_id, application_dep, application_tel) value (";
+			for($j=1;$j<=9;$j++){
 				$cch .= "'".$a[$i][$j]."',";
 			}
 			$cch .= "'".$yds."',";
@@ -111,13 +103,11 @@
 			$cch .= "'".$application_dep."',";
 			$cch .= "'".$application_tel."')";
 			$insert_sql = $cch;
-			
-			
-			// $cch = '';
+			$cch = '';
 			// echo $insert_sql."<br>";
 			
-			// $update_rows = $mysqli->query($update_sql);
-			// $insert_rows =$mysqli->query($insert_sql);
+			$update_rows = $mysqli->query($update_sql);
+			$insert_rows =$mysqli->query($insert_sql);
 		}
 	
 		$mysqli->close();

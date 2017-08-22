@@ -595,7 +595,8 @@
 					alert("工時小於等於0，有誤，請重新選擇加班人員！");
 					return false;
 				}
-				reason[i]=$("#reason_"+str[0]).textbox('getText');
+				// reason[i]=$("#reason_"+str[0]).textbox('getText');//TODO
+				reason[i]="";
 				//reason[i]=$("#reason_"+str[0]).find(".textbox-value").val();
 				//console.log("jtest:"+jtest);
 				//console.log(reason[i]);
@@ -631,11 +632,11 @@
 					'item_No':item_No
 				},
 				success : function(msg) {
-					alert("提交成功,窗口即將關閉！");
+					// alert("提交成功,窗口即將關閉！");
 					//$("#ttt").html(msg);
-					// console.log(msg);
+					console.log(msg);
 					// $temp = msg;
-					window.close();
+					// window.close();
 				}
 			});
 			
@@ -700,12 +701,14 @@
 		 	//text_v = parseFloat(calHour[i]);
 		 	text_v = $(tr).find(".textBoxtest").val();
 		 	text_v = parseFloat(text_v);
-		 	check_v = $(tr).find("[switchbuttonName='stButton']").val();
-		 	reason_v=$("#reason_"+str[0]).textbox('getText');
+			check_v = text_v;
+		 	// check_v = $(tr).find("[switchbuttonName='stButton']").val();//TODO
+		 	// reason_v=$("#reason_"+str[0]).textbox('getText');//TODO
 		 	//console.log(text_v);
 		 	//console.log(check_v);
 		 	//console.log(reason_v);
 		 	
+			reason_v = "";
 		 	
 		 	console.log(text_v);
 		 	isInt = text_v/0.25;
@@ -752,7 +755,7 @@
 		$Shift = $_POST['Shift'];
 		$type = $_POST['type'];
 		$w=date('w',strtotime($SDate));
-		if($w==6){
+		if($w==6||$w==0){
 			$weekend = 1;
 		}else{
 			$weekend = 0;//TODO
@@ -938,15 +941,20 @@
 					  
 					  ."<td id=\"cal_".$row[8]."\" class=\"changeStatus\" >"
 					  . "<input type=\"text\" class=\"textBoxtest\" style=\"width:50px;height:32px\" value=\"\" readonly />"
-					  . "<input class=\"easyui-switchbutton\" name=\"stButton\" id=\"but_".$row[8]."\" value=\"\"  /> "
+					  /** 
+					  . "<input class=\"easyui-switchbutton\" name=\"stButtonCont\" id=\"butCont_".$row[8]."\" value=\"\"  /> "
+					  */
 					  . "</td>"
 					  . "<td id=\"type_".$row[8]."\"></td>"
 					  . "<td>".$checkState."</td>"
+					   /** 
 					  . "<td><input class=\"easyui-textbox\" id=\"reason_".$row[8]."\" style=\"width:100%;height:32px\" readonly /></td>"
+					   */
 					  
 					  ."</tr>";
 					 $j++;
 				}
+				mysqli_free_result($over_rows);
 				// echo $cch;
 			?>
 		</table>
@@ -958,7 +966,7 @@
 		?>
 
 	</div>
-	<div>
+	<div id= "test">
 		<input type="hidden" id="LineNo" value="<?php echo $lineno?>"/>
 		<input type="hidden" id="RC_NO" value="<?php echo $RC_NO?>" />
 		<input type="hidden" id="Item_No" value="<?php echo $Item_No?>" />
@@ -966,6 +974,7 @@
 		<input type="hidden" id="WorkshopNo" value="<?php echo $WorkshopNo?>" />
 		<input type="hidden" id="Interval_Setting" value="<?php echo $cch_t_set  ?>" />
 	</div>
+	<div id='b'></div>
 	<!-- 
 	<input name="" type="button" onclick="location.href = 'index_test.jsp'"		value="返回" />
 	 -->

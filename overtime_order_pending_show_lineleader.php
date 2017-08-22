@@ -112,7 +112,7 @@
 		
 		$timeset_row = $mysqli->query($interval_sql);
 		$temp = array();
-		echo $interval_sql.'<br>';
+		// echo $interval_sql.'<br>';
 		// $set_count = mysqli_num_rows($timeset_row);
 		// if($set_count==3){
 			// while($row1 = $timeset_row->fetch_assoc()){
@@ -142,7 +142,7 @@
 		}	
 			   
 		$person_sql = "select * from assistant_data where application_id='$assistant_id'";
-		echo $set_count."<Br>";
+		// echo $set_count."<Br>";
 		$zhuli_rows = $mysqli->query($person_sql);
 		while($row = $zhuli_rows->fetch_assoc()){
 			$application_person = $row['application_person'];
@@ -194,9 +194,13 @@
 				<th>加班日期</th>
 				<th>加班時段</th>
 				<th>加班小時</th>
+				<!-- 
 				<th>連班時數</th>
+				-->
 				<th>加班類型</th>
+				
 				<th>審核狀態</th>
+				
 			</tr>
 			<?php 
 			// echo $employee_overtime_sql;
@@ -230,16 +234,22 @@
 					  
 					  ."<td id=\"cal_".$row[8]."\" class=\"changeStatus\" >"
 					  . "<input type=\"text\" class=\"textBoxtest\" style=\"width:50px;height:32px\" value=\"\" readonly />"
-					  . "<input class=\"easyui-switchbutton\" name=\"stButton\" id=\"but_".$row[8]."\" value=\"\"  /> "
 					  . "</td>"
+					  /**
+					  . "<input class=\"easyui-switchbutton\" name=\"stButton\" id=\"but_".$row[8]."\" value=\"\"  /> "
+					  
+					  
 					  ."<td id=\"cont_".$row[8]."\" class=\"changeStatus_Cont\" >"
 					  . "<input type=\"text\" class=\"textBoxCont\" style=\"width:50px;height:32px\" value=\"\" readonly />"
 					  . "<input class=\"easyui-switchbutton\" name=\"stButtonCont\" id=\"butCont_".$row[8]."\" value=\"\"  /> "
 					  . "</td>"
+					  */
 					  . "<td id=\"type_".$row[8]."\"></td>"
 					  . "<td>".$checkState."</td>"
+					  /**
 					  . "<td><input class=\"easyui-textbox\" id=\"reason_".$row[8]."\" style=\"width:100%;height:32px\" readonly /></td>"
-					  
+					  TODO 記得mark掉註釋
+					  */
 					  ."</tr>";
 					 $j++;
 				}
