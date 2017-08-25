@@ -74,7 +74,7 @@
 	$rcno_all = array();
 	$norcno = array();
 	
-	// echo $rcno_sql;
+	echo $rcno_sql;
 	$rcno_rows = $mysqli->query($rcno_sql);
 	while($row1 = $rcno_rows->fetch_row()){
 		if((empty($row1[0]))&&($row1[4]=='D'||$row1[4]=='N')){

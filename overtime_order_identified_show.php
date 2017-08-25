@@ -625,7 +625,7 @@
 		// $mysqli->query('SET CHARACTER_SET_RESULTS=utf8'); 
 		include("mysql_config.php");
 		$employee_overtime_sql = 
-			"SELECT id, 
+			"SELECT id,
 		       name, 
 		       depid, 
 		       rid,
@@ -637,7 +637,7 @@
 		       overtimeType,
 			   notesStates
 		FROM   
-		       notes_overtime_state 
+		       notes_overtime_state
 		WHERE  
 		        overtimedate  = '$SDate' 
 		       AND LineNo = '$lineno' 
@@ -647,7 +647,7 @@
 		}
 		
 		// echo 
-		// echo $employee_overtime_sql;
+		echo $employee_overtime_sql;
 		$over_rows = $mysqli->query($employee_overtime_sql);
 		// echo $employee_overtime_sql;
 		// while($row = $over_rows->fetch_assoc()){

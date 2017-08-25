@@ -1,6 +1,8 @@
 <?php 
 	session_start();
 	$access = $_SESSION["permission"];
+	$costid = $_SESSION['costid'];
+	echo $costid;
 ?>
 <html>
 
@@ -29,7 +31,7 @@
 	$SDate = $_POST['SDate'];
 	$EDate = $_POST['EDate'];
 	$url = $_POST['urlA'];
-	$costid = $_SESSION['costid'];
+	
 	$checkState = $_POST['checkState'];
 	$type = $_POST['typeE'];
 	// echo $type;
@@ -272,6 +274,7 @@
 							<input type=\"hidden\" name=\"item_no\" value=\"".$item_no[$value]."\">
 							<input type=\"hidden\" name=\"Shift\" value=\"D\">
 							<input type=\"hidden\" name=\"type\"value=\"".$type."\">
+							<input type=\"hidden\" name=\"costid\"value=\"".$costid."\">
 							<input class=\"btn btn-primary\" type=\"submit\" value=\"詳情\" > 
 						</form>";
 				$cch .="</td>";
@@ -303,6 +306,7 @@
 							<input type=\"hidden\" name=\"item_no\" value=\"".$item_no_n[$value]."\">
 							<input type=\"hidden\" name=\"Shift\" value=\"N\">
 							<input type=\"hidden\" name=\"type\"value=\"".$type."\">
+							<input type=\"hidden\" name=\"costid\"value=\"".$costid."\">
 							<input class=\"btn btn-primary\" type=\"submit\" value=\"詳情\" > 
 					</form>";
 				$cch .="</td>";
@@ -354,6 +358,7 @@
 									<input type=\"hidden\" name=\"SDate\" value=\"".$key2."\">
 									<input type=\"hidden\" name=\"Shift\"value=\"".$key3."\">
 									<input type=\"hidden\" name=\"type\"value=\"".$type."\">
+									<input type=\"hidden\" name=\"costid\"value=\"".$costid."\">
 									<input class=\"btn btn-primary\" type=\"submit\" value=\"詳情\" > 
 								</form>";
 						$cch_no .="</td>";
@@ -371,6 +376,7 @@
 	}else{
 		echo "當前查詢條件下無刷卡資料"."<br>";
 	}
+
 ?>
 	
 </body>

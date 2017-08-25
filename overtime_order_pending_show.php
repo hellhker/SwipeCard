@@ -754,13 +754,23 @@
 		$Item_No = $_POST['item_no'];
 		$Shift = $_POST['Shift'];
 		$type = $_POST['type'];
+		$costid = $_POST['costid'];
 		$w=date('w',strtotime($SDate));
 		if($w==6||$w==0){
 			$weekend = 1;
 		}else{
 			$weekend = 0;//TODO
 		}
-		// echo $type."<br>";
+		$temp_cost = explode("*",$costid);
+		$cch = "";
+		foreach($temp_cost as $key => $val){
+			if(end($temp_cost)==$val){
+				$cch .= "'$val'";
+			}else{
+				$cch .= "'$val'".",";
+			}
+		}
+		// echo $costid."<br>";
 		
 		// $MYSQL_LOGIN = "root";
 		// $MYSQL_PASSWORD = "foxlink";
@@ -796,6 +806,7 @@
 					    AND prod_line_code = '".$lineno."'
 					   and swipecardtime2 is not null
 						AND RC_NO = '".$RC_NO."'
+						and a.costid in ($cch)
 					   and checkstate in('0','9') ";
 		}else if($Shift=="N"){
 			$employee_overtime_sql = 
@@ -821,6 +832,7 @@
 						 AND b.WorkshopNo = '".$WorkshopNo."'
 					   AND prod_line_code = '".$lineno."'
 						AND RC_NO = '".$RC_NO."'
+						and a.costid in ($cch)
 					   and b.checkstate in('0','9') ";
 		}
 		
