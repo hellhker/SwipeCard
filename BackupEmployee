@@ -1,0 +1,79 @@
+<?php
+	include("mysql_config.php");
+	$date = date('Y-m-d');
+	
+
+	$sql = "select * from testemployee where cardid is not NULL and isonwork = 0 and cardid != '' order by id";//SQL语句 -SQL Server
+	// $sql = "select RC_NO, PRIMARY_ITEM_NO,STD_MAN_POWER,PROD_LINE_CODE,CUR_DATE from testrcline where CUR_DATE >= '$date' order by CUR_DATE";
+	$mysql_row_new = $mysqli->query($sql);
+	while($row = $mysql_row_new->fetch_row()){
+		$a1[] = $row[0];
+		$a2[$row[0]] = $row[1];
+		$a3[$row[0]] = $row[2];
+		$a4[$row[0]] = $row[3];
+		$a5[$row[0]] = $row[4];
+		$a6[$row[0]] = $row[5];
+		$a7[$row[0]] = $row[6];
+		$a8[$row[0]] = $row[8];
+		// $a9[$row[0]] = $row[8];
+		
+	}
+	mysqli_free_result($mysql_row_new);
+	// var_dump($a1);
+	// exit;
+	$sql = "select * from testemployee order by id";// Mysql
+	// $sql = "select RC_NO, PRIMARY_ITEM_NO,STD_MAN_POWER,PROD_LINE_CODE,CUR_DATE from testrcline where CUR_DATE >= '$date' order by CUR_DATE";
+		// ID	name 	depid	depname	Direct	cardid	costID	Permission	isOnWork 	updateDate
+	$mysql_row_old = $mysqli1->query($sql);
+	while($row = $mysql_row_old->fetch_row()){
+		$b1[] = $row[0];
+		$b2[$row[0]] = $row[1];
+		$b3[$row[0]] = $row[2];
+		$b4[$row[0]] = $row[3];
+		$b5[$row[0]] = $row[4];
+		$b6[$row[0]] = $row[5];
+		$b7[$row[0]] = $row[6];
+		$b8[$row[0]] = $row[8];
+		// $b9[$row[0]] = $row[8];
+		
+	}
+	mysqli_free_result($mysql_row_old);
+	// var_dump($a1);
+	// exit;
+	$i=0;
+	$j=0;
+	echo "counta: ".count($a1)."<br>";
+	echo "countb: ".count($b1)."<br>";
+	echo date("Y-m-d H:i:s")."<br>";
+	foreach ($a1 as $k => $v) {
+		if(in_array($v,$b1,TRUE)){
+			if ($a2[$v] != $b2[$v] || $a3[$v] != $b3[$v] || $a4[$v] != $b4[$v] || $a5[$v] != $b5[$v] || $a6[$v] != $b6[$v]
+				|| $a7[$v] != $b7[$v]|| $a8[$v] != $b8[$v]) {
+				echo "a2:v ".$a2[$v]." $b2[$v] <BR>";
+				echo "a3:v ".$a3[$v]." $b3[$v] <BR>";
+				echo "a2:v ".$a4[$v]." $b5[$v] <BR>";
+				echo "a2:v ".$a6[$v]." $b6[$v] <BR>";
+				echo "a2:v ".$a7[$v]." $b7[$v] <BR>";
+				echo "a2:v ".$a8[$v]." $b8[$v] <BR>";
+				$update_sql = "UPDATE `testemployee` SET Name='$a2[$v]',depid='$a3[$v]',depname='$a4[$v]',Direct='$a5[$v]',cardid='$a6[$v]',costid='$a7[$v]',isOnWork='$a8[$v]' where id = '$v'";
+				$i++;
+				// echo $update_sql."<BR>";
+				$update_rows = $mysqli1->query($update_sql);
+			}else{
+				
+			}
+		}else{
+			$insert_sql = "INSERT INTO `testemployee`(`ID`, `Name`, `depid`, `depname`,`Direct`,`cardid`,`costID`,`isOnWork` ) VALUES ('$v','$a2[$v]','$a3[$v]','$a4[$v]','$a5[$v]','$a6[$v]','$a7[$v]','$a8[$v]')";
+				// echo $insert_sql."<BR>";
+			$insert_rows =$mysqli1->query($insert_sql);
+			$j++;
+		}
+	}
+	
+	echo $i."<br>";
+	echo $j."<br>";
+	echo date("Y-m-d H:i:s")."<br>";
+	echo "Success!";
+?>
+
+ <script type="text/javascript">setTimeout("window.opener = null;window.open('','_self');window.close();",2000)</script>
