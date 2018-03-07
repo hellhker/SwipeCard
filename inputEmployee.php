@@ -5,6 +5,7 @@
 </head>
 <body>
 <?php 
+	echo date("Y-m-d H:i:s");
 	// $MYSQL_LOGIN = "root";
 	// $MYSQL_PASSWORD = "foxlink";
 	// $MYSQL_HOST = "192.168.65.230";
@@ -81,11 +82,14 @@
 			// $list['']
 		// }
 	// }
-	// echo date('Y-m-o-W',strtotime('2017-01-01'));
+	//TODO
+	echo date('Y-m-o-W',strtotime('2017-01-01'))."<BR>";
+	// exit;
 	// echo date('Y-m-o-W',strtotime('2017-12-31'));
 	/**
 	* 去周的資料
 	*/
+	
 	//年	月/週	月/週數值	BU	在職/離職	D/I	年資TYPE	人數
 	//2018	M	10	xxx	1	I	0-5	5
 	
@@ -106,35 +110,129 @@
 		return array($startdate,$enddate);      
 	}
 	
-	$i=1;
-	// for($i=1;$i<=52;$i++){
-		// $temp[$i] = getWeekDate(2017,$i);
-		echo $count;
-		for($j=0;$j<$count;$j++){
-			// echo $arr['Leave_Date'][$count]."<BR>";
-			if($arr['Leave_Date'][$j]==NULL){
-				$list[2017][$i]['D']+=1;
-				// echo $arr['Work_ID'][$j];
+	/**
+	* 這個函數用來
+	* 確定是離職還是在職
+	*/
+	function containsWeek($nowWeek,$inTime,$outTime){
+		// echo $outTime."<BR>";
+		// $BeginEndTime = getWeekDate(2017,$nowWeek);
+		// $startTime  =  $BeginEndTime[0];
+		// $endTime = $BeginEndTime[1];
+		//2017-01-01  2017-01-2016-52 得到 年月年周
+		//入職日期，離職日期，當前周數
+		$inWeek  = date('o-W',strtotime($inTime));
+		if($outTime==NULL||$outTime==""||$outTime==0){
+			$outWeek==0;
+		}else{
+			$outWeek  = date('o-W',strtotime($outTime));
+		}
+		
+		// $nowWeek = date('o-W',strtotime($startTime));
+		$nowWeek = "2017-".$nowWeek;
+		if($outWeek==0){
+			if($nowWeek>=$inWeek){
+				$status="True";
 			}else{
-				// echo $arr['Leave_Date'][$i]."<BR>";
-				$list[2017][$i]['L']+=1;
-				// echo $arr['Work_ID'][$j]."<BR>";
+				$status="NaN";
+			}
+		}else{
+			if($nowWeek==$outWeek){
+				$status = "False";
+			}else if($nowWeek>$outWeek){
+				$status = "NaN";
+			}else if($nowWeek>=$inWeek){
+				$status="True";
 			}
 		}
-	// }
+		return $status;
+	}
 	
-	// if($arr['Leave_Date'][1057]==NULL){
+	// $i=1;
+	// $temp = getWeekDate(2017,1);
+	// var_dump($temp);
+	
+	// exit;
+	
+	
+	for($i=50;$i<=50;$i++){
+		// $temp[$i] = getWeekDate(2017,$i);
+		// echo $count;
+		for($j=0;$j<$count;$j++){
+			// if($arr['Leave_Date'][$j]==NULL){//在職人員
+				// $list[2017][$i]['D']+=1;
+			// }else if($arr['Leave_Date'][$j]>$temp[$i][0]){
+				// $list[2017][$i]['D']+=1;
+			// }
+			// else{//離職人員
+				// $list[2017][$i]['L']+=1;
+			// }
+			// 1、在職情況
+			// a、在某一周內入職的，若不離職，那麼這周以後的所有周都在職
+			// b、入職、離職日期都有，若不在同一周 ，那麼除了離職日期的那一周，均都在職
+			// 2、離職情況
+			// a、入職、離職日期都在同一周的
+			// b、入職、離職日期都有，若不在同一周，那麼離職日期那一周，計入離職
+			// 3、補充
+			// a、若是入職日期在某周之後，不計入在職；
+			// b、若是離職以後，只有時間段之間的周，才計入在職或是離職，後續不再統計。
+			//年	月/週	月/週數值	BU	在職/離職	D/I	年資TYPE	人數
+
+			$status = containsWeek($i,$arr['Arrive_Date'][$j],$arr['Leave_Date'][$j]);
+			if($status=="True"){
+				
+				$list[2017][$i]['D'][$arr['Type'][$j]][$arr['BU'][$j]]+=1;
+				// $list[2017][$i]['D']+=1;
+			}else if($status=="False"){
+				$list[2017][$i]['L'][$arr['Type'][$j]][$arr['BU'][$j]]+=1;
+				// $list[2017][$i]['L']+=1;
+			}else if($status=="NaN"){
+				$list[2017][$i]['N']+=1;
+				$empty[] = $arr['Work_ID'][$j];
+				$empty1[] = $arr['Leave_Date'][$j];
+			}
+		}
+	}
+	
+	
+	
+	// $nowWeek = date('o-W',strtotime('2017-01-01'));
+	$nowWeek1 = date('o-W',strtotime('2017-04-01'));
+	// echo date('Y-m-o-W',strtotime('2017-12-31'));
+	// if($nowWeek>=$nowWeek1){
+		// echo "Big";
+	// }else{
+		// echo "Small";
+	// }
+	// echo $nowWeek;
+	echo $nowWeek1."<BR>";
+	// $st = containsWeek($nowWeek,$inTime,$outTime)
+	// $st = containsWeek(14,"2017-01-02","2017-04-01");
+	// echo $st;
+	
+	// $arr1 = getWeekDate(2017,13);
+	// var_dump($arr1);
+	// if($arr['Leave_Date'][1057]==NULL){;
 		// echo "123";
 	// }
 	// print_r($arr['Leave_Date'][1057]);
 	// echo "---";
 	// print_r($arr['Leave_Date'][1056]);
 	
+	
 	echo "<PRE>";
-	// print_r($arr['Leave_Date']);
-	print_r($list);
+	var_dump($c);
+	// var_dump($empty1);
 	echo "</PRE>";
-
+	echo date("Y-m-d H:i:s");
+	for($i=0;$i<52;$i++){
+		
+	}
+	
+	
+	
+	$sql = "INSERT INTO `di_statistic`(`Num_Year`, `Month_Or_Week`, `Num_Value`, `BU`, `Current_Status`, `Position_Type`, `Seniority_Type`, `Total_People`) VALUES ('".$Year."'".$M_W.""."')"
+	
 // ?>
 </body>
 </html>
